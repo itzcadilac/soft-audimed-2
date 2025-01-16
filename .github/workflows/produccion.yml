@@ -17,3 +17,4 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USER_PRODUCCION }}
         password: ${{ secrets.FTP_PASSWORD_PRODUCCION }}
+        timeout: 190000
