@@ -9,6 +9,14 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+use Twig\Extension\DebugExtension;
+use Twig\TwigFunction;
+
 /**
  * Class BaseController
  *
@@ -41,18 +49,91 @@ abstract class BaseController extends Controller
      * Be sure to declare properties for any property fetch you initialized.
      * The creation of dynamic property is deprecated in PHP 8.2.
      */
-    // protected $session;
+    protected $session;
 
     /**
      * @return void
      */
+
+    protected $twig;
+
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
+        $loader = new FilesystemLoader(APPPATH . 'Views');
+        //$this->twig = new Environment($loader, ['cache' => WRITEPATH . 'cache']);
+
+        if (getenv('CI_ENVIRONMENT') === 'production') {
+            $this->twig = new Environment($loader, [
+                'debug' => false,
+                'cache' => false,
+            ]);
+        } else {
+            $this->twig = new Environment($loader, [
+                'debug' => true,
+                'cache' => false,
+            ]);
+            $this->twig->addExtension(new DebugExtension());
+        }
+
+        // Create a new function for base_url.
+        $this->twig->addFunction(new TwigFunction('base_url', function ($uri) {
+            return base_url($uri);
+        }));
+
+        // Registrar funciones de helpers en Twig
+        $this->twig->addFunction(new \Twig\TwigFunction('form_open', 'form_open'));
+        $this->twig->addFunction(new \Twig\TwigFunction('form_input', 'form_input'));
+        $this->twig->addFunction(new \Twig\TwigFunction('form_password', 'form_password'));
+        $this->twig->addFunction(new \Twig\TwigFunction('form_submit', 'form_submit'));
+        $this->twig->addFunction(new \Twig\TwigFunction('form_close', 'form_close'));
+
+        // Funciones CSRF
+        $this->twig->addFunction(new TwigFunction('csrf_token', 'csrf_token'));
+        $this->twig->addFunction(new TwigFunction('csrf_hash', 'csrf_hash'));
 
         // E.g.: $this->session = service('session');
+        //$this->session = service('session');
+
+        $session = session();
+        $modulos = $session->get('modulosUsuario');
+    
+        if (!empty($modulos)) {
+            $this->twig->addGlobal('sidebar_modulos', $modulos);
+        }
+
     }
+
+    public function render(string $filename, array $params = [])
+    {
+        try {
+            // Render the template.
+            return $this->twig->render($filename, $params);
+        } catch (LoaderError | SyntaxError | RuntimeError | \Throwable $e) {
+            if (getenv('CI_ENVIRONMENT') === 'production') {
+                // Save error in file log
+                log_message('error', $e->getTraceAsString());
+            } else {
+                // Show error in the current page
+                header_remove();
+                http_response_code(500);
+                header('HTTP/1.1 500 Internal Server Error');
+                echo '<pre>' . $e->getTraceAsString() . '</pre>';
+                echo PHP_EOL;
+                echo $e->getMessage();
+                exit;
+            }
+        }
+    }
+
+    protected function respond($data, int $status = 200)
+        {
+            return $this->response
+                ->setStatusCode($status)
+                ->setJSON($data);
+        }
+
 }
