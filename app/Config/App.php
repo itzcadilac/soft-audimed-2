@@ -40,7 +40,7 @@ class App extends BaseConfig
      * something else. If you have configured your web server to remove this file
      * from your site URIs, set this variable to an empty string.
      */
-    public string $indexPage = 'index.php';
+    public string $indexPage = '';
 
     /**
      * --------------------------------------------------------------------------
@@ -199,4 +199,10 @@ class App extends BaseConfig
      * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
+
+    /*CSRF*/
+    public $CSRFTokenName = 'csrf_token';
+    public $CSRFHeaderName = 'X-CSRF-TOKEN';
+    public $CSRFExpire = 7200;  // Tiempo de expiración del token CSRF en segundos
+    public $CSRFRegenerate = true;  // Si se debe regenerar el token en cada solicitud
 }
