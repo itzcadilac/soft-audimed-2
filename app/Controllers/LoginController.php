@@ -30,6 +30,8 @@ class LoginController extends BaseController
     {
         $logger = Services::logger();
 
+        //$logger->debug('1. Estoy dentro de la funcion Login en LoginController');
+
         try {
             $numero_documento = $this->request->getPost('username');
             $password = $this->request->getPost('password');
@@ -38,13 +40,15 @@ class LoginController extends BaseController
                 session()->setFlashdata('error', 'Todos los campos son obligatorios.');
                 return redirect()->back();
             }
+
+            
     
             // Intentar autenticar al usuario
 
             $result = $this->userService->getAuthenticateUser($numero_documento, $password);
 
             if ($result['success']) {
-                return redirect()->to('/dashboard');
+                return redirect()->to('/inicio');
             } else {
                 return redirect()->back()->with('error', 'Credenciales inválidas');
             }
