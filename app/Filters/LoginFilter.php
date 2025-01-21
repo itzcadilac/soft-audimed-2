@@ -28,10 +28,12 @@ class LoginFilter implements FilterInterface
     {
         // Verifica si el usuario ya está logueado
         $session = Services::session();
+        //$logger = Services::logger();
         
         // Si ya está logueado, redirige al dashboard
         if ($session->get('isLoggedIn')) {
-            return redirect()->to(base_url('dashboard'));
+            //$logger->debug('Ingresa al filtro de Login Filter');
+            return redirect()->to(base_url('inicio'));
         }
     }
 

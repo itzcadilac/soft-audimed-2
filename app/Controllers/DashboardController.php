@@ -12,23 +12,29 @@ class DashboardController extends BaseController
     {
         $logger = Services::logger();
 
+        /*
         $data['menuItems'] = [
             ['label' => 'Inicio', 'url' => '/'],
             ['label' => 'Perfil', 'url' => '/perfil'],
             ['label' => 'Configuración', 'url' => '/configuracion'],
         ];
+        */
 
         //$data['domainsite'] = getenv('app.baseURL');
 
+        /*
         $session = session();
 
         $username = $session->get('nombres');
         $data['usuario_session'] = $username;
+        */
+
 
         //var_dump($username);
 
         //$logger->error("Usuario en sesion: " . $username);
 
-        return $this->render('Features/dashboard.twig', ['title' => 'Dashboard', 'data' => $data]);
+        //return $this->render('Features/dashboard.twig', ['title' => 'Dashboard', 'data' => $data]);
+        return $this->render('Features/dashboard.twig', ['title' => 'Dashboard']);
     }
 }

@@ -41,17 +41,24 @@ class RegistroUserController extends BaseController
             $logger->debug('Ingresó a la función registroUsuario');
 
             // Validar los datos
-            
-            if (!$this->validate([
+            $rules = [
                 'num_documento' => 'required|min_length[3]|max_length[50]',
                 'password' => 'required|min_length[6]',
-            ])) {
+            ];
+            
+            if (!$this->validate($rules)) {
 
-                $logger->error("Cae en la validacion");
+                $errors = $this->validator->getErrors();
+
+                //$logger->error("Cae en la validacion" . json_encode($errors));
                 // Si la validación falla, devolver un error en la respuesta JSON
+
+                $csrfHash = csrf_hash();
+
                 $data = [
                     'status' => 'error',
-                    'message' => 'Los datos no están correctos.',
+                    'message' => $errors,
+                    'csrf_hash_gen' => $csrfHash,
                 ];
 
                 return $this->respond($data, 400);
@@ -68,29 +75,68 @@ class RegistroUserController extends BaseController
             $usuario->nombres = $data['nombres'];
             $usuario->usuario = 'AAAA';
             $usuario->passwd = password_hash($data['password'], PASSWORD_BCRYPT);
-            $usuario->idperfil = 2;
+            $usuario->idperfil = 1;
             $usuario->activo = '1';
             
             //Llama a la funcion de guardar
-            $this->userService->guardarUsuario($usuario);
+            $result = $this->userService->guardarUsuario($usuario);
         
+            $csrfHash = csrf_hash();
+
             $data = [
                 'status' => 'success',
                 'message' => 'Usuario creado correctamente',
+                'csrf_hash_gen' => $csrfHash,
             ];
 
-            return $this->respond($data, 201); // Código 201 Created
+            if($result["success"]){
+                return $this->respond($data, 201);
+            }else{
+                return $this->respond($data, 400); //Error
+            }
+
+            //return $this->respond($data, 201); // Código 201 Created
 
         }catch(Exception $e){
 
             $logger->error($e->getMessage());
 
+            $csrfHash = csrf_hash();
+
             $data = [
                 'status' => 'error',
                 'message' => 'Hubo un error al guardar la información.',
+                'csrf_hash_gen' => $csrfHash,
             ];
 
             return $this->respond($data, 400);
+        }
+
+    }
+
+    public function getAllActiveUsers(){
+
+        $logger = Services::logger();
+        try {
+
+            $result = $this->userService->getAllActiveUsers();
+            
+            if($result["success"]){
+                return $this->respond($result, 200);
+            }else{
+                return $this->respond($result, 400); //No existen datos
+            }
+
+        } catch (Exception $e) {
+
+            $logger->error("Error Catch en RegistroUserController: getAllActiveUsers: "+$e->getMessage());
+
+            $result = [
+                'status' => 'error',
+                'message' => 'Hubo un error',
+            ];
+
+            return $this->respond($result, 400); //error al llamar al EndPoint
         }
 
     }

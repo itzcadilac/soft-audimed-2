@@ -36,9 +36,21 @@ class ModuloPerfilRepository
             $query = $db->query($sql, ['idPerfil' => $idPerfil]);
 
             // Obtener el resultado
-            $result = $query->getResult();
+            $result = $query->getResultArray();
+            //getResult
 
             if ($result) {
+
+                //Si encuentra datos, cargo los submodulos
+                foreach ($result as &$modulo) {
+                    // Obtener submódulos para cada módulo
+                    $submodulosQuery = $db->query("select * from menu where idmodulo = ? order by idmenu", [$modulo['idmodulo']]);
+                    $submodulos = $submodulosQuery->getResultArray();
+                
+                    // Agregar submódulos al módulo
+                    $modulo['submodulos'] = $submodulos;
+                }
+
                 return successResponse($result, 'Datos encontrados.');
             }else{
                 return errorResponse('No existen datos.');

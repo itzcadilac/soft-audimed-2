@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audimed</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ appName }}</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ base_url('/') }}assets/images/favicon.ico" />
+    <link rel="shortcut icon" href="{{ base_url('/') }}public/assets/images/favicon.ico" />
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ base_url('/') }}assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ base_url('/') }}public/assets/css/bootstrap.min.css">
     <!-- Typography CSS -->
-    <link rel="stylesheet" href="{{ base_url('/') }}assets/css/typography.css">
+    <link rel="stylesheet" href="{{ base_url('/') }}public/assets/css/typography.css">
     <!-- Style CSS -->
-    <link rel="stylesheet" href="{{ base_url('/') }}assets/css/style.css">
+    <link rel="stylesheet" href="{{ base_url('/') }}public/assets/css/style.css">
     <!-- Responsive CSS -->
-    <link rel="stylesheet" href="{{ base_url('/') }}assets/css/responsive.css">
+    <link rel="stylesheet" href="{{ base_url('/') }}public/assets/css/responsive.css">
+
+    <link rel="stylesheet" href="{{ base_url('/') }}public/assets/css/audimed/audimed.css">
 
     <style>
         .container-fluid {
@@ -23,10 +26,16 @@
 
 </head>
 <body class="sidebar-main-menu">
-    <!-- loader Start -->
+    <!-- loader Start 
     <div id="loading">
         <div id="loading-center">
 
+        </div>
+    </div>
+    -->
+
+    <div id="loader">
+        <div id="loader-center">
         </div>
     </div>
 
@@ -41,56 +50,38 @@
          </div>
     </div>
     
-    <script src="{{ base_url('/') }}assets/js/jquery.min.js"></script>
-    <script src="{{ base_url('/') }}assets/js/popper.min.js"></script>
-    <script src="{{ base_url('/') }}assets/js/bootstrap.min.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/jquery.min.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/popper.min.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/bootstrap.min.js"></script>
     <!-- Appear JavaScript -->
-    <script src="{{ base_url('/') }}assets/js/jquery.appear.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/jquery.appear.js"></script>
     <!-- Countdown JavaScript -->
-    <script src="{{ base_url('/') }}assets/js/countdown.min.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/countdown.min.js"></script>
     <!-- Counterup JavaScript -->
-    <script src="{{ base_url('/') }}assets/js/waypoints.min.js"></script>
-    <script src="{{ base_url('/') }}assets/js/jquery.counterup.min.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/waypoints.min.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/jquery.counterup.min.js"></script>
     <!-- Wow JavaScript -->
-    <script src="{{ base_url('/') }}assets/js/wow.min.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/wow.min.js"></script>
     <!-- Apexcharts JavaScript -->
-    <script src="{{ base_url('/') }}assets/js/apexcharts.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/apexcharts.js"></script>
     <!-- Slick JavaScript -->
-    <script src="{{ base_url('/') }}assets/js/slick.min.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/slick.min.js"></script>
     <!-- Select2 JavaScript -->
-    <script src="{{ base_url('/') }}assets/js/select2.min.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/select2.min.js"></script>
     <!-- Owl Carousel JavaScript -->
-    <script src="{{ base_url('/') }}assets/js/owl.carousel.min.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/owl.carousel.min.js"></script>
     <!-- Magnific Popup JavaScript -->
-    <script src="{{ base_url('/') }}assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/jquery.magnific-popup.min.js"></script>
     <!-- Smooth Scrollbar JavaScript -->
-    <script src="{{ base_url('/') }}assets/js/smooth-scrollbar.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/smooth-scrollbar.js"></script>
     <!-- lottie JavaScript -->
-    <script src="{{ base_url('/') }}assets/js/lottie.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/lottie.js"></script>
     <!-- Chart Custom JavaScript -->
-    <script src="{{ base_url('/') }}assets/js/chart-custom.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/chart-custom.js"></script>
     <!-- Custom JavaScript -->
-    <script src="{{ base_url('/') }}assets/js/custom.js"></script>
+    <script src="{{ base_url('/') }}public/assets/js/custom.js"></script>
 
-    <script>
-        // Variables globales obtenidas del servidor
-        const AppGlobals = {
-            appName: "{{ appName }}",
-            apiUrl: "{{ base_url('/') }}",
-            sessionUser: {{ session.usuario is defined ? session.usuario|json_encode|raw : 'null' }}
-        };
-
-   // Acceso a las variables globales desde AppGlobals
-   console.log("Nombre de la aplicación:", AppGlobals.appName);
-   console.log("API URL:", AppGlobals.apiUrl);
-
-   if (AppGlobals.sessionUser) {
-      console.log("Usuario conectado:", AppGlobals.sessionUser.nombre);
-   } else {
-      console.log("No hay un usuario conectado.");
-   }
-
-    </script>
+    <script src="{{ base_url('/') }}public/assets/js/audimed/audimed.js"></script>
 
     {% block javascriptAPP %} {% endblock %}
 

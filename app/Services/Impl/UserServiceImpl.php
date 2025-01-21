@@ -35,14 +35,6 @@ class UserServiceImpl //implements UserService
             if ($result['success']) {
 
                 $user = $result['data'];
-                $logger->info("Ingresa a buscar la relacion de modulo: " . json_encode($user));
-
-                /*
-                $logger->info("Usuario desde Result data --- >" . json_encode($user));
-
-                $logger->info("Password ingresado: " . $password);
-                $logger->info("Password encriptado en la base de datos: " . $user['passwd']);
-                */
 
                 //Verificamos si el usuario tiene opciones asignadas
                 $moduloxPerfil = $this->moduloxPerfilService->getModulosxPerfil($user['idperfil']);
@@ -103,12 +95,34 @@ class UserServiceImpl //implements UserService
 
     public function getAllActiveUsers()
     {
-        return $this->userRepository->getAllActiveUsers();
+        $logger = Services::logger();
+
+        try {
+            
+            $result = $this->userRepository->getAllActiveUsers();
+            //$logger->info("Datos en ServiceImpl: " . json_encode($result));
+            return $result;
+        } catch (Exception $e) {
+            $logger->error("Error Catch en UserServiceImpl: getAllActiveUsers: "+$e->getMessage());
+            return errorResponse('Ocurrio un error al traer los datos');
+        }
+
+
+
     }
 
     public function guardarUsuario(Usuario $usuario)
     {
-        return $this->userRepository->guardarUsuario($usuario);
+
+        $logger = Services::logger();
+        
+        try {
+            return $this->userRepository->guardarUsuario($usuario);
+        } catch (Exception $e) {
+            return errorResponse('Ocurrio un error al traer los datos');
+        }
+
+        
     }
 
     /*

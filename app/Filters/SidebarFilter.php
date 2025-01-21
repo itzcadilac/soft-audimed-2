@@ -25,16 +25,7 @@ class SidebarFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        /*
-        $session = session();
-        $modulos = $session->get('modulosUsuario');
 
-        if (!empty($modulos)) {
-            // Agregar los módulos al contexto de la plantilla Twig
-            $twig = service('twig');
-            $twig->addGlobal('sidebar_modulos', $modulos);
-        }
-        */
     }
 
     /**

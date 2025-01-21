@@ -53,10 +53,11 @@ class AuthFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         $session = session();
-        $logger = Services::logger();
+        //$logger = Services::logger();
 
         if (!$session->get('isLoggedIn')) {
             // Redirigir a la página de login si no está logueado
+            //$logger->debug('Ingresa al filtro de Auth Filter');
             return redirect()->to(base_url('login'));
         }
     }

@@ -66,7 +66,7 @@ abstract class BaseController extends Controller
         $loader = new FilesystemLoader(APPPATH . 'Views');
         //$this->twig = new Environment($loader, ['cache' => WRITEPATH . 'cache']);
 
-        if (getenv('CI_ENVIRONMENT') === 'production') {
+        if (ENVIRONMENT === 'production') {
             $this->twig = new Environment($loader, [
                 'debug' => false,
                 'cache' => false,
@@ -82,6 +82,11 @@ abstract class BaseController extends Controller
         // Create a new function for base_url.
         $this->twig->addFunction(new TwigFunction('base_url', function ($uri) {
             return base_url($uri);
+        }));
+
+        //Para Url actual
+        $this->twig->addFunction(new \Twig\TwigFunction('current_url', function () {
+            return current_url();
         }));
 
         // Registrar funciones de helpers en Twig
@@ -100,20 +105,36 @@ abstract class BaseController extends Controller
 
         $session = session();
         $modulos = $session->get('modulosUsuario');
+        $nombres_user = $session->get('nombres');
+        $currentUrl = current_url();
     
+        //mostrar los modulos como variable global
         if (!empty($modulos)) {
             $this->twig->addGlobal('sidebar_modulos', $modulos);
+        }
+
+        //mostrar el nombre de usuario como variable global
+        if (!empty($nombres_user)) {
+            $this->twig->addGlobal('nombre_user', $nombres_user);
         }
 
     }
 
     public function render(string $filename, array $params = [])
     {
-        try {
+            try {
+                // Verificar si la propiedad appName está disponible
+            $appConfig = config('App');
+            if (!isset($appConfig->appName)) {
+                throw new \Exception('appName no está configurado correctamente.');
+            }
+
+            // Agregar el nombre de la aplicación a los parámetros
+            $params['appName'] = $appConfig->appName;
             // Render the template.
             return $this->twig->render($filename, $params);
         } catch (LoaderError | SyntaxError | RuntimeError | \Throwable $e) {
-            if (getenv('CI_ENVIRONMENT') === 'production') {
+            if (ENVIRONMENT === 'production') {
                 // Save error in file log
                 log_message('error', $e->getTraceAsString());
             } else {
