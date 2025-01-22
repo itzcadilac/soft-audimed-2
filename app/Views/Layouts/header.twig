@@ -4,7 +4,7 @@
     <div class="iq-sidebar-logo">
       <div class="top-logo">
         <a href="index.html" class="logo">
-          <img src="{{ base_url('/') }}public/assets/images/logo.png" class="img-fluid" alt="" />
+          <img src="{{ base_url('assets/images/logo.png') }}" class="img-fluid" alt="" />
           <span>{{ appName }}</span>
         </a>
       </div>
@@ -44,7 +44,7 @@
             class="search-toggle iq-waves-effect d-flex align-items-center"
           >
             <img
-              src="{{ base_url('/') }}public/assets/images/user/08.jpg"
+              src="{{ base_url('assets/images/user/08.jpg') }}"
               class="img-fluid rounded mr-3"
               alt="user"
             />
@@ -92,7 +92,7 @@
                 <div class="d-inline-block w-100 text-center p-3">
                   <a
                     class="bg-primary iq-sign-btn"
-                    href="{{ base_url('/logout') }}"
+                    href="{{ base_url('logout') }}"
                     role="button"
                     >Cerrar Sesion<i class="ri-login-box-line ml-2"></i
                   ></a>
