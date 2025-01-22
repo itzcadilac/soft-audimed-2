@@ -17,7 +17,9 @@ class App extends BaseConfig
      *
      * E.g., http://example.com/
      */
-    public string $baseURL = 'http://localhost/soft-audimed-2/'; //Se sobreescribe con app.baseURL del archivo .env
+    //public string $baseURL = 'http://localhost/soft-audimed-2/'; //Se sobreescribe con app.baseURL del archivo .env
+
+    public string $baseURL = 'http://example.com'; //Se sobreescribe con app.baseURL del archivo .env
 
     public string $appName = 'Aplicacion';
 

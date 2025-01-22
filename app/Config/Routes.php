@@ -8,15 +8,15 @@ use Config\Services;
  */
 
 $routes->get('/', function() {
-    return redirect()->to('/login'); 
+    return redirect()->to('login'); 
 });
 
 $routes->group('', ['filter' => 'loginFilter'], function($routes) {
-    $routes->get('/login', 'LoginController::loginForm');
-    $routes->post('/login', 'LoginController::login');
+    $routes->get('login', 'LoginController::loginForm');
+    $routes->post('login', 'LoginController::login');
 });
 
-$routes->get('/logout', 'LoginController::logout');
+$routes->get('logout', 'LoginController::logout');
 
 $routes->group('', ['filter' => 'auth'], function($routes) {
     $routes->get('inicio', 'DashboardController::index');
@@ -29,6 +29,7 @@ $routes->group('siniestro', ['filter' => 'auth'], function($routes) {
 
 $routes->group('', ['filter' => 'auth'], function($routes) {
     $routes->get('rrhh', 'RRHHController::index');
+    $routes->post('saveEmployee', 'RRHHController::saveEmployee');
 });
 
 //Por el momento no necesitan filtro

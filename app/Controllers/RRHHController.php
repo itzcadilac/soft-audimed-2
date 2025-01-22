@@ -11,4 +11,11 @@ class RRHHController extends BaseController
     {
         return $this->render('Features/rrhh.twig', ['title' => 'RRHH']);
     }
+
+    public function saveEmployee()
+    {
+        return "Guardado";
+        //return $this->render('Features/rrhh.twig', ['title' => 'RRHH']);
+    }
+
 }
