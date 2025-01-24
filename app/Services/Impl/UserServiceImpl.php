@@ -107,8 +107,6 @@ class UserServiceImpl //implements UserService
             return errorResponse('Ocurrio un error al traer los datos');
         }
 
-
-
     }
 
     public function guardarUsuario(Usuario $usuario)
