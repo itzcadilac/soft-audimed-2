@@ -4,10 +4,12 @@ namespace Config;
 
 use App\Models\Repository\ModuloPerfilRepository;
 use App\Models\Repository\PerfilRepository;
+use App\Models\Repository\SiniestroRepository;
 use App\Models\Repository\UserRepository;
 use App\Models\UsuarioModel;
 use App\Services\Impl\ModuloxPerfilServiceImpl;
 use App\Services\Impl\PerfilServiceImpl;
+use App\Services\Impl\SiniestroServiceImpl;
 use App\Services\Impl\UserServiceImpl;
 use CodeIgniter\Config\BaseService;
 
@@ -71,6 +73,18 @@ class Services extends BaseService
         $session = service('session');
 
         return new ModuloxPerfilServiceImpl($moduloPerfilRepository, $session);
+    }
+
+    public static function siniestroService($getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('siniestroService');
+        }
+
+        $siniestroRepository = new SiniestroRepository();
+        $session = service('session');
+
+        return new SiniestroServiceImpl($siniestroRepository, $session);
     }
 
 }

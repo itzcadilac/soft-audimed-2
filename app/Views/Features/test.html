@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Archivos CSS de DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+
+</head>
+<body>
+    <table id="myTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Correo</th>
+                <th>Ciudad</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Juan Pérez</td>
+                <td>28</td>
+                <td>juan.perez@example.com</td>
+                <td>Madrid</td>
+            </tr>
+            <tr>
+                <td>Ana García</td>
+                <td>34</td>
+                <td>ana.garcia@example.com</td>
+                <td>Barcelona</td>
+            </tr>
+            <tr>
+                <td>Pedro López</td>
+                <td>41</td>
+                <td>pedro.lopez@example.com</td>
+                <td>Valencia</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Incluye jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Archivos JS de DataTables -->
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            paging: true,         // Activa la paginación
+            searching: true,      // Activa el buscador
+            ordering: true,       // Permite ordenar columnas
+            info: true,           // Muestra información del estado
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json"
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

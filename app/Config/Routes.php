@@ -24,7 +24,8 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 
 $routes->group('siniestro', ['filter' => 'auth'], function($routes) {
     $routes->get('pacientes', 'SiniestroController::pacientes');
-    $routes->get('medicos', 'SiniestroController::medicos');
+    $routes->get('nuevoSiniestro', 'SiniestroController::nuevoSiniestro');
+    $routes->get('getSiniestros', 'SiniestroController::getAllActiveSinistro');
 });
 
 $routes->group('', ['filter' => 'auth'], function($routes) {

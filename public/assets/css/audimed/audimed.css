@@ -1,3 +1,21 @@
+:root {
+  --primary-color: #089bab; /* Color inicial por defecto */
+  --secondary-color: #eff7f8;
+}
+
+/*
+DEFAULT
+  --primary-color: #089bab
+  --secondary-color: #eff7f8
+MAPFRE
+  --primary-color: #D81E05;
+  --secondary-color: #FEEDEB;
+PACIFICO
+  --primary-color: #0099CC;
+  --secondary-color: #EBFAFF;
+*/
+
+
 #loader {
   display: none;
   position: fixed;
@@ -18,6 +36,29 @@
   width: 60px;
   height: 60px;
   animation: spin 1s linear infinite;
+}
+
+/*Clases para cambio segun aseguradora*/
+.wrapper {
+  background-color: var(--primary-color) !important;
+}
+
+.content-page{
+  background-color: var(--secondary-color) !important;
+}
+
+.bg-primary, .badge-primary{
+  background: var(--primary-color) !important;
+}
+
+.iq-bg-primary{
+  background: var(--secondary-color) !important;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+  color: #fff;
+  background: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
 }
 
 @keyframes spin {
