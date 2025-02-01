@@ -4,15 +4,15 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb77c84b64e5ada8ce0aada63b2c3c8fe
+class ComposerStaticInita16ed5a0cbbf11a41dbb384d00b263f5
 {
     public static $files = array (
-        'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
+        'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '89efb1254ef2d1c5d80096acd12c4098' => __DIR__ . '/..' . '/twig/twig/src/Resources/core.php',
         'ffecb95d45175fd40f75be8a23b34f90' => __DIR__ . '/..' . '/twig/twig/src/Resources/debug.php',
         'c7baa00073ee9c61edf148c51917cfb4' => __DIR__ . '/..' . '/twig/twig/src/Resources/escaper.php',
@@ -36,6 +36,10 @@ class ComposerStaticInitb77c84b64e5ada8ce0aada63b2c3c8fe
             'Psr\\Log\\' => 8,
             'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
+        ),
+        'M' => 
+        array (
+            'Modules\\' => 8,
         ),
         'L' => 
         array (
@@ -93,6 +97,10 @@ class ComposerStaticInitb77c84b64e5ada8ce0aada63b2c3c8fe
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+        'Modules\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Modules',
+        ),
         'Laminas\\Escaper\\' => 
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-escaper/src',
@@ -131,7 +139,33 @@ class ComposerStaticInitb77c84b64e5ada8ce0aada63b2c3c8fe
 
     public static $classMap = array (
         'App\\Controllers\\BaseController' => __DIR__ . '/../..' . '/app/Controllers/BaseController.php',
+        'App\\Controllers\\DashboardController' => __DIR__ . '/../..' . '/app/Controllers/DashboardController.php',
         'App\\Controllers\\Home' => __DIR__ . '/../..' . '/app/Controllers/Home.php',
+        'App\\Controllers\\PerfilController' => __DIR__ . '/../..' . '/app/Controllers/PerfilController.php',
+        'App\\Controllers\\RRHHController' => __DIR__ . '/../..' . '/app/Controllers/RRHHController.php',
+        'App\\Controllers\\RegistroUserController' => __DIR__ . '/../..' . '/app/Controllers/RegistroUserController.php',
+        'App\\Controllers\\SiniestroController' => __DIR__ . '/../..' . '/app/Controllers/SiniestroController.php',
+        'App\\Entities\\Usuario' => __DIR__ . '/../..' . '/app/Entities/Usuario.php',
+        'App\\Filters\\AuthFilter' => __DIR__ . '/../..' . '/app/Filters/AuthFilter.php',
+        'App\\Filters\\LoginFilter' => __DIR__ . '/../..' . '/app/Filters/LoginFilter.php',
+        'App\\Filters\\SidebarFilter' => __DIR__ . '/../..' . '/app/Filters/SidebarFilter.php',
+        'App\\Libraries\\TwigExtensions' => __DIR__ . '/../..' . '/app/Libraries/TwigExtensions.php',
+        'App\\Models\\ModuloModel' => __DIR__ . '/../..' . '/app/Models/ModuloModel.php',
+        'App\\Models\\ModuloPerfilModel' => __DIR__ . '/../..' . '/app/Models/ModuloPerfilModel.php',
+        'App\\Models\\PerfilModel' => __DIR__ . '/../..' . '/app/Models/PerfilModel.php',
+        'App\\Models\\Repository\\ModuloPerfilRepository' => __DIR__ . '/../..' . '/app/Models/Repository/ModuloPerfilRepository.php',
+        'App\\Models\\Repository\\ModulosRepository' => __DIR__ . '/../..' . '/app/Models/Repository/ModulosRepository.php',
+        'App\\Models\\Repository\\PerfilRepository' => __DIR__ . '/../..' . '/app/Models/Repository/PerfilRepository.php',
+        'App\\Models\\Repository\\SiniestroRepository' => __DIR__ . '/../..' . '/app/Models/Repository/SiniestroRepository.php',
+        'App\\Models\\Repository\\UserRepository' => __DIR__ . '/../..' . '/app/Models/Repository/UserRepository.php',
+        'App\\Models\\SiniestroModel' => __DIR__ . '/../..' . '/app/Models/SiniestroModel.php',
+        'App\\Models\\UsuarioModel' => __DIR__ . '/../..' . '/app/Models/UsuarioModel.php',
+        'App\\Modules\\Users\\Infraestructure\\Out\\Persistence\\Model\\UserModel' => __DIR__ . '/../..' . '/app/Modules/Users/Infraestructure/Out/Persistence/Model/UserModel.php',
+        'App\\Modules\\Users\\Infraestructure\\Out\\Persistence\\Repository\\UserRepository' => __DIR__ . '/../..' . '/app/Modules/Users/Infraestructure/Out/Persistence/Repository/UserRepository.php',
+        'App\\Services\\Impl\\ModuloxPerfilServiceImpl' => __DIR__ . '/../..' . '/app/Services/Impl/ModuloxPerfilServiceImpl.php',
+        'App\\Services\\Impl\\PerfilServiceImpl' => __DIR__ . '/../..' . '/app/Services/Impl/PerfilServiceImpl.php',
+        'App\\Services\\Impl\\SiniestroServiceImpl' => __DIR__ . '/../..' . '/app/Services/Impl/SiniestroServiceImpl.php',
+        'App\\Services\\Impl\\UserServiceImpl' => __DIR__ . '/../..' . '/app/Services/Impl/UserServiceImpl.php',
         'CURLStringFile' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/CURLStringFile.php',
         'CodeIgniter\\API\\ResponseTrait' => __DIR__ . '/..' . '/codeigniter4/framework/system/API/ResponseTrait.php',
         'CodeIgniter\\Autoloader\\Autoloader' => __DIR__ . '/..' . '/codeigniter4/framework/system/Autoloader/Autoloader.php',
@@ -1101,6 +1135,21 @@ class ComposerStaticInitb77c84b64e5ada8ce0aada63b2c3c8fe
         'Laminas\\Escaper\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/laminas/laminas-escaper/src/Exception/ExceptionInterface.php',
         'Laminas\\Escaper\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/laminas/laminas-escaper/src/Exception/InvalidArgumentException.php',
         'Laminas\\Escaper\\Exception\\RuntimeException' => __DIR__ . '/..' . '/laminas/laminas-escaper/src/Exception/RuntimeException.php',
+        'Modules\\Security\\Application\\Service\\LoginService' => __DIR__ . '/../..' . '/app/Modules/Security/Application/Service/LoginService.php',
+        'Modules\\Security\\Config\\Services' => __DIR__ . '/../..' . '/app/Modules/Security/Config/Services.php',
+        'Modules\\Security\\Infraestructure\\In\\Controller\\LoginController' => __DIR__ . '/../..' . '/app/Modules/Security/Infraestructure/In/Controller/LoginController.php',
+        'Modules\\Users\\Application\\Service\\ModuleByProfileService' => __DIR__ . '/../..' . '/app/Modules/Users/Application/Service/ModuleByProfileService.php',
+        'Modules\\Users\\Application\\Service\\UserRegisterService' => __DIR__ . '/../..' . '/app/Modules/Users/Application/Service/UserRegisterService.php',
+        'Modules\\Users\\Application\\Service\\UserService' => __DIR__ . '/../..' . '/app/Modules/Users/Application/Service/UserService.php',
+        'Modules\\Users\\Config\\Services' => __DIR__ . '/../..' . '/app/Modules/Users/Config/Services.php',
+        'Modules\\Users\\Domain\\ModuleByProfile' => __DIR__ . '/../..' . '/app/Modules/Users/Domain/ModuleByProfile.php',
+        'Modules\\Users\\Domain\\Profile' => __DIR__ . '/../..' . '/app/Modules/Users/Domain/Profile.php',
+        'Modules\\Users\\Domain\\User' => __DIR__ . '/../..' . '/app/Modules/Users/Domain/User.php',
+        'Modules\\Users\\Infraestructure\\In\\Controller\\UserRegisterController' => __DIR__ . '/../..' . '/app/Modules/Users/Infraestructure/In/Controller/UserRegisterController.php',
+        'Modules\\Users\\Infraestructure\\Out\\Persistence\\Model\\ModuleByProfileModel' => __DIR__ . '/../..' . '/app/Modules/Users/Infraestructure/Out/Persistence/Model/ModuleByProfileModel.php',
+        'Modules\\Users\\Infraestructure\\Out\\Persistence\\Model\\ProfileModel' => __DIR__ . '/../..' . '/app/Modules/Users/Infraestructure/Out/Persistence/Model/ProfileModel.php',
+        'Modules\\Users\\Infraestructure\\Out\\Persistence\\Repository\\ModuleByProfileRepository' => __DIR__ . '/../..' . '/app/Modules/Users/Infraestructure/Out/Persistence/Repository/ModuleByProfileRepository.php',
+        'Modules\\Users\\Infraestructure\\Out\\Persistence\\Repository\\ProfileRepository' => __DIR__ . '/../..' . '/app/Modules/Users/Infraestructure/Out/Persistence/Repository/ProfileRepository.php',
         'PHPUnit\\Event\\Application\\Finished' => __DIR__ . '/..' . '/phpunit/phpunit/src/Event/Events/Application/Finished.php',
         'PHPUnit\\Event\\Application\\FinishedSubscriber' => __DIR__ . '/..' . '/phpunit/phpunit/src/Event/Events/Application/FinishedSubscriber.php',
         'PHPUnit\\Event\\Application\\Started' => __DIR__ . '/..' . '/phpunit/phpunit/src/Event/Events/Application/Started.php',
@@ -2794,10 +2843,10 @@ class ComposerStaticInitb77c84b64e5ada8ce0aada63b2c3c8fe
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitb77c84b64e5ada8ce0aada63b2c3c8fe::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitb77c84b64e5ada8ce0aada63b2c3c8fe::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitb77c84b64e5ada8ce0aada63b2c3c8fe::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitb77c84b64e5ada8ce0aada63b2c3c8fe::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita16ed5a0cbbf11a41dbb384d00b263f5::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita16ed5a0cbbf11a41dbb384d00b263f5::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInita16ed5a0cbbf11a41dbb384d00b263f5::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInita16ed5a0cbbf11a41dbb384d00b263f5::$classMap;
 
         }, null, ClassLoader::class);
     }

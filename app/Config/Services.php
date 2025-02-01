@@ -5,12 +5,9 @@ namespace Config;
 use App\Models\Repository\ModuloPerfilRepository;
 use App\Models\Repository\PerfilRepository;
 use App\Models\Repository\SiniestroRepository;
-use App\Models\Repository\UserRepository;
-use App\Models\UsuarioModel;
 use App\Services\Impl\ModuloxPerfilServiceImpl;
 use App\Services\Impl\PerfilServiceImpl;
 use App\Services\Impl\SiniestroServiceImpl;
-use App\Services\Impl\UserServiceImpl;
 use CodeIgniter\Config\BaseService;
 
 /**
@@ -28,29 +25,6 @@ use CodeIgniter\Config\BaseService;
  */
 class Services extends BaseService
 {
-    /*
-     * public static function example($getShared = true)
-     * {
-     *     if ($getShared) {
-     *         return static::getSharedInstance('example');
-     *     }
-     *
-     *     return new \CodeIgniter\Example();
-     * }
-     */
-
-    public static function userService($getShared = true)
-    {
-        if ($getShared) {
-            return static::getSharedInstance('userService');
-        }
-
-        $userRepository = new UserRepository();
-        $session = service('session');
-
-        return new UserServiceImpl($userRepository, $session);
-    }
-
     public static function perfilService($getShared = true)
     {
         if ($getShared) {
@@ -86,5 +60,4 @@ class Services extends BaseService
 
         return new SiniestroServiceImpl($siniestroRepository, $session);
     }
-
 }
