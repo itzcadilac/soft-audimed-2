@@ -108,7 +108,6 @@ class UserRegisterController extends BaseController
                 'csrf_hash_gen' => $csrfHash,
             ];
 
-            //return $this->respond($data, 400);
             $validation["isValid"] = false;
             $validation["data"] = $data;
         }
