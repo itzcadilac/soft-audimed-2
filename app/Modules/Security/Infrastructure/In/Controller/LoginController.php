@@ -1,73 +1,59 @@
 <?php
-/*
-namespace App\Controllers;
+
+namespace Modules\Security\Infrastructure\In\Controller;
 
 use App\Controllers\BaseController;
-use App\Services\UserService;
-use CodeIgniter\HTTP\ResponseInterface;
 use Config\Services;
 use Exception;
 
+use Modules\Security\Config\Services as SecurityServices;
+
 class LoginController extends BaseController
 {
-
-    //protected $userService;
-    protected $userService;
+    protected $loginService;
 
     public function __construct()
     {
-        $this->userService = service('userService');
+        $this->loginService = SecurityServices::loginService();
     }
-
-    public $helpers = ['url', 'form']; // Cargamos los helpers necesarios
 
     public function loginForm()
     {
         return $this->render('Auth/login.twig', ['title' => 'Login', 'error' => session()->getFlashdata('error')]);
     }
 
-    public function login()
+    public function loginAction()
     {
         $logger = Services::logger();
 
-        //$logger->debug('1. Estoy dentro de la funcion Login en LoginController');
-
         try {
-            $numero_documento = $this->request->getPost('username');
+            $documentNumber = $this->request->getPost('username');
             $password = $this->request->getPost('password');
-    
-            if (!$numero_documento || !$password) {
+
+            if (!$documentNumber || !$password) {
                 session()->setFlashdata('error', 'Todos los campos son obligatorios.');
                 return redirect()->back();
             }
 
-            
-    
-            // Intentar autenticar al usuario
-
-            $result = $this->userService->getAuthenticateUser($numero_documento, $password);
+            $result = $this->loginService->loginUser($documentNumber, $password);
 
             if ($result['success']) {
                 return redirect()->to('/inicio');
             } else {
                 return redirect()->back()->with('error', 'Credenciales inválidas');
             }
-
         } catch (Exception $e) {
 
-            $logger->error("Error Catch en LoginController----->" .$e->getMessage());
+            $logger->error("Error Catch en LoginController----->" . $e->getMessage());
 
             session()->setFlashdata('error', 'Ocurrio un error');
             return redirect()->back();
         }
-
     }
 
-    public function logout()
+    public function logoutAction()
     {
         session()->destroy();
         return redirect()->to('/login');
     }
-
 }
-*/
