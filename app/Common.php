@@ -15,7 +15,7 @@
  */
 
  if (!function_exists('successResponse')) {
-    function successResponse($data, $message = 'Operación exitosa.', $status = 'success' )
+    function successResponse($data =[], $message = 'Operación exitosa.', $status = 'success' )
     {
         return [
             'status'  => $status,
@@ -29,7 +29,7 @@
 }
 
 if (!function_exists('errorResponse')) {
-    function errorResponse($message = 'Ocurrió un error.', $data = null, $status = 'error')
+    function errorResponse($message = 'Ocurrió un error.', $data = [], $status = 'error')
     {
         return [
             'status'  => $status,
