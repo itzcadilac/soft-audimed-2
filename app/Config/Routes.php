@@ -2,8 +2,11 @@
 
 include APPPATH . 'Modules/Users/Config/Routes.php';
 include APPPATH . 'Modules/Security/Config/Routes.php';
+include APPPATH . 'Modules/Aseguradora/Config/Routes.php';
 
 use CodeIgniter\Router\RouteCollection;
+
+use function Modules\Aseguradora\Config\AseguradoraRoutes;
 use function Modules\Users\Config\UserRoutes;
 use function Modules\Security\Config\SecurityRoutes;
 
@@ -33,3 +36,4 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 // Rutas modulares
 SecurityRoutes($routes);
 UserRoutes($routes);
+AseguradoraRoutes($routes);
