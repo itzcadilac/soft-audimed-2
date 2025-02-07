@@ -30,14 +30,23 @@ class EmailService
     ) {
         // Reemplazar los placeholders con los datos reales
         $contenido = $this->replacePlaceholders($plantilla['contenido'], $data);
+        $dataSubject = [
+            "nombre" => $plantilla['subject']
+        ];
+        $subject = $this->replacePlaceholders($plantilla['subject'], $dataSubject);
         // Configurar el correo
         $this->email->setFrom($fromEmail, $fromName);
         $this->email->setTo($to);
-        $this->email->setSubject($plantilla['subject']);
+        $this->email->setSubject($subject);
         $this->email->setMessage($contenido);
 
+        $response = [
+            "subject" => $subject,
+            "contenido" => $contenido
+        ];
+
         if ($this->email->send()) {
-            return successResponse($contenido);
+            return successResponse($response);
         } else {
             return errorResponse("Error al enviar el correo: " . $this->email->printDebugger(['headers']));
         }

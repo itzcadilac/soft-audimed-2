@@ -46,14 +46,14 @@ class NotificationUserService
                 return errorResponse($notificationSent["message"]);
             }
             $this->logger->debug("La notificacion se envio correctamente a -> {$dataNotification["to"]}");
-            $this->saveNotification($dataNotification, $template, $data);
+            $this->saveNotification($dataNotification, $template, $data, $notificationSent["data"]);
             return successResponse("Notificacion enviada correctamente");
         }catch(Exception $e){
             return errorResponse();
         }
     }
 
-    private function saveNotification($dataNotification, $template, $data){
+    private function saveNotification($dataNotification, $template, $data, $notificationSent){
         $notification = new Notification();
         $notification->codeplantilla = $dataNotification["templateCode"];
         $notification->tipo = "usuario";
@@ -61,8 +61,8 @@ class NotificationUserService
         $notification->fenvio = date("Y-m-d H:m:s");
         $notification->usuario = $dataNotification["nameTo"];
         $notification->email = $dataNotification["to"];
-        $notification->subject = $template["data"]["subject"];
-        $notification->contenido = $template["data"]["contenido"];
+        $notification->subject = $notificationSent["subject"];
+        $notification->contenido = $notificationSent["contenido"];
         $notification->uuid = $data["uuid"];
         $notification->enviado = 1;
         $this->notificationRepository->save($notification);

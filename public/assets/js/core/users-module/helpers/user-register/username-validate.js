@@ -29,7 +29,7 @@ class UsernameValidate {
 
     inputFields(){
         return [
-            { field: this._txt_username, type: "text", required: true, validation: /^[a-zA-Z0-9_-]{8,}$/ }
+            { field: this._txt_username, type: "text", required: true, validation: /^[a-zA-Z0-9_-]{3,}$/ }
         ];
     }
 

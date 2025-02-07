@@ -22,10 +22,10 @@ class UserRegisterService
     public function registerUser(User $user)
     {
         try {
-            $userFound = $this->userRepository->findByDocument($user->numero_documento);
+            /*$userFound = $this->userRepository->findByDocument($user->numero_documento);
             if($userFound["success"]){
                 return errorResponse("El usuario con el documento indicado ya existe!!");
-            }
+            }*/
             $dataNotification = [
                 "templateCode" => "EMAIL_CONF_ACCOUNT",
                 "to" => $user->email,
