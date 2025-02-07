@@ -101,7 +101,7 @@ class UserRegisterController extends BaseController
         $user->numero_documento = $formData['document_number'];
         $user->apellidos = $formData['lastname'];
         $user->nombres = $formData['names'];
-        $user->usuario = $formData['document_number'];
+        $user->usuario = $formData['username'];
         $user->idperfil = $formData['profile'];
         $user->email = $formData['email'];
         return $user;
