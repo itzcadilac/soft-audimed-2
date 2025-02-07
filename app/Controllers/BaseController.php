@@ -57,6 +57,15 @@ abstract class BaseController extends Controller
 
     protected $twig;
 
+    private const HTTP_STATUS_OK = 200;
+    private const HTTP_STATUS_CREATED = 201;
+    private const HTTP_STATUS_BAD_REQUEST = 400;
+    private const HTTP_STATUS_NOT_FOUND = 404;
+    private const HTTP_STATUS_INTERNAL_SERVER_ERRROR = 500;
+
+    private const STATUS_SUCCESS = "success";
+    private const STATUS_ERROR = "error";
+
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         // Do Not Edit This Line
@@ -107,7 +116,7 @@ abstract class BaseController extends Controller
         $modulos = $session->get('modulosUsuario');
         $nombres_user = $session->get('nombres');
         $currentUrl = current_url();
-    
+
         //mostrar los modulos como variable global
         if (!empty($modulos)) {
             $this->twig->addGlobal('sidebar_modulos', $modulos);
@@ -117,13 +126,12 @@ abstract class BaseController extends Controller
         if (!empty($nombres_user)) {
             $this->twig->addGlobal('nombre_user', $nombres_user);
         }
-
     }
 
     public function render(string $filename, array $params = [])
     {
-            try {
-                // Verificar si la propiedad appName está disponible
+        try {
+            // Verificar si la propiedad appName está disponible
             $appConfig = config('App');
             if (!isset($appConfig->appName)) {
                 throw new \Exception('appName no está configurado correctamente.');
@@ -151,10 +159,64 @@ abstract class BaseController extends Controller
     }
 
     protected function respond($data, int $status = 200)
-        {
-            return $this->response
-                ->setStatusCode($status)
-                ->setJSON($data);
+    {
+        return $this->response
+            ->setStatusCode($status)
+            ->setJSON($data);
+    }
+
+    protected function responseOk($data, $csrfHash = null)
+    {
+        return $this->response(
+            $this->mapData(self::STATUS_SUCCESS, "Respuesta Ok", self::HTTP_STATUS_OK, $data, $csrfHash)
+        );
+    }
+
+    protected function responseCreated($message, $csrfHash = null)
+    {
+        return $this->response(
+            $this->mapData(self::STATUS_SUCCESS, $message, self::HTTP_STATUS_CREATED, null, $csrfHash)
+        );
+    }
+
+    protected function responseBusinessError($message, $csrfHash = null)
+    {
+        return $this->response(
+            $this->mapData(self::STATUS_ERROR, $message, self::HTTP_STATUS_BAD_REQUEST, null, $csrfHash)
+        );
+    }
+
+    protected function responseError($message, $csrfHash = null)
+    {
+        return $this->response(
+            $this->mapData(self::STATUS_ERROR, $message, self::HTTP_STATUS_INTERNAL_SERVER_ERRROR, null, $csrfHash)
+        );
+    }
+
+    private function mapData($status, $message, $code, $data, $csrfHash = null)
+    {
+        $responseData = array("data" => [], "code" => $code);
+
+        $responseData["data"] = [
+            'status' => $status,
+            'message' => $message
+        ];
+
+        if (!is_null($data)) {
+            $responseData["data"]['data'] = $data;
         }
 
+        if (!is_null($csrfHash)) {
+            $responseData["data"]['csrf_hash_gen'] = $csrfHash;
+        }
+
+        return $responseData;
+    }
+
+    private function response($responseData)
+    {
+        return $this->response
+            ->setStatusCode($responseData["code"])
+            ->setJSON($responseData["data"]);
+    }
 }

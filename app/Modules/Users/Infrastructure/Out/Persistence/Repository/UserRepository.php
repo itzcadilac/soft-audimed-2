@@ -3,56 +3,102 @@
 namespace Modules\Users\Infrastructure\Out\Persistence\Repository;
 
 use Modules\Users\Infrastructure\Out\Persistence\Model\UserModel;
+use Modules\Users\Domain\User;
 use Config\Services;
 use Exception;
-use Modules\Users\Domain\User;
+
+use function PHPUnit\Framework\isNull;
 
 class UserRepository
 {
     protected $userModel;
-    protected $profileModel;
+    protected $logger;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
+        $this->logger = Services::logger();
     }
 
     public function findByDocumentAndStatus($documentNumber, $status)
     {
-        $logger = Services::logger();
-
         try {
+            // Realizamos la query
             $result = $this->userModel->where('numero_documento', $documentNumber)
                 ->where('activo', $status)
                 ->first();
-
-            if ($result) {
-                return successResponse($result, 'Usuario encontrado.');
+            // Si no se pudo obtener el registro devolvemos un error
+            if (!$result) {
+                return errorResponse('Usuario no encontrado.');
             }
-
-            return errorResponse('Usuario no encontrado.');
+            // Si se logro obtener el registro lo devolvemos en la respuesta
+            return successResponse($result);
         } catch (Exception $e) {
-            $logger->error("Error Catch en UserRepository----->" + $e->getMessage());
+            $this->logger->error("UserRepository -> findByDocumentAndStatus: {$e->getMessage()}");
+            return errorResponse();
+        }
+    }
 
-            return errorResponse('Usuario no encontrado.');
+    public function findByDocument($documentNumber)
+    {
+        try {
+            // Realizamos la query
+            $result = $this->userModel->where('numero_documento', $documentNumber)
+                ->first();
+            // Si no se pudo obtener el registro devolvemos un error
+            if (!$result) {
+                return errorResponse('Usuario no encontrado.');
+            }
+            // Si se logro obtener el registro lo devolvemos en la respuesta
+            return successResponse($result);
+        } catch (Exception $e) {
+            $this->logger->error("UserRepository -> findByDocument: {$e->getMessage()}");
+            return errorResponse();
+        }
+    }
+
+    public function findByUsername($username)
+    {
+        try {
+            // Realizamos la query
+            $result = $this->userModel->where('usuario', $username)->first();
+            // Si no se pudo obtener el registro devolvemos un error
+            if (!$result) {
+                return errorResponse('Usuario no encontrado.');
+            }
+            // Si se logro obtener el registro lo devolvemos en la respuesta
+            return successResponse($result);
+        } catch (Exception $e) {
+            $this->logger->error("UserRepository -> findByUsername: {$e->getMessage()}");
+            return errorResponse();
         }
     }
 
     public function save(User $user)
     {
-        $logger = Services::logger();
-
         try {
+            // LLenamos los campos de auditoria
+            $this->insertAuditData($user);
+            // Realizamos la query
             $result = $this->userModel->save($user);
-
-            if ($result) {
-                return successResponse($result, 'Los datos se guardaron correctamente');
-            } else {
-                return errorResponse('Hubo un error al guardar');
+            // Si no se pudo guardar el registro devolvemos un error
+            if (!$result) {
+                return errorResponse('No se pudo guardar el registro en: personas');
             }
+            // Si el registro se guardo correctamente lo devolvemos en la respuesta
+            return successResponse($result);
         } catch (Exception $e) {
-            $logger->error("Error Catch en UserRepository: guardarUsuario: " + $e->getMessage());
-            return errorResponse('Hubo un error al guardar');
+            $this->logger->error("UserRepository -> save: {$e->getMessage()}");
+            return errorResponse();
+        }
+    }
+
+    private function insertAuditData(User $user)
+    {
+        if (isNull($user->idusuario)) {
+            $user->fcreated = date("Y-m-d H:m:s");
+        } else {
+            $user->fupdated = date("Y-m-d H:m:s");
         }
     }
 }

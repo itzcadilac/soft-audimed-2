@@ -1,7 +1,10 @@
 <?php
 
+use Config\App;
+
 include APPPATH . 'Modules/Users/Config/Routes.php';
 include APPPATH . 'Modules/Security/Config/Routes.php';
+include APPPATH . 'Modules/Notifications/Config/Routes.php';
 include APPPATH . 'Modules/Aseguradora/Config/Routes.php';
 //include APPPATH . 'Modules/Producto/Config/Routes.php';
 
@@ -10,6 +13,7 @@ use CodeIgniter\Router\RouteCollection;
 use function Modules\Aseguradora\Config\AseguradoraRoutes;
 use function Modules\Users\Config\UserRoutes;
 use function Modules\Security\Config\SecurityRoutes;
+use function Modules\Notifications\Config\NotificationsRoutes;
 //use function Modules\Producto\Config\ProductoRoutes;
 
 /**
@@ -38,5 +42,6 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 // Rutas modulares
 SecurityRoutes($routes);
 UserRoutes($routes);
+NotificationsRoutes($routes);
 AseguradoraRoutes($routes);
 //ProductoRoutes($routes);
