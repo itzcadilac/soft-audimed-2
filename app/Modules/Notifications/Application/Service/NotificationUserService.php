@@ -65,6 +65,7 @@ class NotificationUserService
         $notification->contenido = $notificationSent["contenido"];
         $notification->uuid = $data["uuid"];
         $notification->enviado = 1;
+        
         $this->notificationRepository->save($notification);
     }
 }
