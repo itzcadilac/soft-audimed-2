@@ -45,6 +45,7 @@ class Autoload extends AutoloadConfig
         'App'         => APPPATH,
         'Modules'     => APPPATH . 'Modules',
         'Twig'        => ROOTPATH . 'vendor/twig/src',
+        'App\\Commands' => APPPATH . 'Commands',
     ];
 
     /**

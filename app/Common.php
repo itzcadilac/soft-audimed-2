@@ -15,7 +15,7 @@
  */
 
  if (!function_exists('successResponse')) {
-    function successResponse($data, $message = 'Operación exitosa.', $status = 'success' )
+    function successResponse($data =[], $message = 'Operación exitosa.', $status = 'success' )
     {
         return [
             'status'  => $status,
