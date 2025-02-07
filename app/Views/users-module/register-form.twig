@@ -2,50 +2,97 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
+            <form id="user_registration_form">
             <div class="row">
                 <div class="col-sm-12 col-lg-12">
                     <div class="iq-card">
                         <div class="iq-card-header d-flex justify-content-between">
                             <div class="iq-header-title">
-                                <h4 class="card-title">Nuevo usuario</h4>
+                                <h4 class="card-title">Registro de usuarios</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6">
+                    <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Datos personales</h4>
                             </div>
                         </div>
                         <div class="iq-card-body">
-                            <div class="col-sm-12 col-lg-6">
-                                <form id="user_registration_form">
-                                    <div class="form-group">
-                                        <label for="urf_document_number">N° de documento:</label>
-                                        <input type="text" class="form-control" id="urf_document_number"
-                                            name="urf_document_number">
-                                        {% if errors.num_documento %}
-                                        <div class="error">{{ errors.num_documento }}</div>
-                                        {% endif %}
-                                        <div id="error_num_documento"></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="urf_lastname">Apellidos:</label>
-                                        <input type="text" class="form-control" id="urf_lastname" name="urf_lastname">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="urf_names">Nombres:</label>
-                                        <input type="text" class="form-control" id="urf_names" name="urf_names">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="urf_profile">Perfil</label>
-                                        <select class="form-control mb-3" id="urf_profile" name="urf_profile">
-                                            {% for profile in profileList %}
-                                            <option value="{{ profile.id }}">{{ profile.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Registrar</button>
-                                </form>
-                                <div id="message"></div>
+                            <div class="form-group">
+                                <label for="urf_profile">Tipo de documento</label>
+                                <select class="form-control mb-3" id="urf_document_type" name="urf_document_type">
+                                    <option value="-1">Seleccione una opción</option>
+                                    {% for documentType in documentTypeList %}
+                                    <option value="{{ documentType.id }}" input-size="{{ documentType.size }}">{{ documentType.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">Debe seleccionar un tipo de documento para el usuario.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="urf_document_number">Número de documento:</label>
+                                <input type="text" class="form-control" id="urf_document_number"
+                                    name="urf_document_number" placeholder="Número de documento">
+                                <div class="invalid-feedback">El número de documento es requerido y debe cumplir el
+                                    formato.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="urf_lastname">Apellidos:</label>
+                                <input type="text" class="form-control" id="urf_lastname" name="urf_lastname"
+                                    placeholder="Apellidos del usuario">
+                                <div class="invalid-feedback">Debe ingresar un apellido válido.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="urf_names">Nombres:</label>
+                                <input type="text" class="form-control" id="urf_names" name="urf_names"
+                                    placeholder="Nombres del usuario">
+                                <div class="invalid-feedback">Debe ingresar nombre válido.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6">
+                    <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Datos de la cuenta</h4>
+                            </div>
+                        </div>
+                        <div class="iq-card-body">
+                            <div class="form-group">
+                                <label for="urf_document_number">Nombre de usuario:</label>
+                                <input type="text" class="form-control" id="urf_username" name="urf_username"
+                                    placeholder="Nombre de usuario">
+                                <div class="invalid-feedback">Debe ingresar un nombre de usuario válido.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="urf_lastname">Correo electrónico:</label>
+                                <input type="text" class="form-control" id="urf_email" name="urf_email"
+                                    placeholder="Correo electrónico">
+                                <div class="invalid-feedback">Debe ingresar un correo electrónico válido.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="urf_profile">Perfil</label>
+                                <select class="form-control mb-3" id="urf_profile" name="urf_profile">
+                                    <option value="-1">Seleccione una opción</option>
+                                    {% for profile in profileList %}
+                                    <option value="{{ profile.id }}">{{ profile.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">Debe seleccionar un perfil para el usuario.</div>
+                            </div>
+                            <div class="text-right"><button type="submit" class="btn btn-primary">Registrar
+                                    usuario</button></div>
+                            <div class="form-group">
+                                <div id="message">&nbsp;</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            </form>
         </div>
     </div>
     <div class="row">

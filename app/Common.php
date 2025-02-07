@@ -29,7 +29,7 @@
 }
 
 if (!function_exists('errorResponse')) {
-    function errorResponse($message = 'Ocurrió un error.', $data = null, $status = 'error')
+    function errorResponse($message = 'Ocurrió un error inesperado.', $data = null, $status = 'error')
     {
         return [
             'status'  => $status,
