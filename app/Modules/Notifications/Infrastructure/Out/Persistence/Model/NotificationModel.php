@@ -29,7 +29,10 @@ class NotificationModel extends Model
         "activo",
         "eliminado",
         "estadoreg",
-        "createdat"
+        "createdat",
+        "updatedat",
+        "createdby",
+        "updatedby",
     ];
     protected $returnType = \Modules\Notifications\Domain\Notification::class;
 }

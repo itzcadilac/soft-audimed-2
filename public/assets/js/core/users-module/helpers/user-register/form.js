@@ -3,7 +3,7 @@ import { LogUtilities as logger } from "../../../utilities/log-utilities.js";
 
 class UserRegisterForm {
     constructor() {
-        this._submitButton = document.querySelector('#user_registration_form button[type="submit"]');
+        this._submit_button = document.querySelector('#user_registration_form button[type="submit"]');
         this._sel_document_type = $('#urf_document_type');
         this._txt_document_number = $('#urf_document_number');
         this._txt_lastname = $('#urf_lastname');
@@ -29,20 +29,95 @@ class UserRegisterForm {
         return this._meta_csrf_token;
     }
 
+    get selectDocumentType() {
+        return {
+            field: this._sel_document_type,
+            type: "select",
+            required: true,
+            validation: null
+        };
+    }
+
+    get inputDocumentNumber() {
+        return {
+            field: this._txt_document_number,
+            type: "text",
+            required: true,
+            validation: this.regexDocumentNumberByDocumentType()
+        };
+    }
+
+    get inputLastName() {
+        return {
+            field: this._txt_lastname,
+            type: "text",
+            required: true,
+            validation: /^[a-zA-Z\s]+$/
+        };
+    }
+
+    get inputNames() {
+        return {
+            field: this._txt_names,
+            type: "text",
+            required: true,
+            validation: /^[a-zA-Z\s]+$/
+        };
+    }
+
+    get inputUsername() {
+        return {
+            field: this._txt_username,
+            type: "text",
+            required: true,
+            validation: /^[a-zA-Z0-9_-]{3,}$/
+        };
+    }
+
+    get inputEmail() {
+        return {
+            field: this._txt_email,
+            type: "text",
+            required: true,
+            validation: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        };
+    }
+
+    get selectProfile() {
+        return {
+            field: this._sel_profiles,
+            type: "select",
+            required: true,
+            validation: null
+        };
+    }
+
     /**
      * Define los inputs que componen el formulario ademas de sus validaciones.
      * @returns {array} un arreglo con los inputs del formulario.
      */
     inputFields() {
         return [
-            { field: this._sel_document_type, type: "select", required: true, validation: null },
-            { field: this._txt_document_number, type: "text", required: true, validation: this.regexDocumentNumberByDocumentType() },
-            { field: this._txt_lastname, type: "text", required: true, validation: /^[a-zA-Z\s]+$/ },
-            { field: this._txt_names, type: "text", required: true, validation: /^[a-zA-Z\s]+$/ },
-            { field: this._txt_username, type: "text", required: true, validation: /^[a-zA-Z0-9_-]{8,}$/ },
-            { field: this._txt_email, type: "text", required: true, validation: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ },
-            { field: this._sel_profiles, type: "select", required: true, validation: null }
+            this.selectDocumentType,
+            this.inputDocumentNumber,
+            this.inputLastName,
+            this.inputNames,
+            this.inputUsername,
+            this.inputEmail,
+            this.selectProfile
         ];
+    }
+
+    get data(){
+        return {
+            document_type: this.selectDocumentType.field.val(),
+            document_number: this.inputDocumentNumber.field.val(),
+            lastname: this.inputLastName.field.val(),
+            names: this.inputNames.field.val(),
+            username: this.inputUsername.field.val(),
+            email: this.inputEmail.field.val(),
+            profile: this.selectProfile.field.val()
+        };
     }
 
     /**
@@ -50,7 +125,7 @@ class UserRegisterForm {
      * @returns 
      */
     regexDocumentNumberByDocumentType() {
-        const inputSize = this._sel_document_type.find("option:selected").attr("input-size");
+        const inputSize = this.selectDocumentType.field.find("option:selected").attr("input-size");
 
         if (!inputSize || isNaN(inputSize)) {
             logger.warn("El atributo input-size para validar el numero de documento no es válido.");
@@ -75,33 +150,25 @@ class UserRegisterForm {
      * @returns {user} El objeto a registrar.
      */
     getNewUserObject() {
-        return {
-            document_type: this._sel_document_type.val(),
-            document_number: this._txt_document_number.val(),
-            lastname: this._txt_lastname.val(),
-            names: this._txt_names.val(),
-            username: this._txt_username.val(),
-            email: this._txt_email.val(),
-            profile: this._sel_profiles.val()
-        }
+        return this.data;
     }
 
     /**
      * Permite iniciar el proceso de envio del formulario.
      */
-    startSendProcess() {
-        logger.info("Inicia el proceso de registro de usuario.");
+    startSendProcess(message = "Inicia el proceso de registro de usuario.") {
+        logger.info(message);
         FormUtilities.launchLoader();
-        this._submitButton.disabled = true;
+        this._submit_button.disabled = true;
     }
 
     /**
      * Permite finalizar el proceso de envio del formulario.
      */
-    endSendProcess() {
+    endSendProcess(message = "Se finaliza el proceso de registro de usuario.") {
         FormUtilities.stopLoader();
-        this._submitButton.disabled = false;
-        logger.info("Se finaliza el proceso de registro de usuario.");
+        this._submit_button.disabled = false;
+        logger.info(message);
     }
 
     /**

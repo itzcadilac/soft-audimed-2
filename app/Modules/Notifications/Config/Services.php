@@ -3,32 +3,23 @@
 namespace Modules\Notifications\Config;
 
 use CodeIgniter\Config\BaseService;
-use Modules\Notifications\Application\Service\EmailService;
-use Modules\Notifications\Application\Service\NotificationUserService;
+use Modules\Notifications\Application\Service\NotificationService;
 use Modules\Notifications\Infrastructure\Out\Persistence\Repository\NotificationRepository;
 use Modules\Notifications\Infrastructure\Out\Persistence\Repository\TemplateRepository;
+use Modules\Notifications\Infrastructure\Out\Web\NotificationAdapter;
 
 class Services extends BaseService
 {
 
-    public static function emailService()
-    {
-        if (static::hasInstance('emailService')) {
-            return static::getSharedInstance('emailService');
-        }
-
-        return new EmailService();
-    }
-
-    public static function notificationUserService(){
-        if (static::hasInstance('notificationUserService')) {
-            return static::getSharedInstance('notificationUserService');
+    public static function NotificationService(){
+        if (static::hasInstance('NotificationService')) {
+            return static::getSharedInstance('NotificationService');
         }
 
         $notificationRespsitory = new NotificationRepository();
         $templateRepository = new TemplateRepository();
-        $emailService = new EmailService();
+        $notificationAdapter = new NotificationAdapter();
 
-        return new NotificationUserService($notificationRespsitory, $templateRepository, $emailService);
+        return new NotificationService($notificationRespsitory, $templateRepository, $notificationAdapter);
     }
 }

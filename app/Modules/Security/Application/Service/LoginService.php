@@ -35,8 +35,6 @@ class LoginService
                 //Verificamos si el usuario tiene opciones asignadas
                 $moduleByProfile = $this->moduleByProfileService->getListModuleByProfile($user['idperfil']);
 
-                //print_r($moduleByProfile);exit();
-
                 $logger->info("Trae la relacion de modulos: " . json_encode($moduleByProfile));
 
                 if ($moduleByProfile["success"]) {

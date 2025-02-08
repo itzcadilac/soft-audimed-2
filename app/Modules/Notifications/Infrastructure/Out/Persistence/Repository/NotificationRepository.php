@@ -2,6 +2,7 @@
 
 namespace Modules\Notifications\Infrastructure\Out\Persistence\Repository;
 
+use CodeIgniter\Config\Services as ConfigServices;
 use Modules\Notifications\Infrastructure\Out\Persistence\Model\NotificationModel;
 use Config\Services;
 use Exception;
@@ -12,11 +13,13 @@ use function PHPUnit\Framework\isNull;
 class NotificationRepository {
     protected $notificationModel;
     protected $logger;
+    protected $session;
 
     public function __construct()
     {
         $this->notificationModel = new NotificationModel();
         $this->logger = Services::logger();
+        $this->session = ConfigServices::session();
     }
 
     public function save(Notification $notification)
@@ -32,6 +35,7 @@ class NotificationRepository {
             }
             // Si el registro se guardo correctamente obtenemos si id
             $savedPersonId = $this->notificationModel->insertID();
+            $this->logger->info("Se guardo la notificacion con el id -> {$savedPersonId}");
             // Devolvemos el registro creado en la respuesta
             return successResponse($this->notificationModel->find($savedPersonId));
         } catch (Exception $e) {
@@ -42,10 +46,12 @@ class NotificationRepository {
 
     private function insertAuditData(Notification $notification)
     {
-        if (!isNull($notification->idnotificacion)) {
+        if (isNull($notification->idnotificacion)) {
             $notification->createdat = date("Y-m-d H:m:s");
+            $notification->createdby = $this->session->get("usuario");
         } else {
-            //$notification->fupdated = date("Y-m-d H:m:s");
+            $notification->updatedat = date("Y-m-d H:m:s");
+            $notification->updatedby = $this->session->get("usuario");
         }
     }
 }

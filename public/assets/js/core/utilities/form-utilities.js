@@ -60,6 +60,8 @@ class FormUtilities {
     static invalidField(input) {
         if (input instanceof jQuery) {
             input.addClass("is-invalid");
+        } else {
+            logger.error("FormUtilities -> invalidField(..): El parámetro 'input' no es un objeto jQuery válido");
         }
     }
 
@@ -70,6 +72,8 @@ class FormUtilities {
     static validField(input) {
         if (input instanceof jQuery) {
             input.addClass("is-valid");
+        } else {
+            logger.error("FormUtilities -> validField(..): El parámetro 'input' no es un objeto jQuery válido");
         }
     }
 
@@ -81,7 +85,7 @@ class FormUtilities {
         if (input instanceof jQuery) {
             input.siblings(".invalid-feedback").text(message);
         } else {
-            logger.error("El parámetro 'input' no es un objeto jQuery válido.");
+            logger.error("FormUtilities -> customError(..): El parámetro 'input' no es un objeto jQuery válido");
         }
     }
 
@@ -93,6 +97,8 @@ class FormUtilities {
         inputs.forEach(({ field }) => {
             if (field instanceof jQuery) {
                 field.prop('readonly', false);
+            } else {
+                logger.error("FormUtilities -> unblockFields(..): El parámetro 'input' no es un objeto jQuery válido");
             }
         });
     }
@@ -105,7 +111,7 @@ class FormUtilities {
         if (input instanceof jQuery) {
             input.focus();
         } else {
-            logger.error("El parámetro 'input' no es un objeto jQuery válido.");
+            logger.error("FormUtilities -> focus(..): El parámetro 'input' no es un objeto jQuery válido");
         }
     }
 

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\Config\Services as ConfigServices;
 use CodeIgniter\HTTP\ResponseInterface;
 use Config\Services;
 
@@ -11,6 +12,7 @@ class DashboardController extends BaseController
     public function index()
     {
         $logger = Services::logger();
+        $this->session = ConfigServices::session();
 
         /*
         $data['menuItems'] = [
@@ -35,6 +37,7 @@ class DashboardController extends BaseController
         //$logger->error("Usuario en sesion: " . $username);
 
         //return $this->render('Features/dashboard.twig', ['title' => 'Dashboard', 'data' => $data]);
+        $logger->info(json_encode($this->session->get("usuario")));
         return $this->render('Features/dashboard.twig', ['title' => 'Dashboard']);
     }
 }

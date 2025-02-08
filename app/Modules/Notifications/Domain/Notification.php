@@ -26,7 +26,10 @@ class Notification extends Entity {
         "activo" => 1,
         "eliminado" => 0,
         "estadoreg" => 0,
-        "createdat" => null
+        "createdat" => null,
+        "updatedat" => null,
+        "createdby" => null,
+        "updatedby" => null,
     ];
 
     protected $datamap = [
