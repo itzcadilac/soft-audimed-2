@@ -20,8 +20,4 @@ function UserRoutes(RouteCollection $routes)
         $routes->get('valida/documento/(:any)/(:any)', 'ValidateDocumentController::getValidateDocumentAction/$1/$2');
         $routes->get('valida/nombreusuario/(:any)', 'ValidateUsernameController::getValidateUsernameAction/$1');
     });
-
-    $routes->group('usuarios', ['namespace' => USER_MODULE_NAMESPACE], function ($routes) {
-        $routes->get('confirmacion', 'UserRegisterController::userConfirm');
-    });
 }

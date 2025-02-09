@@ -22,7 +22,6 @@ class ValidateUsernameController extends BaseController
     {
         $logger = Services::logger();
         try {
-            $logger->debug('Ingresó a la función getValidateUsernameAction');
             // Obtenemos y validamos los datos del request
             $request = [
                 'username' => $username

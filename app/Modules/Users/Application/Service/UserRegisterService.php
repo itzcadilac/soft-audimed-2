@@ -2,17 +2,20 @@
 
 namespace Modules\Users\Application\Service;
 
+use CodeIgniter\Events\Events;
 use Modules\Users\Domain\User;
 use Modules\Users\Infrastructure\Out\Persistence\Repository\UserRepository;
-use Exception;
-
+use Modules\Common\Audit\Entity\Audit;
+use Modules\Common\Audit\Enum\AuditTypeEnum;
 use Modules\Notifications\Config\Services as NotificationServices;
 use Modules\Notifications\Domain\NotificationData;
+use Exception;
 
 class UserRegisterService
 {
     protected $userRepository;
     protected $notificationService;
+    protected $session;
 
     public function __construct(UserRepository $userRepository)
     {
@@ -30,6 +33,8 @@ class UserRegisterService
             if(!$savedUser["success"]){
                 return errorResponse($savedUser["message"]);
             }
+            // Se guardan los datos del registro en auditoria
+            $this->auditEventTrigger(AuditTypeEnum::TYPE_REGISTER, $savedUser["data"]);
             // Envia la notificacion
             $this->notificationService->send($notificationData);
             // Guarda al usuario
@@ -37,6 +42,14 @@ class UserRegisterService
         } catch (Exception $e) {
             return errorResponse();
         }
+    }
+
+    private function auditEventTrigger($type, $user){
+        $audit = new Audit();
+        $audit->tipo = $type->value;
+        $audit->descripcion = "Creación de cuenta <{$user["usuario"]}>";
+        $audit->contenido = json_encode($user);
+        Events::trigger(EVENT_SAVE_AUDIT, $audit->toArray());
     }
 
     private function createNotificationData(User $user){

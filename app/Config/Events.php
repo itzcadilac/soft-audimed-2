@@ -6,6 +6,8 @@ use CodeIgniter\Events\Events;
 use CodeIgniter\Exceptions\FrameworkException;
 use CodeIgniter\HotReloader\HotReloader;
 
+use Modules\Audit\Infrastructure\Events\EventServiceProvider;
+
 /*
  * --------------------------------------------------------------------
  * Application Events
@@ -53,3 +55,5 @@ Events::on('pre_system', static function (): void {
         }
     }
 });
+
+EventServiceProvider::register();

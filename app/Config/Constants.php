@@ -100,3 +100,5 @@ define('DOCUMENT_TYPE_DNI', "dni");
 define('DOCUMENT_TYPE_CEE', "cee");
 define('DOCUMENT_TYPE_ID_DNI', 1);
 define('DOCUMENT_TYPE_ID_CEE', 2);
+
+define('EVENT_SAVE_AUDIT', "save_audit");

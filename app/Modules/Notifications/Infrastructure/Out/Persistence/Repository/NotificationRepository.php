@@ -10,7 +10,8 @@ use Modules\Notifications\Domain\Notification;
 
 use function PHPUnit\Framework\isNull;
 
-class NotificationRepository {
+class NotificationRepository
+{
     protected $notificationModel;
     protected $logger;
     protected $session;
@@ -20,6 +21,23 @@ class NotificationRepository {
         $this->notificationModel = new NotificationModel();
         $this->logger = Services::logger();
         $this->session = ConfigServices::session();
+    }
+
+    public function findByUuidAndEmail($uuid, $email)
+    {
+        try {
+            // Realizamos la query
+            $result = $this->notificationModel->where('uuid', $uuid)->where('email', $email)->first();
+            // Si no se pudo obtener el registro devolvemos un error
+            if (!$result) {
+                return errorResponse("La notificacion con uuid <{$uuid}> e email <{$email}>, no ha sido encontrada.");
+            }
+            // Si se logro obtener el registro lo devolvemos en la respuesta
+            return successResponse($result);
+        } catch (Exception $e) {
+            $this->logger->error("NotificationRepository -> findByUuidAndEmail: {$e->getMessage()}");
+            return errorResponse();
+        }
     }
 
     public function save(Notification $notification)

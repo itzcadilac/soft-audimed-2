@@ -59,16 +59,9 @@
                     </div>
                     <div class="col-md-6 position-relative">
                         <div class="sign-in-from">
-                            <h1 class="mb-0">Confirmación de cuenta</h1>
-                            {% if error %}
-                                <div class="alert alert-danger" role="alert">
-                                    <div class="iq-alert-icon">
-                                       <i class="ri-information-line"></i>
-                                    </div>
-                                    <div class="iq-alert-text">{{ error }}</div>
-                                 </div>
-                            {% endif %}
-                            <form class="mt-4" method="POST" action="{{ base_url('login') }}" id="formLogin">
+                            <h1 class="mb-0">Confirma tu cuenta</h1>
+                            <h5 class="mb-0">Estimado {{nombre}}, gracias por activar tu cuenta, par finalizar el registro y la activación del mismo, debe crear su contraseña de acceso. </h5>
+                            <form class="mt-4" method="POST" action="{{ base_url('usuarios/confirmacion') }}" id="formLogin">
                                 <input type="hidden" name="{{ csrf_token() }}" value="{{ csrf_hash() }}">
                                 <div class="form-group">
                                     <label for="username">Contraseña</label>
@@ -78,6 +71,7 @@
                                     <label for="password">Confirme su contraseña</label>
                                     <input type="password" class="form-control mb-0" id="password" name="password" placeholder="Password" max="15">
                                 </div>
+                                <div id="message"></div>
                                 <div class="d-inline-block w-100">
                                     <button type="submit" class="btn btn-primary float-right">Confirmar cuenta</button>
                                 </div>
