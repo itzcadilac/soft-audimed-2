@@ -22,7 +22,7 @@ class LoginService
         $this->userService = UserServices::userService();
     }
 
-    public function loginUser($documentNumber, $password)
+    public function loginUser($documentNumber, $password, $ipAddress, $hostname)
     {
         $logger = Services::logger();
 
@@ -51,6 +51,8 @@ class LoginService
                             'idperfil' => $user['idperfil'],
                             'modulosUsuario' => $array_modulos,
                             'isLoggedIn' => true,
+                            'ipAddress' => $ipAddress,
+                            'hostname' => $hostname
                         ]);
 
                         return successResponse($result, 'Sesion iniciada');

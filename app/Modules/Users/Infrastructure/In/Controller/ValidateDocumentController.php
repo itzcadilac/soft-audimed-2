@@ -22,7 +22,6 @@ class ValidateDocumentController extends BaseController
         $logger = Services::logger();
 
         try {
-            $logger->debug('Ingresó a la función getValidateDocument');
             // Obtenemos y validamos los datos del request
             $request = [
                 'document_type' => $documentType,

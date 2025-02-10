@@ -15,19 +15,13 @@ class UserRegisterController extends BaseController
     protected $profileService;
     protected $documentTypeService;
 
-    private const USER_REGISTER_FORM_PATH = 'users-module/register-form.twig';
-    private const USER_CONFIRM_FORM_PATH = 'users-module/user-confirm.twig';
+    private const USER_REGISTER_FORM_PATH = 'users-module/form-register.twig';
 
     public function __construct()
     {
         $this->userRegisterService = UserServices::userRegisterService();
         $this->profileService = UserServices::profileService();
         $this->documentTypeService = UserServices::documentTypeService();
-    }
-
-    public function userConfirm()
-    {
-        return $this->render(self::USER_CONFIRM_FORM_PATH, $this->getDataToForm());
     }
 
     public function registerForm()
@@ -50,7 +44,6 @@ class UserRegisterController extends BaseController
         $logger = Services::logger();
 
         try {
-            $logger->debug('Ingresó a la función registroUsuario');
             // Obtenemos los datos del request
             $formData = $this->request->getPost();
             // Obtenemos el hash

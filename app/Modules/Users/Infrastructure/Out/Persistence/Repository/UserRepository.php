@@ -85,8 +85,10 @@ class UserRepository
             if (!$result) {
                 return errorResponse('No se pudo guardar el registro en: personas');
             }
+            // Si el registro se guardo correctamente obtenemos si id
+            $savedUserId = $this->userModel->insertID();
             // Si el registro se guardo correctamente lo devolvemos en la respuesta
-            return successResponse($result);
+            return successResponse($this->userModel->find($savedUserId));
         } catch (Exception $e) {
             $this->logger->error("UserRepository -> save: {$e->getMessage()}");
             return errorResponse();
