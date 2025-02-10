@@ -96,3 +96,6 @@ define('EVENT_PRIORITY_HIGH', 10);
 // Custom Constants
 define('ACTIVE_VALUE', 1);
 define('INACTIVE_VALUE', 0);
+
+//
+define('REINTENTOS_BLOQUEO', 5);

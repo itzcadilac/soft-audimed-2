@@ -18,7 +18,9 @@ class UserModel extends Model
         'usuario',
         'passwd',
         'idperfil',
-        'activo'
+        'activo',
+        'retry',
+        'fretry'
     ];
     protected $returnType = \Modules\Users\Domain\User::class;
 }

@@ -5,6 +5,8 @@ namespace Config;
 use CodeIgniter\Events\Events;
 use CodeIgniter\Exceptions\FrameworkException;
 use CodeIgniter\HotReloader\HotReloader;
+use Modules\Security\Domain\Auditoria;
+use Modules\Security\Infrastructure\Out\Persistence\Model\AuditoriaModel;
 
 /*
  * --------------------------------------------------------------------
@@ -52,4 +54,39 @@ Events::on('pre_system', static function (): void {
             });
         }
     }
+});
+
+
+Events::on('registrar_auditoria', function ($accion, $descripcion = null, $numero_documento = null) {
+    $logger = Services::logger();
+    $logger->info("Auditoría - Ingresa a Events");
+
+    $acciones = [
+        'session' => 'Inicio de sesión en el sistema',
+        'session_failed' => 'Intento de inicio de sesión fallido',
+        'logout'  => 'Cierre de sesión del usuario',
+        'create'  => 'Creación de un nuevo registro',
+        'update'  => 'Actualización de un registro existente',
+        'delete'  => 'Eliminación de un registro',
+    ];
+
+    // Obtener IP del usuario
+    $request = Services::request();
+    $ip = $request->getIPAddress();
+
+    $Auditoria = new Auditoria();
+
+    $Auditoria->tipo = $accion;
+    $Auditoria->username = session()->get('usuario') ?? $numero_documento;
+    $Auditoria->idusuario = session()->get('idusuario') ?? null;
+    $Auditoria->remotehost = $ip;
+    //$Auditoria->remotemachine = null;
+    $Auditoria->descripcion = $descripcion !== null ? $descripcion : $acciones[$accion] ?? 'Acción desconocida';
+    //$Auditoria->contenido = null;
+    //$Auditoria->lat = null;
+    //$Auditoria->lon = null;
+
+    // Guardar en la BD
+    $auditoriaModel = new AuditoriaModel();
+    $auditoriaModel->insert($Auditoria);
 });

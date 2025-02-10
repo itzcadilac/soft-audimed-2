@@ -40,7 +40,7 @@ class LoginController extends BaseController
             if ($result['success']) {
                 return redirect()->to('/inicio');
             } else {
-                return redirect()->back()->with('error', 'Credenciales inválidas');
+                return redirect()->back()->with('error', $result['message']);
             }
         } catch (Exception $e) {
 

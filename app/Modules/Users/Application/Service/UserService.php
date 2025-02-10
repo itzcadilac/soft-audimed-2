@@ -2,6 +2,7 @@
 
 namespace Modules\Users\Application\Service;
 
+use Config\Services;
 use Modules\Users\Infrastructure\Out\Persistence\Repository\UserRepository;
 use Exception;
 
@@ -22,4 +23,25 @@ class UserService
             return errorResponse('Ocurrio un error al traer los datos');
         }
     }
+
+    public function updateUserFretry($idUser, $data)
+    {
+
+        $logger = Services::logger();
+
+        try {
+            $result = $this->userRepository->updateUserFretry($idUser, $data);
+
+            if (!$result) {
+                return errorResponse('Ocurrio un error al traer los datos');
+            }
+
+            return successResponse($result,'ok');
+        } catch (\Throwable $e) {
+            $logger->error("Error Catch en UserService: updateUserFretry: ".$e->getMessage());
+            return errorResponse('Ocurrio un error al traer los datos');
+        }
+
+    }
+
 }

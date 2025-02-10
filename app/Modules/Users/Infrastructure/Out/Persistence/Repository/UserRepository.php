@@ -51,8 +51,15 @@ class UserRepository
                 return errorResponse('Hubo un error al guardar');
             }
         } catch (Exception $e) {
-            $logger->error("Error Catch en UserRepository: guardarUsuario: " + $e->getMessage());
+            $logger->error("Error Catch en UserRepository: guardarUsuario: " . $e->getMessage());
             return errorResponse('Hubo un error al guardar');
         }
     }
+
+
+    public function updateUserFretry($idUser, $data)
+    {
+        return $this->userModel->update($idUser, $data);
+    }
+
 }

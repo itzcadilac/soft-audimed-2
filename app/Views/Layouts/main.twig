@@ -22,6 +22,43 @@
         .container-fluid {
             flex: 1; /* Hace que el contenido ocupe el espacio restante */
         }
+
+                /* Hacer que el modal ocupe toda la pantalla */
+        .modal-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8); /* Fondo oscuro */
+            z-index: 9999;
+        }
+
+        .opcion-imagen {
+            cursor: pointer;
+            transition: transform 0.3s;
+            width:200px;
+            width: 100%;
+            height: 100%;
+        }
+        .opcion-imagen:hover {
+            transform: scale(1.1);
+            border: 3px solid #089bab;
+        }
+
+        .btn-producto{
+            color: white;
+            border-color: white;
+            font-size: x-large;
+        }
+
+        .contenedor-prod{
+            width: 25px
+        }
+
     </style>
 
     {% block cssAPP %} {% endblock %}
@@ -51,6 +88,45 @@
             {% include 'Layouts/footer.twig' %}
          </div>
     </div>
+
+    <!-- Modal de selección bloqueante -->
+<div id="modalSeleccion" class="modal-fullscreen" style="display: none;">
+    <div class="text-center text-white">
+        <h2 id="divTitulo" style="color: white;">Selecciona una aseguradora</h2>
+        <div class="row mt-4" id="divAseguradora" style="display: none;">
+
+            {% set total = data.aseg_usuario|length %}
+            {% set colClass = 'col-md-12' %}
+
+            {% if total == 1 %}
+                {% set colClass = 'col-md-12' %}
+            {% elseif total == 2 %}
+                {% set colClass = 'col-md-6' %}
+            {% elseif total == 3 %}
+                {% set colClass = 'col-md-4' %}
+            {% elseif total == 4 %}
+                {% set colClass = 'col-md-3' %}
+            {% else %}
+                {% set colClass = 'col-md-2' %}
+            {% endif %}
+
+            {% for imagen in data.aseg_usuario %}
+                <div class="{{ colClass }}" style="width: 250px;">
+                    <img src="{{ base_url(imagen.url) }}" class="opcion-imagen rounded mr-3 img-fluid" data-id="{{ imagen.idaseguradora }}">
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row mt-4 justify-content-center">
+            <div class="col-12 d-flex justify-content-center flex-wrap gap-4" id="divProducto" style="display: none;">
+                {% for producto in data.prod_aseg %}
+                    <button type="button" class="btn btn-outline-primary mb-3 mr-2 btn-producto" 
+                        data-id="{{ producto }}"
+                        onclick="ejecutarFuncion('{{ producto }}')">{{ producto }}</button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
     
     <script src="{{ base_url('assets/js/jquery.min.js') }}"></script>
     <script src="{{ base_url('assets/js/popper.min.js') }}"></script>
@@ -84,9 +160,33 @@
     <script src="{{ base_url('assets/js/custom.js') }}"></script>
 
     <script>
-         window.globalConfig = {
-            baseUrl: "{{ base_url('/')|e('js') }}"
+        window.globalConfig = {
+          baseUrl: "{{ base_url('/')|e('js') }}",
+          total_aseg_user: Number({{data.aseg_usuario|length}}),
+          idaseguradora_user: Number("{{ data.idaseguradora_user }}"),
+          nombre_aseguradora: "",
+          ruta_aseguradora: "",
+          idproducto_user: "{{ data.idproducto_user }}",
         };
+
+        // Evitar que el usuario cierre el modal sin seleccionar
+        window.onload = function () {
+            if (window.globalConfig.idaseguradora_user == 0) {
+                document.getElementById('modalSeleccion').style.display = 'flex';
+                document.getElementById('divAseguradora').style.display = 'flex';
+            }else{
+                asignarLogo();
+                if(window.globalConfig.idproducto_user == 0){
+                    document.getElementById('modalSeleccion').style.display = 'flex';
+                    document.getElementById('divProducto').style.display = 'flex';
+                    $("#divTitulo").html('Elige un producto');
+                }
+              cambiarColores(window.globalConfig.idaseguradora_user);
+            }
+        };
+
+        console.log("idAseguradora: " + window.globalConfig.idaseguradora_user);
+        console.log("idProducto: " + window.globalConfig.idproducto_user);
     </script>
 
     {% block javascriptAPP %} {% endblock %}

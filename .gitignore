@@ -124,3 +124,8 @@ nb-configuration.xml
 
 /results/
 /phpunit*.xml
+
+#Command
+/app/Commands
+
+/app/Config/Autoload.php
