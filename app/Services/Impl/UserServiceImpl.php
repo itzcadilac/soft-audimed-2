@@ -4,6 +4,7 @@ namespace App\Services\Impl;
 
 use App\Entities\Usuario;
 use App\Models\Repository\UserRepository;
+use CodeIgniter\Events\Events;
 use CodeIgniter\Session\Session;
 use Config\Services;
 use Exception;
@@ -30,6 +31,7 @@ class UserServiceImpl //implements UserService
 
         try {
             // Buscar al usuario por documento y estado
+            
             $result = $this->getUserByDocumentoAndEstado($numero_documento);
 
             if ($result['success']) {

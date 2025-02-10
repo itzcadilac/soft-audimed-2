@@ -90,6 +90,8 @@ class UserRepository
             // Si el registro se guardo correctamente lo devolvemos en la respuesta
             return successResponse($this->userModel->find($savedUserId));
         } catch (Exception $e) {
+            $logger->error("Error Catch en UserRepository: guardarUsuario: " . $e->getMessage());
+            return errorResponse('Hubo un error al guardar');
             $this->logger->error("UserRepository -> save: {$e->getMessage()}");
             return errorResponse();
         }
@@ -103,4 +105,11 @@ class UserRepository
             $user->fupdated = date("Y-m-d H:m:s");
         }
     }
+
+
+    public function updateUserFretry($idUser, $data)
+    {
+        return $this->userModel->update($idUser, $data);
+    }
+
 }

@@ -11,6 +11,17 @@
     </div>
     <nav class="navbar navbar-expand-lg navbar-light p-0">
 
+    <ul class="navbar-list">
+      <li>
+        <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center" onclick="elegirAseg()">
+          <img id="imgLogoA" src="{{ base_url('uploads/default.png') }}" class="img-fluid rounded mr-3" alt="user">
+          <div class="caption">
+             <h6 id="txtEmpresaA" class="mb-0 line-height"></h6>
+          </div>
+       </a>
+      </li>
+    </ul>
+
       <button
         class="navbar-toggler"
         type="button"
@@ -30,6 +41,14 @@
       </div>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto navbar-list">
+          <li class="nav-item">
+            <a id="selected-product" class="search-toggle iq-waves-effect language-title" href="#">
+               <!--Seleccionar producto <i class="ri-arrow-down-s-line"></i>-->
+          </a>
+          <div class="iq-sub-dropdown" id="product-list">
+              <!-- Aquí se agregarán los productos dinámicamente -->
+          </div>
+         </li>
           <li class="nav-item iq-full-screen">
             <a href="#" class="iq-waves-effect" id="btnFullscreen"
               ><i class="ri-fullscreen-line"></i
