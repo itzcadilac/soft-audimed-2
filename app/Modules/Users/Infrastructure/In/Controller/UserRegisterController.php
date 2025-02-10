@@ -11,15 +11,17 @@ use Modules\Users\Config\Services as UserServices;
 
 class UserRegisterController extends BaseController
 {
-    protected $userService;
+    protected $userRegisterService;
     protected $profileService;
+    protected $documentTypeService;
 
-    private const USER_REGISTER_FORM_PATH = 'users-module/register-form.twig';
+    private const USER_REGISTER_FORM_PATH = 'users-module/form-register.twig';
 
     public function __construct()
     {
-        $this->userService = UserServices::userService();
+        $this->userRegisterService = UserServices::userRegisterService();
         $this->profileService = UserServices::profileService();
+        $this->documentTypeService = UserServices::documentTypeService();
     }
 
     public function registerForm()
@@ -29,115 +31,72 @@ class UserRegisterController extends BaseController
 
     private function getDataToForm()
     {
+        $documentTypeList = $this->documentTypeService->getDocumentTypeList();
         $profileList = $this->profileService->getListActiveProfile();
         return array(
+            "documentTypeList" => $documentTypeList["data"],
             "profileList" => $profileList["data"]
         );
     }
 
-
     public function registerAction()
     {
-        $data = $this->request->getPost();
         $logger = Services::logger();
 
         try {
-            $logger->debug('Ingresó a la función registroUsuario');
-
-            $userRegisterForm = $this->registerFormValidation();
-            if (!$userRegisterForm["isValid"]) {
-                return $this->respond($userRegisterForm["data"], 400);
-            }
-
-            $user = new User();
-            $user->idtipodocumento = 1;
-            $user->numero_documento = $data['num_documento'];
-            $user->apellidos = $data['apellidos'];
-            $user->nombres = $data['nombres'];
-            $user->usuario = $data['num_documento'];
-            $user->idperfil = 1;
-            $user->activo = '1';
-
-            $result = $this->userService->registerUser($user);
-
+            // Obtenemos los datos del request
+            $formData = $this->request->getPost();
+            // Obtenemos el hash
             $csrfHash = csrf_hash();
-
-            $data = [
-                'status' => 'success',
-                'message' => 'Usuario creado correctamente',
-                'csrf_hash_gen' => $csrfHash,
-            ];
-
-            if ($result["success"]) {
-                return $this->respond($data, 201);
-            } else {
-                return $this->respond($data, 400); //Error
+            // Validamos el formulario
+            $formValidated = $this->validateForm();
+            if (!$formValidated->isValid) {
+                return $this->responseBusinessError($formValidated->data, $csrfHash);
             }
-
-            //return $this->respond($data, 201); // Código 201 Created
-
+            // Obtenemos el objeto usuario y lo guardamos
+            $user = $this->getUser($formData);
+            $result = $this->userRegisterService->registerUser($user);
+            // Proceso de respuesta
+            if (!$result["success"]) {
+                return $this->responseBusinessError($result["message"], $csrfHash);
+            }
+            return $this->responseCreated('Usuario creado correctamente', $csrfHash);
         } catch (Exception $e) {
             $logger->error($e->getMessage());
-
             $csrfHash = csrf_hash();
-
-            $data = [
-                'status' => 'error',
-                'message' => 'Hubo un error al guardar la información.',
-                'csrf_hash_gen' => $csrfHash,
-            ];
-
-            return $this->respond($data, 400);
+            return $this->responseError('Hubo un error al guardar la información.', $csrfHash);
         }
     }
 
-    private function registerFormValidation()
+    private function validateForm()
     {
         $validation = array("isValid" => true, "data" => []);
 
         $rules = [
-            'num_documento' => 'required|min_length[3]|max_length[50]'
+            'document_type' => 'required',
+            'document_number' => 'required',
+            'email' => 'required',
+            'profile' => 'required'
         ];
 
         if (!$this->validate($rules)) {
-            $errors = $this->validator->getErrors();
-            $csrfHash = csrf_hash();
-            $data = [
-                'status' => 'error',
-                'message' => $errors,
-                'csrf_hash_gen' => $csrfHash,
-            ];
-
             $validation["isValid"] = false;
-            $validation["data"] = $data;
+            $validation["data"] = $this->validator->getErrors();
         }
 
-        return $validation;
+        return (object) $validation;
     }
 
-    public function getAllActiveUsers()
+    private function getUser($formData)
     {
-
-        $logger = Services::logger();
-        try {
-
-            $result = $this->userService->getAllActiveUsers();
-
-            if ($result["success"]) {
-                return $this->respond($result, 200);
-            } else {
-                return $this->respond($result, 400); //No existen datos
-            }
-        } catch (Exception $e) {
-
-            $logger->error("Error Catch en RegistroUserController: getAllActiveUsers: " + $e->getMessage());
-
-            $result = [
-                'status' => 'error',
-                'message' => 'Hubo un error',
-            ];
-
-            return $this->respond($result, 400); //error al llamar al EndPoint
-        }
+        $user = new User();
+        $user->idtipodocumento = $formData['document_type'];;
+        $user->numero_documento = $formData['document_number'];
+        $user->apellidos = $formData['lastname'];
+        $user->nombres = $formData['names'];
+        $user->usuario = $formData['username'];
+        $user->idperfil = $formData['profile'];
+        $user->email = $formData['email'];
+        return $user;
     }
 }

@@ -26,7 +26,7 @@ class LoginService
         $this->aseguradoraService = SiniestroServices::AseguradoraService();
     }
 
-    public function loginUser($documentNumber, $password)
+    public function loginUser($documentNumber, $password, $ipAddress, $hostname)
     {
         $logger = Services::logger();
 
@@ -39,8 +39,6 @@ class LoginService
                 //Verificamos si el usuario tiene opciones asignadas
                 $moduleByProfile = $this->moduleByProfileService->getListModuleByProfile($user['idperfil']);
                 $asegxUser = $this->aseguradoraService->getAseguradoraxUser($user['idusuario']);
-
-                //print_r($moduleByProfile);exit();
 
                 $logger->info("Trae la relacion de modulos: " . json_encode($moduleByProfile));
 
@@ -81,6 +79,8 @@ class LoginService
                             'idaseguradora_user' => $idaseguradora_user,
                             'idproducto_user' => $idproducto_user,
                             'isLoggedIn' => true,
+                            'ipAddress' => $ipAddress,
+                            'hostname' => $hostname
                         ]);
 
                         $data = [

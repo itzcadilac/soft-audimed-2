@@ -21,6 +21,17 @@ class UserModel extends Model
         'activo',
         'retry',
         'fretry'
+        'eliminado',
+        'estadoreg',
+        'email',
+        'movil',
+        'idle_sesion',
+        'fcreated',
+        'fupdated',
+        'fconfirm',
+        'flastpwd',
+        'flastmov',
+        'flastaccess'
     ];
     protected $returnType = \Modules\Users\Domain\User::class;
 }

@@ -8,6 +8,8 @@ use CodeIgniter\HotReloader\HotReloader;
 use Modules\Security\Domain\Auditoria;
 use Modules\Security\Infrastructure\Out\Persistence\Model\AuditoriaModel;
 
+use Modules\Audit\Infrastructure\Events\EventServiceProvider;
+
 /*
  * --------------------------------------------------------------------
  * Application Events
@@ -56,7 +58,6 @@ Events::on('pre_system', static function (): void {
     }
 });
 
-
 Events::on('registrar_auditoria', function ($accion, $descripcion = null, $numero_documento = null) {
     $logger = Services::logger();
     $logger->info("Auditoría - Ingresa a Events");
@@ -90,3 +91,4 @@ Events::on('registrar_auditoria', function ($accion, $descripcion = null, $numer
     $auditoriaModel = new AuditoriaModel();
     $auditoriaModel->insert($Auditoria);
 });
+EventServiceProvider::register();
