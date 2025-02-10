@@ -20,7 +20,7 @@ class UserModel extends Model
         'idperfil',
         'activo',
         'retry',
-        'fretry'
+        'fretry',
         'eliminado',
         'estadoreg',
         'email',
