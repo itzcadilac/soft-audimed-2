@@ -1,0 +1,71 @@
+         <!-- Sidebar  -->
+         <div class="iq-sidebar">
+            <div class="iq-sidebar-logo d-flex justify-content-between">
+               <a href="#">
+               <img src="{{ base_url('assets/images/logo.png') }}" class="img-fluid" alt="">
+               <span>{{ appName }}</span>
+               </a>
+               <div class="iq-menu-bt-sidebar">
+                     <div class="iq-menu-bt align-self-center">
+                        <div class="wrapper-menu">
+                           <div class="main-circle"><i class="ri-more-fill"></i></div>
+                           <div class="hover-circle"><i class="ri-more-2-fill"></i></div>
+                        </div>
+                     </div>
+                  </div>
+            </div>
+            <div id="sidebar-scrollbar">
+               <nav class="iq-sidebar-menu">
+                  <ul id="iq-sidebar-toggle" class="iq-menu">
+                     {% if current_url() == base_url('inicio') %}
+                        <li class="active main-active">
+                     {% else %}
+                        <li>
+                     {% endif %}
+                        <a href="{{base_url('inicio')}}" class="iq-waves-effect">
+                           <i class="ri-home-8-fill"></i>
+                              <span>Inicio</span>
+                        </a>
+                     </li>
+
+                     {% for modulo in sidebar_modulos %}
+
+                        {% if modulo.submodulos is defined and modulo.submodulos|length > 0 %}
+
+                           {% if current_url() starts with base_url(modulo.url) %}
+                              <li class="active main-active">
+                           {% else %}
+                              <li>
+                           {% endif %}
+                              <a href="#{{ modulo.url }}" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i class="{{ modulo.mini }}"></i><span>{{ modulo.menu }}</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                              <ul id="{{ modulo.url }}" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                                 {% for submodulo in modulo.submodulos %}
+                                       {% if current_url() == base_url(modulo.url ~ '/' ~ submodulo.url) %}
+                                          <li class="active main-active">
+                                       {% else %}
+                                          <li>
+                                       {% endif %}
+                                          <a href="{{base_url(modulo.url ~ '/' ~ submodulo.url)}}"><i class="{{ submodulo.icono }}"></i>{{ submodulo.descripcion }}</a>
+                                       </li>
+                                 {% endfor %}
+                              </ul>
+                           </li>
+
+                        {% else %}
+                           {% if current_url() == base_url(modulo.url) %}
+                              <li class="active main-active">
+                           {% else %}
+                              <li>
+                           {% endif %}
+                                    <a href="{{base_url(modulo.url)}}" class="iq-waves-effect">
+                                    <i class="{{ modulo.mini }}"></i>
+                                       <span>{{ modulo.menu }}</span>
+                                 </a>
+                              </li>
+                        {% endif %}
+                     {% endfor %}
+                  </ul>
+               </nav>
+               <div class="p-3"></div>
+            </div>
+         </div>

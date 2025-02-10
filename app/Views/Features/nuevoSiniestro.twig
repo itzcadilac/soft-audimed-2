@@ -1,0 +1,233 @@
+{% extends 'Layouts/main.twig' %} {% block content %}
+
+{% block cssAPP %}
+
+{% endblock %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+           <div class="iq-card">
+              <div class="iq-card-header d-flex justify-content-between">
+                 <div class="iq-header-title">
+                    <h4 class="card-title">Nuevo Siniestro</h4>
+                 </div>
+              </div>
+              <div class="iq-card-body">
+                <form>
+                    <div class="form-row">
+                      <div class="col-md-3 mb-3">
+                        <label for="aseguradoraId">Aseguradora ID</label>
+                        <input type="text" class="form-control" id="aseguradoraId" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="tipoComunicacionId">Tipo Comunicación ID</label>
+                        <input type="text" class="form-control" id="tipoComunicacionId" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="fechaComunicacion">Fecha Comunicación</label>
+                        <input type="date" class="form-control" id="fechaComunicacion" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="motivoRegistroId">Motivo Registro ID</label>
+                        <input type="text" class="form-control" id="motivoRegistroId" >
+                      </div>
+                    </div>
+                
+                    <div class="form-row">
+                      
+                      <div class="col-md-3 mb-3">
+                        <label for="notificante">Notificante</label>
+                        <input type="text" class="form-control" id="notificante" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="parentesco">Parentesco</label>
+                        <input type="text" class="form-control" id="parentesco" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="tipoDocumentoId">Tipo Documento ID</label>
+                        <input type="text" class="form-control" id="tipoDocumentoId" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="numeroDocumento">Número Documento</label>
+                        <input type="text" class="form-control" id="numeroDocumento" >
+                      </div>
+                    </div>
+                
+                    <div class="form-row">
+                      
+                      <div class="col-md-3 mb-3">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" class="form-control" id="telefono" >
+                      </div>
+                            <div class="col-md-3 mb-3">
+                        <label for="activacionServicioMedico">Activación Servicio Médico</label>
+                        <input type="text" class="form-control" id="activacionServicioMedico" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="numeroSiniestro">Número Siniestro</label>
+                        <input type="text" class="form-control" id="numeroSiniestro" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="tipoSiniestroId">Tipo Siniestro ID</label>
+                        <input type="text" class="form-control" id="tipoSiniestroId" >
+                      </div>
+                    </div>
+                
+                    <div class="form-row">
+                      <div class="col-md-3 mb-3">
+                        <label for="fechaSiniestro">Fecha Siniestro</label>
+                        <input type="date" class="form-control" id="fechaSiniestro" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="ubigeoSiniestro">Ubigeo Siniestro</label>
+                        <input type="text" class="form-control" id="ubigeoSiniestro" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="tipoPolizaId">Tipo Póliza ID</label>
+                        <input type="text" class="form-control" id="tipoPolizaId" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="numeroPoliza">Número Póliza</label>
+                        <input type="text" class="form-control" id="numeroPoliza" >
+                      </div>
+                    </div>
+                
+                    <div class="form-row">
+                      
+                      <div class="col-md-3 mb-3">
+                        <label for="numeroPolizaSOAT">Número Póliza SOAT</label>
+                        <input type="text" class="form-control" id="numeroPolizaSOAT" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="inicioVigenciaPoliza">Inicio Vigencia Póliza</label>
+                        <input type="date" class="form-control" id="inicioVigenciaPoliza" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="finVigenciaPoliza">Fin Vigencia Póliza</label>
+                        <input type="date" class="form-control" id="finVigenciaPoliza" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="contratante">Contratante</label>
+                        <input type="text" class="form-control" id="contratante" >
+                      </div>
+                    </div>
+                
+                    <div class="form-row">
+                      
+                      <div class="col-md-3 mb-3">
+                        <label for="telefonoContratante">Teléfono Contratante</label>
+                        <input type="tel" class="form-control" id="telefonoContratante" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="numeroPlaca">Número Placa</label>
+                        <input type="text" class="form-control" id="numeroPlaca" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="claseVehiculo">Clase Vehículo</label>
+                        <input type="text" class="form-control" id="claseVehiculo" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="modeloVehiculo">Modelo Vehículo</label>
+                        <input type="text" class="form-control" id="modeloVehiculo" >
+                      </div>
+                    </div>
+                
+                
+                
+                    <div class="form-row">
+                      <div class="col-md-3 mb-3">
+                        <label for="marcarVehiculo">Marcar Vehículo</label>
+                        <input type="text" class="form-control" id="marcarVehiculo" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="color">Color</label>
+                        <input type="text" class="form-control" id="color" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="año">Año</label>
+                        <input type="number" class="form-control" id="año" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="tipo">Tipo</label>
+                        <input type="text" class="form-control" id="tipo" >
+                      </div>
+                    </div>
+                
+                    <div class="form-row">
+                      
+                      <div class="col-md-3 mb-3">
+                        <label for="conductor">Conductor</label>
+                        <input type="text" class="form-control" id="conductor" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="telefonoConductor">Teléfono Conductor</label>
+                        <input type="tel" class="form-control" id="telefonoConductor" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="comisaria">Comisaría</label>
+                        <input type="text" class="form-control" id="comisaria" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="numeroLesionados">Número de Lesionados</label>
+                        <input type="number" class="form-control" id="numeroLesionados" >
+                      </div>
+                    </div>
+                
+                    <div class="form-row">
+                      
+                      <div class="col-md-3 mb-3">
+                        <label for="observacion">Observación</label>
+                        <input type="text" class="form-control" id="observacion" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="nombreAsegurado">Nombre Asegurado</label>
+                        <input type="text" class="form-control" id="nombreAsegurado" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="activo">Activo</label>
+                        <select class="form-control" id="activo" >
+                          <option value="1">Sí</option>
+                          <option value="0">No</option>
+                        </select>
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="CodigoServicioExterno">Código Servicio Externo</label>
+                        <input type="text" class="form-control" id="CodigoServicioExterno" >
+                      </div>
+                    </div>
+                
+                    <div class="form-row">
+                      <div class="col-md-3 mb-3">
+                        <label for="fechaSi24">Fecha SI24</label>
+                        <input type="date" class="form-control" id="fechaSi24" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="fechallegadaMedico">Fecha Llegada Médico</label>
+                        <input type="date" class="form-control" id="fechallegadaMedico" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="local">Local</label>
+                        <input type="text" class="form-control" id="local" >
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label for="tienda">Tienda</label>
+                        <input type="text" class="form-control" id="tienda" >
+                      </div>
+                    </div>
+                
+                    <button type="submit" class="btn btn-primary">Guardar Siniestro</button>
+                  </form>
+              </div>
+           </div>
+        </div>
+     </div>
+</div>
+
+{% endblock %}
+
+{% block javascriptAPP %}
+
+<script src="{{ base_url('assets/js/audimed/siniestro/nuevoSiniestro.js') }}"></script>
+
+{% endblock %}

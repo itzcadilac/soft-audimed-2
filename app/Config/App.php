@@ -6,6 +6,7 @@ use CodeIgniter\Config\BaseConfig;
 
 class App extends BaseConfig
 {
+
     /**
      * --------------------------------------------------------------------------
      * Base Site URL
@@ -16,7 +17,11 @@ class App extends BaseConfig
      *
      * E.g., http://example.com/
      */
-    public string $baseURL = 'http://localhost:8080/';
+    //public string $baseURL = 'http://localhost/soft-audimed-2/'; //Se sobreescribe con app.baseURL del archivo .env
+
+    public string $baseURL = 'http://example.com'; //Se sobreescribe con app.baseURL del archivo .env
+
+    public string $appName = 'Aplicacion';
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
@@ -40,7 +45,7 @@ class App extends BaseConfig
      * something else. If you have configured your web server to remove this file
      * from your site URIs, set this variable to an empty string.
      */
-    public string $indexPage = 'index.php';
+    public string $indexPage = '';
 
     /**
      * --------------------------------------------------------------------------
@@ -93,7 +98,7 @@ class App extends BaseConfig
      * strings (like currency markers, numbers, etc), that your program
      * should run under for this request.
      */
-    public string $defaultLocale = 'en';
+    public string $defaultLocale = 'es';
 
     /**
      * --------------------------------------------------------------------------
@@ -133,7 +138,7 @@ class App extends BaseConfig
      * @see https://www.php.net/manual/en/timezones.php for list of timezones
      *      supported by PHP.
      */
-    public string $appTimezone = 'UTC';
+    public string $appTimezone = 'America/Lima';
 
     /**
      * --------------------------------------------------------------------------
@@ -199,4 +204,24 @@ class App extends BaseConfig
      * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
+
+    /*CSRF*/
+    //public $CSRFTokenName = 'csrf_token';
+    //public $CSRFHeaderName = 'X-CSRF-TOKEN';
+    //public $CSRFExpire = 7200;  // Tiempo de expiración del token CSRF en segundos
+    //public $CSRFRegenerate = true;  // Si se debe regenerar el token en cada solicitud
+    public $csrfProtection = true;          // Habilitar CSRF
+    public $csrfTokenName = 'csrf_token';    // Nombre del token CSRF
+    public $csrfHeaderName = 'X-CSRF-TOKEN'; // Nombre del encabezado para el token CSRF
+    public $csrfExpire = 7200;               // Expiración del token en segundos (2 horas en este caso)
+    public $CSRFRegenerate = true;  // Si se debe regenerar el token en cada solicitud
+
+
+    public function __construct()
+    {
+        parent::__construct();
+        
+        $this->appName = getenv('APP_NAME') ?: $this->appName;
+    }
+
 }

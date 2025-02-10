@@ -13,3 +13,31 @@
  *
  * @see: https://codeigniter.com/user_guide/extending/common.html
  */
+
+ if (!function_exists('successResponse')) {
+    function successResponse($data, $message = 'Operación exitosa.', $status = 'success' )
+    {
+        return [
+            'status'  => $status,
+            'success' => true,
+            'message' => $message,
+            'data'    => is_object($data) && method_exists($data, 'toArray') 
+                            ? $data->toArray() 
+                            : $data,
+        ];
+    }
+}
+
+if (!function_exists('errorResponse')) {
+    function errorResponse($message = 'Ocurrió un error inesperado.', $data = null, $status = 'error')
+    {
+        return [
+            'status'  => $status,
+            'success' => false,
+            'message' => $message,
+            'data'    => is_object($data) && method_exists($data, 'toArray') 
+                            ? $data->toArray() 
+                            : $data,
+        ];
+    }
+}

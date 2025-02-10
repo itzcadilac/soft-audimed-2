@@ -40,7 +40,11 @@ class Autoload extends AutoloadConfig
      * @var array<string, list<string>|string>
      */
     public $psr4 = [
+        'Config'      => APPPATH . 'Config',
         APP_NAMESPACE => APPPATH,
+        'App'         => APPPATH,
+        'Modules'     => APPPATH . 'Modules',
+        'Twig'        => ROOTPATH . 'vendor/twig/src',
     ];
 
     /**

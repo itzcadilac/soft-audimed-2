@@ -92,3 +92,11 @@ define('EVENT_PRIORITY_NORMAL', 100);
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
  */
 define('EVENT_PRIORITY_HIGH', 10);
+
+// Custom Constants
+define('ACTIVE_VALUE', 1);
+define('INACTIVE_VALUE', 0);
+define('DOCUMENT_TYPE_DNI', "dni");
+define('DOCUMENT_TYPE_CEE', "cee");
+define('DOCUMENT_TYPE_ID_DNI', 1);
+define('DOCUMENT_TYPE_ID_CEE', 2);
