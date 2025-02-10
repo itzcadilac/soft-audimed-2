@@ -14,4 +14,5 @@ enum AuditTypeEnum: string
     case TYPE_CREATE = "CREATE";
     case TYPE_DELETE = "DELETE";
     case TYPE_REGISTER = "REGISTRO";
+    case TYPE_URL = "URL";
 }

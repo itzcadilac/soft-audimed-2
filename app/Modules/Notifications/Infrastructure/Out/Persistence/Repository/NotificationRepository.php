@@ -23,6 +23,22 @@ class NotificationRepository
         $this->session = ConfigServices::session();
     }
 
+    public function findById($notificationId) {
+        try {
+            // Realizamos la query
+            $result = $this->notificationModel->find($notificationId);
+            // Si no se pudo obtener el registro devolvemos un error
+            if (!$result) {
+                return errorResponse("La notificacion con id <{$notificationId}>, no ha sido encontrada.");
+            }
+            // Si se logro obtener el registro lo devolvemos en la respuesta
+            return successResponse($result);
+        } catch (Exception $e) {
+            $this->logger->error("NotificationRepository -> findById: {$e->getMessage()}");
+            return errorResponse();
+        }
+    }
+
     public function findByUuidAndEmail($uuid, $email)
     {
         try {
@@ -52,10 +68,9 @@ class NotificationRepository
                 return errorResponse("No se pudo guardar el registro en: notificaciones");
             }
             // Si el registro se guardo correctamente obtenemos si id
-            $savedPersonId = $this->notificationModel->insertID();
-            $this->logger->info("Se guardo la notificacion con el id -> {$savedPersonId}");
+            $savedNotificationId = $this->notificationModel->insertID();
             // Devolvemos el registro creado en la respuesta
-            return successResponse($this->notificationModel->find($savedPersonId));
+            return successResponse($this->notificationModel->find($savedNotificationId));
         } catch (Exception $e) {
             $this->logger->error("NotificationRepository -> save: {$e->getMessage()}");
             return errorResponse();

@@ -34,7 +34,7 @@ class UserRegisterService
                 return errorResponse($savedUser["message"]);
             }
             // Se guardan los datos del registro en auditoria
-            $this->auditEventTrigger(AuditTypeEnum::TYPE_REGISTER, $savedUser["data"]);
+            auditEventTrigger(AuditTypeEnum::TYPE_REGISTER, $savedUser["data"], "Creación de cuenta <{$user["usuario"]}>");
             // Envia la notificacion
             $this->notificationService->send($notificationData);
             // Guarda al usuario
@@ -42,14 +42,6 @@ class UserRegisterService
         } catch (Exception $e) {
             return errorResponse();
         }
-    }
-
-    private function auditEventTrigger($type, $user){
-        $audit = new Audit();
-        $audit->tipo = $type->value;
-        $audit->descripcion = "Creación de cuenta <{$user["usuario"]}>";
-        $audit->contenido = json_encode($user);
-        Events::trigger(EVENT_SAVE_AUDIT, $audit->toArray());
     }
 
     private function createNotificationData(User $user){

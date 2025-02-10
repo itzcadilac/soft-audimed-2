@@ -26,12 +26,21 @@ class AuditService
         try {
             $this->logger->info("Iniciamos el proceso de guardar la auditoria");
             $audit = new Audit($auditArray);
-            $audit->username = $this->session->get("usuario");
-            $audit->idusuario = $this->session->get("idusuario");
+            $this->completeData($audit);
             $this->auditRepository->save($audit);
             $this->logger->info("La auditoria se guardo correctamente");
         } catch (Exception $e) {
             return errorResponse();
+        }
+    }
+
+    private function completeData(Audit $audit)
+    {
+        if ($this->session->has("usuario")) {
+            $audit->username = $this->session->get("usuario");
+            $audit->idusuario = $this->session->get("idusuario");
+            $audit->remotehost = $this->session->get("ipAddress") ?? '0.0.0.0';
+            $audit->remotemachine = $this->session->get("hostname") ?? 'localhost';
         }
     }
 }
