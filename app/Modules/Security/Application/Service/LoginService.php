@@ -41,7 +41,7 @@ class LoginService
 
                 //Verificamos si el usuario tiene opciones asignadas
                 $moduleByProfile = $this->moduleByProfileService->getListModuleByProfile($user['idperfil']);
-                $asegxUser = $this->aseguradoraService->getAseguradoraxUser($user['idusuario']);
+                $asegxUser = $this->aseguradoraService->getAseguradoraxUser($user['idusuario'],1);
 
                 $logger->info("Trae la relacion de modulos: " . json_encode($moduleByProfile));
 

@@ -18,7 +18,7 @@ class AseguradoraRepository
     }
 
 
-    public function getAseguradoraxUser($idUser)
+    public function getAseguradoraxUser($idUser, $idperfil)
     {
         $logger = Services::logger();
 
@@ -30,16 +30,26 @@ class AseguradoraRepository
                 and ua.activo = :activo: 
                 and ua.eliminado = :eliminado:
                 and ua.estadoreg = :estadoreg: 
-                ORDER BY 1";
+                union all
+                SELECT a.*
+                from perfil_aseguradora pa 
+                inner join aseguradora a 
+                on a.idaseguradora = pa.idperfilaseguradora
+                where pa.idperfil = :idPerfil:
+                and pa.eliminado = :eliminado:
+                and pa.estadoreg = :estadoreg: ";
 
         $query = $this->db->query($sql, [
                                     'idUser' => $idUser, 
+                                    'idPerfil' => $idperfil, 
                                     'activo' => 1,
                                     'eliminado' => 0,
                                     'estadoreg' => 0,
                                 ]);
 
         $result = $query->getResultArray();
+
+        $logger->info(json_encode($result));
 
         return $result;
 
