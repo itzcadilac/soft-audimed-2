@@ -21,13 +21,17 @@ class User extends Entity {
         'email' => null,
         'movil' => null,
         'idle_sesion' => 0,
-        'fcreated' => null,
-        'fupdated' => null,
         'fconfirm' => null,
         'flastpwd' => null,
         'flastmov' => null,
         'flastaccess' => null,
-        'confirmado' => 0
+        'confirmado' => 0,
+        'createdat' => null,
+        'updatedat' => null,
+        'createdby' => null,
+        'updatedby' => null,
+        'retry' => 0,
+        'fretry' => null
     ];
 
     public function getFullName(){

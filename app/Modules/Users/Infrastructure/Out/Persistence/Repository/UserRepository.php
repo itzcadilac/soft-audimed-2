@@ -105,9 +105,9 @@ class UserRepository
     private function insertAuditData(User $user)
     {
         if (isNull($user->idusuario)) {
-            $user->fcreated = date("Y-m-d H:m:s");
+            $user->createdat = date("Y-m-d H:m:s");
         } else {
-            $user->fupdated = date("Y-m-d H:m:s");
+            $user->updatedat = date("Y-m-d H:m:s");
         }
     }
 
