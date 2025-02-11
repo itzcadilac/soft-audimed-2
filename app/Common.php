@@ -15,9 +15,8 @@
  */
 
 use Psr\Log\LogLevel;
-
-if (!function_exists('successResponse')) {
-    function successResponse($data, $message = 'Operación exitosa.', $status = 'success')
+ if (!function_exists('successResponse')) {
+    function successResponse($data =[], $message = 'Operación exitosa.', $status = 'success' )
     {
         return [
             'status'  => $status,
@@ -31,7 +30,7 @@ if (!function_exists('successResponse')) {
 }
 
 if (!function_exists('errorResponse')) {
-    function errorResponse($message = 'Ocurrió un error inesperado.', $data = null, $status = 'error')
+    function errorResponse($message = 'Ocurrió un error.', $data = [], $status = 'error')
     {
         return [
             'status'  => $status,

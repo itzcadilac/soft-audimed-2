@@ -19,6 +19,8 @@ class UserModel extends Model
         'passwd',
         'idperfil',
         'activo',
+        'retry',
+        'fretry',
         'eliminado',
         'estadoreg',
         'email',
