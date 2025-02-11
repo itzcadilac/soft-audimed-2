@@ -6,8 +6,9 @@ use App\Controllers\BaseController;
 use Modules\Users\Domain\User;
 use Config\Services;
 use Exception;
-
+use Modules\Common\Audit\Enum\LogLevelEnum;
 use Modules\Users\Config\Services as UserServices;
+use Psr\Log\LogLevel;
 
 class UserRegisterController extends BaseController
 {

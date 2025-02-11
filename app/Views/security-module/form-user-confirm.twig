@@ -69,13 +69,26 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Confirme su contraseña</label>
-                                    <input type="password" class="form-control mb-0" id="password" name="password" placeholder="Password" max="15">
+                                    <input type="password" class="form-control mb-0" id="password_confirm" name="password_confirm" placeholder="Password" max="15">
+                                    <input type="hidden" id="username" name="username" value="{{username}}">
+                                    <input type="hidden" id="email" name="email" value="{{email}}">
+                                    <input type="hidden" id="uuid" name="uuid" value="{{uuid}}">
                                 </div>
                                 <div id="message"></div>
                                 <div class="d-inline-block w-100">
                                     <button type="submit" class="btn btn-primary float-right">Confirmar cuenta</button>
                                 </div>
                             </form>
+                            {% if errors is not empty %}
+                                {% for error in errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    <div class="iq-alert-icon">
+                                       <i class="ri-information-line"></i>
+                                    </div>
+                                    <div class="iq-alert-text">{{ error }}</div>
+                                 </div>
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>

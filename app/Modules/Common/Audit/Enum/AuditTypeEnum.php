@@ -4,7 +4,7 @@ namespace Modules\Common\Audit\Enum;
 
 enum AuditTypeEnum: string
 {
-    case TYPE_SESSION = "SESSION";
+    case TYPE_SESSION = "SESION";
     case TYPE_LOGON = "LOGON";
     case TYPE_LOGOUT = "LOGOUT";
     case TYPE_PASSWORD = "PASSWORD";

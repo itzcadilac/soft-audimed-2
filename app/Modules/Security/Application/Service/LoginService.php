@@ -8,6 +8,7 @@ use Config\Services;
 use Exception;
 
 use Modules\Users\Config\Services as UserServices;
+use Modules\Users\Domain\User;
 use Modules\Siniestro\Config\Services as SiniestroServices;
 
 class LoginService
@@ -26,12 +27,14 @@ class LoginService
         $this->aseguradoraService = SiniestroServices::AseguradoraService();
     }
 
-    public function loginUser($documentNumber, $password, $ipAddress, $hostname)
+    public function loginUser($username, $password, $ipAddress, $hostname)
     {
         $logger = Services::logger();
 
         try {
-            $result = $this->userService->getActiveUserByDocument($documentNumber);
+            $userRequest = new User();
+            $userRequest->usuario = $username;
+            $result = $this->userService->getUserByUsername($userRequest);
 
             if ($result['success']) {
                 $user = $result['data'];
