@@ -18,6 +18,7 @@ class UserRegisterController extends BaseController
     protected $userService;
 
     private const USER_REGISTER_FORM_PATH = 'users-module/form-register.twig';
+    private const USER_LIST_FORM_PATH = 'Features/usuarios.twig';
 
     public function __construct()
     {
@@ -105,6 +106,10 @@ class UserRegisterController extends BaseController
 
     public function listadoUsuarios()
     {
-        return ($this->userService->findAll());
+        $logger = Services::logger();
+        $usuarios = $this->userService->findAll();
+        $logger->info(json_encode($usuarios));
+        //return ($this->userService->findAll());
+        return $this->render(self::USER_LIST_FORM_PATH, ["usuarios" => $usuarios]);
     }
 }

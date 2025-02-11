@@ -43,15 +43,15 @@
                         </tr>
                      </thead>
                      <tbody>
-                        {% for usuarios in data.usuarios.data %}
+                        {% for usuario in usuarios %}
                               <tr>
-                                 <td>{{ usuarios.idusuario }}</td>
-                                 <td>{{ usuarios.nombres }}</td>
-                                 <td>{{ usuarios.apellidos }}</td>
-                                 <td>{{ usuarios.email }}</td>
-                                 <td>{{ usuarios.numero_documento }}</td>
-                                 <td>{{ usuarios.idperfil }}</td>
-                                 <td>{{ usuarios.activo }}</td>
+                                 <td>{{ usuario.idusuario }}</td>
+                                 <td>{{ usuario.nombres }}</td>
+                                 <td>{{ usuario.apellidos }}</td>
+                                 <td>{{ usuario.email }}</td>
+                                 <td>{{ usuario.numero_documento }}</td>
+                                 <td>{{ usuario.idperfil }}</td>
+                                 <td>{{ usuario.activo }}</td>
                                  <td>
                                     <div class="dropdown">
                                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
