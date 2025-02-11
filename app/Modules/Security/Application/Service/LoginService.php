@@ -7,6 +7,7 @@ use Config\Services;
 use Exception;
 
 use Modules\Users\Config\Services as UserServices;
+use Modules\Users\Domain\User;
 
 class LoginService
 {
@@ -22,12 +23,14 @@ class LoginService
         $this->userService = UserServices::userService();
     }
 
-    public function loginUser($documentNumber, $password, $ipAddress, $hostname)
+    public function loginUser($username, $password, $ipAddress, $hostname)
     {
         $logger = Services::logger();
 
         try {
-            $result = $this->userService->getActiveUserByDocument($documentNumber);
+            $userRequest = new User();
+            $userRequest->usuario = $username;
+            $result = $this->userService->getUserByUsername($userRequest);
 
             if ($result['success']) {
                 $user = $result['data'];

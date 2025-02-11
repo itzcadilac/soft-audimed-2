@@ -29,7 +29,8 @@ class UserModel extends Model
         'fconfirm',
         'flastpwd',
         'flastmov',
-        'flastaccess'
+        'flastaccess',
+        'confirmado'
     ];
     protected $returnType = \Modules\Users\Domain\User::class;
 }

@@ -2,11 +2,10 @@
 
 namespace Modules\Notifications\Infrastructure\Out\Persistence\Repository;
 
-use CodeIgniter\Config\Services as ConfigServices;
 use Modules\Notifications\Infrastructure\Out\Persistence\Model\NotificationModel;
+use Modules\Notifications\Domain\Notification;
 use Config\Services;
 use Exception;
-use Modules\Notifications\Domain\Notification;
 
 use function PHPUnit\Framework\isNull;
 
@@ -20,10 +19,11 @@ class NotificationRepository
     {
         $this->notificationModel = new NotificationModel();
         $this->logger = Services::logger();
-        $this->session = ConfigServices::session();
+        $this->session = service('session');
     }
 
-    public function findById($notificationId) {
+    public function findById(int $notificationId)
+    {
         try {
             // Realizamos la query
             $result = $this->notificationModel->find($notificationId);
@@ -39,7 +39,24 @@ class NotificationRepository
         }
     }
 
-    public function findByUuidAndEmail($uuid, $email)
+    public function findByEmailAndUsername(string $email, string $username)
+    {
+        try {
+            // Realizamos la query
+            $result = $this->notificationModel->where('email', $email)->where('usuario', $username)->findAll();
+            // Si no se pudo obtener el registro devolvemos un error
+            if (!$result) {
+                return errorResponse("La notificacion con el email <{$email}>, no ha sido encontrada.");
+            }
+            // Si se logro obtener el registro lo devolvemos en la respuesta
+            return successResponse($result);
+        } catch (Exception $e) {
+            $this->logger->error("NotificationRepository -> findByUuidAndEmail: {$e->getMessage()}");
+            return errorResponse();
+        }
+    }
+
+    public function findByUuidAndEmail(string $uuid, string $email)
     {
         try {
             // Realizamos la query

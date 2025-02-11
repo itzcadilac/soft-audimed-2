@@ -17,6 +17,7 @@ class NotificationData extends Entity
         "templateContent" => null,
         "templateData" => [],
         "subjectContent" => null,
-        "subjectData" => []
+        "subjectData" => [],
+        "username" => null
     ];
 }

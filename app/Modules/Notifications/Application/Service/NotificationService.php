@@ -101,7 +101,7 @@ class NotificationService
         $notification->tipo = $notificationData->type;
         $notification->fecha = date("Y-m-d H:m:s");
         $notification->fexpiracion = $expirationDate->format('Y-m-d H:i:s');
-        $notification->usuario = $templateData["nombre"];
+        $notification->usuario = $notificationData->username;
         $notification->email = $notificationData->to;
         $notification->cc = $notificationData->cc;
         $notification->bcc = $notificationData->bcc;

@@ -15,7 +15,7 @@ class User extends Entity {
         'usuario' => null,
         'passwd' => null,
         'idperfil' => null,
-        'activo' => '0',
+        'activo' => '1',
         'eliminado' => 0,
         'estadoreg' => 0,
         'email' => null,
@@ -26,7 +26,8 @@ class User extends Entity {
         'fconfirm' => null,
         'flastpwd' => null,
         'flastmov' => null,
-        'flastaccess' => null
+        'flastaccess' => null,
+        'confirmado' => 0
     ];
 
     public function getFullName(){

@@ -3,6 +3,8 @@
 namespace Modules\Users\Config;
 
 use CodeIgniter\Config\BaseService;
+use Modules\Notifications\Application\Service\GetNotificationService;
+use Modules\Notifications\Application\Service\UpdateNotificationService;
 use Modules\Users\Application\Service\DocumentTypeService;
 use Modules\Users\Application\Service\UserRegisterService;
 use Modules\Users\Infrastructure\Out\Persistence\Repository\UserRepository;
@@ -15,6 +17,8 @@ use Modules\Users\Infrastructure\Out\Persistence\Repository\ModuleByProfileRepos
 use Modules\Users\Infrastructure\Out\Persistence\Repository\PersonRepository;
 use Modules\Users\Infrastructure\Out\Persistence\Repository\ProfileRepository;
 use Modules\Users\Infrastructure\Out\Web\PersonAdapter;
+
+use Modules\Notifications\Config\Services as NotificationServices;
 
 class Services extends BaseService
 {
@@ -37,8 +41,11 @@ class Services extends BaseService
         }
 
         $userRepository = new UserRepository();
+        $notificationService = NotificationServices::notificationService();
+        $getNotificationService = NotificationServices::getNotificationService();
+        $updateNotificationService = NotificationServices::updateNotificationService();
 
-        return new UserRegisterService($userRepository);
+        return new UserRegisterService($userRepository, $notificationService, $getNotificationService, $updateNotificationService);
     }
 
     public static function moduleByProfileService()
