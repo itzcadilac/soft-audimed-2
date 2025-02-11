@@ -50,7 +50,7 @@ class SiniestroController extends BaseController
         $logger = Services::logger();
 
         try {
-            $result = $this->AseguradoraService->getAseguradoraxUser(12);
+            $result = $this->AseguradoraService->getAseguradoraxUser(12,1);
 
             //return $this->respond($result, $result["success"] ? 200 : 400);
             return $this->respond($result,200);

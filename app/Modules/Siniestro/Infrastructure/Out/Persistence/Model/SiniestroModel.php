@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 
 class SiniestroModel extends Model
 {
-    protected $table = 'siniestro';
+    protected $table = 'siniestros';
     protected $primaryKey = 'idsiniestro';
     protected $allowedFields = ['campos'];
     protected $returnType = \Modules\Siniestro\Domain\Siniestro::class;
