@@ -41,7 +41,7 @@ class LoginService
 
                 //Verificamos si el usuario tiene opciones asignadas
                 $moduleByProfile = $this->moduleByProfileService->getListModuleByProfile($user['idperfil']);
-                $asegxUser = $this->aseguradoraService->getAseguradoraxUser($user['idusuario']);
+                $asegxUser = $this->aseguradoraService->getAseguradoraxUser($user['idusuario'],1);
 
                 $logger->info("Trae la relacion de modulos: " . json_encode($moduleByProfile));
 
@@ -104,9 +104,9 @@ class LoginService
 
                         if ($data['retry'] === REINTENTOS_BLOQUEO) {
                             $data['activo'] = 0;
-                            Events::trigger('registrar_auditoria', 'session_failed', 'Cuenta bloqueada por intentos de acceso fallidos', $documentNumber);
+                            Events::trigger('registrar_auditoria', 'session_failed', 'Cuenta bloqueada por intentos de acceso fallidos', $username);
                         }else{
-                            Events::trigger('registrar_auditoria', 'session_failed', 'Intento de acceso fallido: '.$data['retry'] , $documentNumber);
+                            Events::trigger('registrar_auditoria', 'session_failed', 'Intento de acceso fallido: '.$data['retry'] , $username);
                         }
 
                         $this->userService->updateUserFretry($user['idusuario'],$data);
@@ -122,7 +122,7 @@ class LoginService
                     return errorResponse('Usuario no tiene modulos asignados');
                 }
             } else {
-                Events::trigger('registrar_auditoria', 'session_failed', null, $documentNumber);
+                Events::trigger('registrar_auditoria', 'session_failed', null, $username);
                 return errorResponse('Usuario no existe o está inactivo');
             }
         } catch (Exception $e) {

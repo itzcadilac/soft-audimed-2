@@ -14,12 +14,12 @@ class AseguradoraService
         $this->aseguradoraRepository = $aseguradoraRepository;
     }
 
-    public function getAseguradoraxUser($idUser)
+    public function getAseguradoraxUser($idUser, $idperfil)
     {
         $logger = Services::logger();
 
         try {
-            $result = $this->aseguradoraRepository->getAseguradoraxUser($idUser);
+            $result = $this->aseguradoraRepository->getAseguradoraxUser($idUser, $idperfil);
             //$logger->info("Datos en ServiceImpl: " . json_encode($result));
 
             if (!$result) {
