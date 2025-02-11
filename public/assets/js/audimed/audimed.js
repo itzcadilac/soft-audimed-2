@@ -104,7 +104,7 @@ function setIdAseguradora(idAseg){
 
                 //LLENAR CABECERA
                 // Modificar imagen
-                document.getElementById("imgLogoA").src = base_url(window.globalConfig.ruta_aseguradora);
+                document.getElementById("imgLogoA").src = base_url(`/soft-audimed-2/public/${window.globalConfig.ruta_aseguradora}`);
 
                 // Modificar texto
                 document.getElementById("txtEmpresaA").textContent = window.globalConfig.nombre_aseguradora;
@@ -252,7 +252,7 @@ function asignarLogo(){
             window.globalConfig.ruta_aseguradora = "uploads/rimac.png";
         }
         // Modificar imagen
-        document.getElementById("imgLogoA").src = base_url(window.globalConfig.ruta_aseguradora);
+        document.getElementById("imgLogoA").src = base_url(`/soft-audimed-2/public/${window.globalConfig.ruta_aseguradora}`);
 
         // Modificar texto
         document.getElementById("txtEmpresaA").textContent = window.globalConfig.nombre_aseguradora;
