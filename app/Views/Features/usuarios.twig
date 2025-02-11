@@ -148,9 +148,13 @@
 {% endblock %}
 
 {% block javascriptAPP %}
-
+<script>
+    window.globalConfig = {
+        baseUrl: "{{ base_url('/')|e('js') }}"
+    };
+</script>
 <script src="{{ base_url('assets/js/data-table.js') }}"></script>
 
-<script src="{{ base_url('assets/js/audimed/usuario/usuario.js') }}"></script>
+
 
 {% endblock %}
