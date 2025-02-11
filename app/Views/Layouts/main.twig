@@ -162,6 +162,7 @@
     <script>
         window.globalConfig = {
           baseUrl: "{{ base_url('/')|e('js') }}",
+          pathUrl: "{{ base_url('') }}",
           total_aseg_user: Number({{data.aseg_usuario|length}}),
           idaseguradora_user: Number("{{ data.idaseguradora_user }}"),
           nombre_aseguradora: "",
