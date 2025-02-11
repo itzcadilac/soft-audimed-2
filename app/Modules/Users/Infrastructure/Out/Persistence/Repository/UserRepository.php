@@ -116,5 +116,11 @@ class UserRepository
     {
         return $this->userModel->update($idUser, $data);
     }
+    
+    public function findAll()
+    {
+        return $this->userModel->findAll();
+    }
+
 
 }

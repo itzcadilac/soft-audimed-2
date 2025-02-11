@@ -15,6 +15,7 @@ class UserRegisterController extends BaseController
     protected $userRegisterService;
     protected $profileService;
     protected $documentTypeService;
+    protected $userService;
 
     private const USER_REGISTER_FORM_PATH = 'users-module/form-register.twig';
 
@@ -23,6 +24,7 @@ class UserRegisterController extends BaseController
         $this->userRegisterService = UserServices::userRegisterService();
         $this->profileService = UserServices::profileService();
         $this->documentTypeService = UserServices::documentTypeService();
+        $this->userService = UserServices::userService();
     }
 
     public function registerForm()
@@ -99,5 +101,10 @@ class UserRegisterController extends BaseController
         $user->idperfil = $formData['profile'];
         $user->email = $formData['email'];
         return $user;
+    }
+
+    public function listadoUsuarios()
+    {
+        return ($this->userService->findAll());
     }
 }

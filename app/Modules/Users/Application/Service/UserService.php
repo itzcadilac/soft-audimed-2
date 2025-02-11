@@ -53,4 +53,10 @@ class UserService
 
     }
 
+    public function findAll()
+    {
+        return $this->userRepository->findAll();
+    }
+
+
 }

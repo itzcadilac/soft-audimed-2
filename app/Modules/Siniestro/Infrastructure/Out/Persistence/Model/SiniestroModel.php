@@ -5,8 +5,8 @@ use CodeIgniter\Model;
 
 class SiniestroModel extends Model
 {
-    protected $table = 'siniestro';
-    protected $primaryKey = 'idsiniestro';
+    protected $table = 'siniestros';
+    protected $primaryKey = 'siniestroId';
     protected $allowedFields = ['campos'];
     protected $returnType = \Modules\Siniestro\Domain\Siniestro::class;
 }
