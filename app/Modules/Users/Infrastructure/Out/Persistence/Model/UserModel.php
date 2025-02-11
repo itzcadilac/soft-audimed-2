@@ -24,13 +24,17 @@ class UserModel extends Model
         'email',
         'movil',
         'idle_sesion',
-        'fcreated',
-        'fupdated',
         'fconfirm',
         'flastpwd',
         'flastmov',
         'flastaccess',
-        'confirmado'
+        'confirmado',
+        'createdat',
+        'updatedat',
+        'createdby',
+        'updatedby',
+        'retry',
+        'fretry'
     ];
     protected $returnType = \Modules\Users\Domain\User::class;
 }
