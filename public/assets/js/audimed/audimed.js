@@ -1,8 +1,15 @@
-//
 let arrayDatos = [];
 
 // Mostrar el loader antes de que se recargue la página
 window.addEventListener('beforeunload', function () {
+
+    const modal = document.getElementById('modalSeleccion');
+
+    if (modal && modal.style.display !== 'none') {
+        console.log("El modal está abierto. Se cerrará antes de recargar.");
+        modal.style.display = 'none'; // Oculta el modal manualmente
+    }
+
     document.getElementById('loader').style.display = 'flex';
 });
 
@@ -11,153 +18,221 @@ window.addEventListener('load', function () {
     document.getElementById('loader').style.display = 'none';
 });
 
+function procesarVariables(ini){
+    getAseguradorasxUsuario(ini);
+}
 
-idAsegu = sessionStorage.getItem('idAsegu');
-
-cambiarColores(idAsegu);
-
-function cambiarColores(idAsegu) {
-
-    if(idAsegu == 1){
-        // MAPFRE
-        //primary-color: #D81E05;
-        //secondary-color: #FEEDEB;
-        document.documentElement.style.setProperty('--primary-color', '#D81E05'); // Principal
-        document.documentElement.style.setProperty('--secondary-color', '#FEEDEB'); // Secundario
-        window.globalConfig.nombre_aseguradora = "MAPFRE";
-        window.globalConfig.ruta_aseguradora = "uploads/mapfre1.png";
-    }else if(idAsegu == 2){
-        // PACIFICO
-        //primary-color: #0099CC;
-        //secondary-color: #EBFAFF;
-        document.documentElement.style.setProperty('--primary-color', '#0099CC'); // Principal
-        document.documentElement.style.setProperty('--secondary-color', '#EBFAFF'); // Secundario
-        window.globalConfig.nombre_aseguradora = "PACIFICO";
-        window.globalConfig.ruta_aseguradora = "uploads/pacifico.png";
-    }else if(idAsegu == 3){
-        // RIMAC
-        //primary-color: #D81E05;
-        //secondary-color: #FEEDEB;
-        document.documentElement.style.setProperty('--primary-color', '#D81E05'); // Principal
-        document.documentElement.style.setProperty('--secondary-color', '#FEEDEB'); // Secundario
-        window.globalConfig.nombre_aseguradora = "RIMAC";
-        window.globalConfig.ruta_aseguradora = "uploads/rimac.png";
-    }else{
-        //--primary-color: #089bab
-        //--secondary-color: #eff7f8
-        document.documentElement.style.setProperty('--primary-color', '#089bab'); // Principal
-        document.documentElement.style.setProperty('--secondary-color', '#eff7f8'); // Secundario
-    }
-
- }
-
-
- document.querySelectorAll('.opcion-imagen').forEach(img => {
-
-    if(window.globalConfig.total_aseg_user > 1){
-        img.addEventListener('click', function() {
-            let opcionId = this.getAttribute('data-id');
-            //localStorage.setItem('globalAseg', opcionId); // Guardar selección
+function getAseguradorasxUsuario(ini){
     
-            cambiarColores(opcionId);
-            
-            //asignar en variable de sesion
-            setIdAseguradora(opcionId);
-    
-            //cerrar div de aseguradora y carga div de productos
-    
-            // Ocultar modal bloqueante
-            document.getElementById('modalSeleccion').style.display = 'none';
-        });
-    }
-});
-
-function setIdAseguradora(idAseg){
-
-    loader.style.display = 'flex';
-    //submitButton.disabled = true;
-
-    var csrfToken = $('meta[name="csrf_token"]').attr('content');
-
-    $.ajax({
-        url: window.globalConfig.baseUrl + 'siniestro/setAseguradora',  // URL de tu controlador
-        method: 'POST',
-        dataType: 'json',
-        data: {
-            idAseguradora: idAseg
-        },
-        headers: {
-            'X-CSRF-TOKEN': csrfToken // O enviar el token en los encabezados
-        },
-        dataType: 'json',
-        success: function(response) {
-            if (response.status === 'success') {
-
-                //Actualizar HASH
-                $('meta[name="csrf_token"]').attr('content', response.csrf_hash_gen);
-
-                window.globalConfig.idaseguradora_user = idAseg;
-
-                document.getElementById('modalSeleccion').style.display = 'flex';
-
-                document.getElementById('divAseguradora').style.display = 'none'; // Oculta el primer div
-
-                //LLENAR CABECERA
-                // Modificar imagen
-                document.getElementById("imgLogoA").src = base_url(`${window.globalConfig.ruta_aseguradora}`);
-
-                // Modificar texto
-                document.getElementById("txtEmpresaA").textContent = window.globalConfig.nombre_aseguradora;
-
-                //console.log(arrayDatos);
-                arrayDatos = Object.values(response.data);
-                generarBotones(arrayDatos);
-                $("#divTitulo").html('Elige un producto');
-                document.getElementById('divProducto').style.display = 'flex'; // Muestra el segundo div
-
-            } else {
-                console.log("Ingresa al else");
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log("Ingresa al error");
-        },
-        complete: function() {
-            // Ocultar loader y habilitar botón después de completar la solicitud
-            loader.style.display = 'none';
-            //submitButton.disabled = false;
-        }
+    fetchData({
+        url: window.globalConfig.baseUrl + 'siniestro/aseguradorasxuser',
+        method: 'GET',
+        headers: {},
+        onStart: () => inicio(),
+        onSuccess: (data) => cargarAseguradoraSuccess(data,ini),
+        onError: (error) => mensajeError(error.message)
     });
+}
+
+function cargarAseguradoraSuccess(data,ini){
+
+    //Carga el total de aseguradoras
+    window.globalConfig.total_aseg_user = data.data.length;
+
+    if(data.data.length > 0){
+        //Si solo tiene 1 aseguradora
+        if(data.data.length == 1){
+            changeColors(data.data[0]);
+            if(data.idProducto > 0){
+                //Si solo tiene 1 producto asociado
+                //renderProductos(data.idProducto);
+                getProductos(data.data[0].idaseguradora,data.idProducto);
+                return;
+            }else{
+                getProductos(data.data[0].idaseguradora,0);
+                return;
+            }
+        }else{
+            //renderizar modal
+            if(data.idaseguradora == 0 || ini == 0){
+                cargarRenderAseguradora(data);
+            }else{
+                let aseguradora = data.data.find(aseg => aseg.idaseguradora === data.idaseguradora);
+                changeColors(aseguradora);
+                if(data.idProducto > 0){
+                    //renderProductos(data.idProducto);
+                    getProductos(data.idaseguradora,data.idProducto);
+                }else{
+                    getProductos(data.idaseguradora,0);
+                }
+            }
+        }
+    }
 
 }
 
+function cargarRenderAseguradora(data){
+    
+    renderAseguradoras(data.data);
+    document.getElementById('modalSeleccion').style.display = 'flex';
+    document.getElementById('divAseguradora').style.display = 'flex';
+    document.getElementById("divProducto").style.setProperty("display", "none", "important");
+}
 
-function generarBotones(arrayDatos) {
+function renderAseguradoras(data) {
+    const divAseguradora = document.getElementById("divAseguradora");
+    
+    if (!divAseguradora) {
+        console.error("Error: No se encontró el contenedor divAseguradora");
+        return;
+    }
+
+    divAseguradora.innerHTML = ""; 
+    $("#divTitulo").html('Selecciona una aseguradora');
+
+    data.forEach(imagen => {
+        const totalElementos = data.length;
+        let colClass = "col-md-3";
+
+        if (totalElementos === 1) colClass = "col-md-12";
+        else if (totalElementos === 2) colClass = "col-md-6";
+        else if (totalElementos === 3) colClass = "col-md-4";
+        else if (totalElementos >= 4) colClass = "col-md-3";
+
+        const div = document.createElement("div");
+        div.className = colClass;
+        div.style.width = "250px";
+
+        const img = document.createElement("img");
+        img.src = window.globalConfig.baseUrl + imagen.url; 
+        img.className = "opcion-imagen rounded mr-3 img-fluid";
+        img.setAttribute("data-id", imagen.idaseguradora);
+
+        img.addEventListener("click", () => setAseguradoraFn(imagen));
+
+        div.appendChild(img);
+        divAseguradora.appendChild(div);
+    });
+}
+
+function setAseguradoraFn(imagen){
+    //Se cargan los productos asociados a la aseguradora, perfil y usuario y se setea en session idAseguradora
+    document.getElementById('modalSeleccion').style.display = 'none';
+    document.getElementById('divAseguradora').style.display = 'none';
+
+    console.log(imagen);
+    setAseguradora(imagen.idaseguradora)
+    changeColors(imagen);
+    getProductos(imagen.idaseguradora,0);
+}
+
+function setAseguradora(idAseguradora){
+    
+    var csrfToken = $('meta[name="csrf_token"]').attr('content');
+
+    fetchData({
+        url: window.globalConfig.baseUrl + 'siniestro/setAseguradora',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' , 'X-CSRF-TOKEN': csrfToken },
+        body: { 
+            idAseguradora: idAseguradora
+        },
+        onStart: () => inicio(),
+        onSuccess: (data) => console.log('ok'),
+        onError: (error) => mensajeError(error.message)
+    });
+}
+
+function getProductos(idAseguradora,idProducto){
+    //var csrfToken = $('meta[name="csrf_token"]').attr('content');
+
+    fetchData({
+        url: window.globalConfig.baseUrl + 'siniestro/productsxaseg',
+        method: 'GET',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: { 
+            idAseguradora: idAseguradora
+        },
+        onStart: () => inicio(),
+        onSuccess: (data) => procesarGetProductos(data.data,idProducto),
+        onError: (error) => mensajeError(error.message)
+    });
+}
+
+function procesarGetProductos(data,idProducto){
+    
+    arrayDatos = data;
+    let totalProductos = data.length;
+
+    if(idProducto == 0){
+        if(totalProductos == 1){
+            renderProductos(arrayDatos[0].idproducto);
+        }else{
+            generarBotones();
+        }
+    }else{
+        renderProductos(idProducto);
+    }
+}
+
+
+function generarBotones() {
+
+    //arrayDatos = Object.values(data);
+    //arrayDatos = data;
+
+    $("#divTitulo").html('Elige un producto');
+
     let contenedor = $("#divProducto");
     contenedor.html(""); // Limpia el contenedor antes de agregar los botones
 
     arrayDatos.forEach((valor, index) => {
 
         let boton = $("<button>")
-            .text(valor) // Texto del botón
-            .attr("data-valor", valor) // Agregar un atributo con el valor
+            .text(valor.descripcion) // Texto del botón
+            .attr("data-valor", valor.idproducto) // Agregar un atributo con el valor
             .addClass("btn btn-outline-primary mb-3 mr-2 btn-producto")
             .on("click", function () { 
-                ejecutarFuncion($(this).data("valor"),arrayDatos); // Llamar a la función con el valor del botón
+                setProducto(valor.idproducto); // Llamar a la función con el valor del botón
             });
 
         contenedor.append(boton); // Agregar botón al contenedor
     });
+
+    document.getElementById('modalSeleccion').style.display = 'flex';
+    document.getElementById('divProducto').style.display = 'flex';
 }
 
-function ejecutarFuncion(valor) {
-    //alert("Hiciste clic en el botón con valor: " + valor);
+function setProducto(idProducto){
+
+    document.getElementById('modalSeleccion').style.display = 'none';
+    document.getElementById('divProducto').style.display = 'none';
+
+    var csrfToken = $('meta[name="csrf_token"]').attr('content');
+
+    fetchData({
+        url: window.globalConfig.baseUrl + 'siniestro/setProducto',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' , 'X-CSRF-TOKEN': csrfToken },
+        body: { 
+            idProducto: idProducto
+        },
+        onStart: () => inicio(),
+        onSuccess: (data) => renderProductos(idProducto),
+        onError: (error) => mensajeError(error.message)
+    });
+}
+
+function renderProductos(valor){
+    loader.style.display = 'none';
+
+    let productoEncontrado = arrayDatos.find(producto => producto.idproducto === valor);
 
     // Actualizar el botón principal con el producto seleccionado
-    document.getElementById("selected-product").innerHTML = valor + ' <i class="ri-arrow-down-s-line"></i>';
+    document.getElementById("selected-product").innerHTML = productoEncontrado.descripcion + ' <i class="ri-arrow-down-s-line"></i>';
 
     // Filtrar los productos para que el seleccionado no aparezca en la lista
-    let productosRestantes = arrayDatos.filter(producto => producto !== valor);
+    let productosRestantes = arrayDatos.filter(producto => producto.idproducto !== valor);
 
     // Obtener el contenedor de la lista
     const lista = document.getElementById("product-list");
@@ -168,125 +243,117 @@ function ejecutarFuncion(valor) {
         let item = document.createElement("a");
         item.classList.add("iq-sub-card");
         item.href = "#";
-        item.textContent = producto;
+        item.textContent = producto.descripcion;
         
         // Evento para seleccionar otro producto
         item.addEventListener("click", function () {
-            ejecutarFuncion(producto); // Volver a ejecutar la función con el nuevo producto
+            setProductoFn(producto.idproducto); // Volver a ejecutar la función con el nuevo producto
         });
 
         lista.appendChild(item);
     });
-
-    document.getElementById('modalSeleccion').style.display = 'none';
-    setIdProducto(valor);
 }
 
-
-function setIdProducto(idProducto){
-
-    loader.style.display = 'flex';
-    //submitButton.disabled = true;
-
-    var csrfToken = $('meta[name="csrf_token"]').attr('content');
-
-    $.ajax({
-        url: window.globalConfig.baseUrl + 'siniestro/setProducto',  // URL de tu controlador
-        method: 'POST',
-        dataType: 'json',
-        data: {
-            idProducto: idProducto
-        },
-        headers: {
-            'X-CSRF-TOKEN': csrfToken // O enviar el token en los encabezados
-        },
-        dataType: 'json',
-        success: function(response) {
-            if (response.status === 'success') {
-
-                //Actualizar HASH
-                $('meta[name="csrf_token"]').attr('content', response.csrf_hash_gen);
-
-                window.globalConfig.idproducto_user = idProducto;
-
-                document.getElementById('modalSeleccion').style.display = 'none';
-
-            } else {
-                console.log("Ingresa al else");
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log("Ingresa al error");
-        },
-        complete: function() {
-            // Ocultar loader y habilitar botón después de completar la solicitud
-            loader.style.display = 'none';
-            //submitButton.disabled = false;
-        }
-    });
-
-}
-
-
-function base_url(uri) {
-    return window.globalConfig.baseUrl + "/" + uri;
+function setProductoFn(valor){
+    setProducto(valor);
 }
 
 
 
-function asignarLogo(){
-    if(window.globalConfig.idaseguradora_user > 0){
-
-        if(window.globalConfig.idaseguradora_user == 1){
-            window.globalConfig.nombre_aseguradora = "MAPFRE";
-            window.globalConfig.ruta_aseguradora = "uploads/mapfre1.png";
-        }
-
-        if(window.globalConfig.idaseguradora_user == 2){
-            window.globalConfig.nombre_aseguradora = "PACIFICO";
-            window.globalConfig.ruta_aseguradora = "uploads/pacifico.png";
-        }
-
-        if(window.globalConfig.idaseguradora_user == 3){
-            window.globalConfig.nombre_aseguradora = "RIMAC";
-            window.globalConfig.ruta_aseguradora = "uploads/rimac.png";
-        }
-        // Modificar imagen
-        document.getElementById("imgLogoA").src = base_url(`${window.globalConfig.ruta_aseguradora}`);
-
-        // Modificar texto
-        document.getElementById("txtEmpresaA").textContent = window.globalConfig.nombre_aseguradora;
-    }
+function inicio(){
+    console.log("Inicio");
 }
 
+function mensajeError(){
+    console.log("Ocurrio un error");
+}
+
+
+function changeColors(imagen){
+    //console.log('Dentro de changeColors: ');
+    //console.log(imagen);
+    document.documentElement.style.setProperty('--primary-color', imagen.colorprim); // Principal
+    document.documentElement.style.setProperty('--secondary-color', imagen.colorseg); // Secundario
+
+    // Modificar imagen
+    document.getElementById("imgLogoA").src = window.globalConfig.baseUrl + imagen.url;
+
+    // Modificar texto
+    document.getElementById("txtEmpresaA").textContent = imagen.nombre_comercial;
+    document.getElementById("idElegir").textContent = "Elegir aseguradora";
+}
 
 function elegirAseg(){
 
     if(window.globalConfig.total_aseg_user > 1){
-        document.getElementById('modalSeleccion').style.display = 'flex';
-        document.getElementById('divAseguradora').style.display = 'flex';
-        document.getElementById("divProducto").style.setProperty("display", "none", "important");
-            $("#divTitulo").html('Selecciona una aseguradora');
+        getAseguradorasxUsuario(0);
     }
 
 }
 
 
-function cargarProductos() {
-    const lista = document.getElementById("product-list");
-    lista.innerHTML = ""; // Limpiar lista antes de agregar nuevos productos
 
-    productos.forEach(producto => {
-        let item = document.createElement("a");
-        item.classList.add("iq-sub-card");
-        item.href = "#";
-        item.textContent = producto;
-        
-        // Evento para seleccionar el producto
-        item.addEventListener("click", function () {
-            document.getElementById("selected-product").innerHTML = producto + ' <i class="ri-arrow-down-s-line"></i>';
-        });
 
-        lista.appendChild(item);
-    });
+
+
+
+
+
+async function fetchData({ 
+    url, 
+    method = 'GET', 
+    body = null, 
+    headers = {}, 
+    onStart = () => {},      
+    onSuccess = () => {},    
+    onError = () => {}       
+}) {
+    try {
+        onStart(); 
+        loader.style.display = 'flex'; //Carga el loader
+        console.log(`Iniciando petición a: ${url} con método: ${method}`);
+
+        let defaultHeaders = { ...headers };
+        let options = { method, headers: defaultHeaders };
+
+        // Si el método es GET, pasamos los datos como parámetros en la URL
+        if (body && method === 'GET') {
+            const urlParams = new URLSearchParams(body).toString();
+            url += `?${urlParams}`;
+        } 
+        // Si el método NO es GET o DELETE, usamos el cuerpo de la petición
+        else if (body && method !== 'DELETE') {
+            if (headers['Content-Type'] === 'application/x-www-form-urlencoded') {
+                const formData = new URLSearchParams();
+                for (const key in body) {
+                    formData.append(key, body[key]);
+                }
+                options.body = formData.toString();
+            } else {
+                defaultHeaders['Content-Type'] = 'application/json';
+                options.body = JSON.stringify(body);
+            }
+        }
+
+        const response = await fetch(url, options);
+        if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
+
+        const data = await response.json();
+
+        if (data.csrf_hash_gen) {
+            $('meta[name="csrf_token"]').attr('content', data.csrf_hash_gen);
+            console.log(`CSRF actualizado: ${data.csrf_hash_gen}`);
+        }
+
+        loader.style.display = 'none'; //Se oculta el loader
+        onSuccess(data); 
+        console.log(`Petición a ${url} finalizada.`);
+        return data;
+    } catch (error) {
+        onError(error); 
+        loader.style.display = 'none'; //Se oculta el loader
+        console.error(`Error en la petición:`, error.message);
+        return { error: true, message: error.message };
+    }
 }
+

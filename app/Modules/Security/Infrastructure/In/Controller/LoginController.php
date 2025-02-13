@@ -58,4 +58,42 @@ class LoginController extends BaseController
         session()->destroy();
         return redirect()->to('/login');
     }
+
+    public function recoverPassword()
+    {
+        return $this->render('Auth/recoverPassword.twig', ['title' => 'recoverPassword', 'error' => session()->getFlashdata('error')]);
+    }
+
+    public function recoverPasswordAction(){
+
+        $logger = Services::logger();
+
+        try {
+            $data = $this->request->getJSON(true);
+
+            // Validar si los datos existen
+            if (!isset($data['identity_number'])) {
+                return $this->respond(['success' => false, 'message' => 'Falta numero documento'], 400);
+            }
+
+            if (!isset($data['email'])) {
+                return $this->respond(['success' => false, 'message' => 'Falta correo electronico'], 400);
+            }
+
+            $num_doc = $data['identity_number'];
+            $email = $data['email'];
+
+            $logger->info("Recibiendo Numero de documento: " . $num_doc);
+
+            return $this->respond([
+                'success' => true,
+                'message' => 'Solicitud procesada correctamente'
+            ], 200);
+
+        } catch (\Throwable $e) {
+            $logger->error("Error en recoverPassword: " . $e->getMessage());
+            return $this->respond(['success' => false, 'message' => 'Error en el servidor'], 500);
+        }
+
+    }
 }

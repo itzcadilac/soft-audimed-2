@@ -41,7 +41,9 @@ class LoginService
 
                 //Verificamos si el usuario tiene opciones asignadas
                 $moduleByProfile = $this->moduleByProfileService->getListModuleByProfile($user['idperfil']);
-                $asegxUser = $this->aseguradoraService->getAseguradoraxUser($user['idusuario'],1);
+                $asegxUser = $this->aseguradoraService->getAseguradoraxUser($user['idusuario'],$user['idperfil']);
+
+                //print_r($moduleByProfile);exit();
 
                 $logger->info("Trae la relacion de modulos: " . json_encode($moduleByProfile));
 
@@ -49,6 +51,7 @@ class LoginService
                     $array_modulos = $moduleByProfile["data"];
                     $array_aseg = $asegxUser["data"];
 
+                    /*
                     if(count($array_aseg) == 1) {
                         //print_r($array_aseg);exit();
                         $idAseg = $array_aseg['0']['idaseguradora'];
@@ -67,6 +70,7 @@ class LoginService
                         $idaseguradora_user = '0';
                         $idproducto_user = '0';
                     }
+                    */
 
                     if (password_verify($password, $user['passwd'])) {
                         // Guardar datos del usuario en la sesión
@@ -79,8 +83,8 @@ class LoginService
                             'idperfil' => $user['idperfil'],
                             'modulosUsuario' => $array_modulos,
                             'aseguradoras_user' => $array_aseg,
-                            'idaseguradora_user' => $idaseguradora_user,
-                            'idproducto_user' => $idproducto_user,
+                            'idaseguradora_user' => 0,
+                            'idproducto_user' => 0,
                             'isLoggedIn' => true,
                             'ipAddress' => $ipAddress,
                             'hostname' => $hostname

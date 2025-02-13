@@ -14,12 +14,17 @@ class AseguradoraService
         $this->aseguradoraRepository = $aseguradoraRepository;
     }
 
-    public function getAseguradoraxUser($idUser, $idperfil)
+    public function findById($id)
+    {
+        return $this->aseguradoraRepository->findById($id);
+    }
+
+    public function getAseguradoraxUser($idUser,$idPerfil)
     {
         $logger = Services::logger();
 
         try {
-            $result = $this->aseguradoraRepository->getAseguradoraxUser($idUser, $idperfil);
+            $result = $this->aseguradoraRepository->getAseguradoraxUser($idUser,$idPerfil);
             //$logger->info("Datos en ServiceImpl: " . json_encode($result));
 
             if (!$result) {
@@ -48,11 +53,13 @@ class AseguradoraService
             $result_r = [];
 
             // Recorrer los resultados
+            /*
             foreach ($result as $fila) {
                 $items = explode(',', $fila['productos']);
                 
                 $result_r = array_unique(array_merge($result_r, $items));
             }
+            */
 
             
 
@@ -62,7 +69,7 @@ class AseguradoraService
             exit;
             */
 
-            return successResponse($result_r,'ok');
+            return successResponse($result,'ok');
         } catch (\Throwable $e) {
             $logger->error("Error Catch en AseguradoraService: getProductsxAseg: ".$e->getMessage());
             return errorResponse('Ocurrio un error al traer los datos');

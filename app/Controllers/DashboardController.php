@@ -39,6 +39,7 @@ class DashboardController extends BaseController
         $data['usuario_session'] = $username;
         */
 
+        $data['prod_aseg'] = [];
         $session = session();
         $array_aseg_user = $session->get('aseguradoras_user');
         $idaseguradora_user = $session->get('idaseguradora_user');
@@ -57,6 +58,13 @@ class DashboardController extends BaseController
         $data['aseg_usuario'] = $array_aseg_user;
         $data['idaseguradora_user'] = $idaseguradora_user;
         $data['idproducto_user'] = $idproducto_user;
+
+        /*
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+        exit();
+        */
 
         //var_dump($username);
 

@@ -45,12 +45,32 @@ class SiniestroController extends BaseController
         return ($this->SiniestroService->delete($id));
     }
 
+    public function getAseguradoraxId($id)
+    {
+        return ($this->AseguradoraService->findById($id));
+    }
+
+    public function pacientes()
+    {
+
+        $data['siniestro'] = [];// $this->SiniestroService->getAllActiveSinistro();
+
+        return $this->render('Features/siniestro.twig', ['title' => 'Siniestro', 'data' => $data]);
+    }
+
     public function getAseguradoraxUser(){
 
         $logger = Services::logger();
 
         try {
-            $result = $this->AseguradoraService->getAseguradoraxUser(12,1);
+            $session = session();
+            $idUser = $session->get('idusuario');
+            $idPerfil = $session->get('idperfil');
+
+            $result = $this->AseguradoraService->getAseguradoraxUser($idUser,$idPerfil);
+
+            $result['idaseguradora'] = $session->get('idaseguradora_user');
+            $result['idProducto'] = $session->get('idproducto_user');
 
             //return $this->respond($result, $result["success"] ? 200 : 400);
             return $this->respond($result,200);
@@ -62,25 +82,59 @@ class SiniestroController extends BaseController
 
     }
 
+    public function getProductsxAseg(){
+
+        $logger = Services::logger();
+        $data = $this->request->getGet();
+
+        try {
+            $idAseg = $data['idAseguradora'];
+
+            $session = session();
+            $idUser = $session->get('idusuario');
+            $idPerfil = $session->get('idperfil');
+
+            $result = $this->AseguradoraService->getProductsxAseg($idAseg,$idUser,$idPerfil);
+
+            $csrfHash = csrf_hash();
+            $result["csrf_hash_gen"] = $csrfHash;
+
+            //return $this->respond($result, $result["success"] ? 200 : 400);
+            return $this->respond($result,200);
+
+        } catch (\Throwable $e) {
+            $logger->error("Error Catch en SiniestroController: getProductsxAseg: ".$e->getMessage());
+            return $this->respond('Error al obtener Productos x Aseguradora.', 500); 
+        }
+
+    }
+
+
     public function setAseguradora(){
         $data = $this->request->getPost();
         $logger = Services::logger();
 
         try {
 
-        $idAseg = $data['idAseguradora'];
+            $idAseg = $data['idAseguradora'];
 
-        $session = session();
-        $session->set('idaseguradora_user', $idAseg);
-        
+            $session = session();
+            $session->set('idaseguradora_user', $idAseg);
+            
+            /*
             $idUser = $session->get('idusuario');
             $idPerfil = $session->get('idperfil');
             $idAseguradora = $session->get('idaseguradora_user');
 
             $result = $this->AseguradoraService->getProductsxAseg($idAseg,$idUser,$idPerfil);
-            
+            */
+                
             $csrfHash = csrf_hash();
-            $result["csrf_hash_gen"] = $csrfHash;
+            $result = [
+                'status' => 'success',
+                'message' => 'ok',
+                'csrf_hash_gen' => $csrfHash
+            ];
             
             return $this->respond($result, 200);
 

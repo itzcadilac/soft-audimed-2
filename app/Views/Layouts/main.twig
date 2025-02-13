@@ -52,9 +52,26 @@
         }
 
         .btn-producto{
+            /*color: white;*/
+            /*border-color: white;*/
+            /*font-size: x-large;*/
+
+            width: 250px; /* Mismo ancho para todos */
+            height: 60px; /* Mismo alto para todos */
+            padding: 10px;
+            /*background-color: #007bff;*/
             color: white;
             border-color: white;
-            font-size: x-large;
+            /*border: none;*/
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-wrap: balance;
+            white-space: normal; /* Permite saltos de línea */
         }
 
         .contenedor-prod{
@@ -67,19 +84,18 @@
 
 </head>
 <body class="sidebar-main-menu">
-    <!-- loader Start 
+    <!-- loader Start -->
+    <!--
     <div id="loading">
         <div id="loading-center">
 
         </div>
     </div>
     -->
-
     <div id="loader">
         <div id="loader-center">
         </div>
     </div>
-
     <!-- Wrapper Start -->
     <div class="wrapper">
         {% include 'Layouts/sidebar.twig' %}
@@ -122,8 +138,8 @@
             <div class="col-12 d-flex justify-content-center flex-wrap gap-4" id="divProducto" style="display: none;">
                 {% for producto in data.prod_aseg %}
                     <button type="button" class="btn btn-outline-primary mb-3 mr-2 btn-producto" 
-                        data-id="{{ producto }}"
-                        onclick="ejecutarFuncion('{{ producto }}')">{{ producto }}</button>
+                        data-id="{{ producto.idproducto }}"
+                        onclick="ejecutarFuncion('{{ producto.idproducto }}')">{{ producto.descripcion }}</button>
                 {% endfor %}
             </div>
         </div>
@@ -163,31 +179,19 @@
     <!-- Custom JavaScript -->
     <script src="{{ base_url('assets/js/custom.js') }}"></script>
 
+    <script src="{{ base_url('assets/js/audimed/audimed.js') }}"></script>
+
     <script>
         window.globalConfig = {
           baseUrl: "{{ base_url('/')|e('js') }}",
-          pathUrl: "{{ base_url('') }}",
-          total_aseg_user: Number({{data.aseg_usuario|length}}),
-          idaseguradora_user: Number("{{ data.idaseguradora_user }}"),
-          nombre_aseguradora: "",
-          ruta_aseguradora: "",
-          idproducto_user: "{{ data.idproducto_user }}",
+          total_aseg_user:0, //Number({{data.aseg_usuario|length}}),
+          idaseguradora_user: 0, //Number("{{ data.idaseguradora_user }}"),
+          idproducto_user: 0, //"{{ data.idproducto_user }}",
         };
 
         // Evitar que el usuario cierre el modal sin seleccionar
         window.onload = function () {
-            if (window.globalConfig.idaseguradora_user == 0) {
-                document.getElementById('modalSeleccion').style.display = 'flex';
-                document.getElementById('divAseguradora').style.display = 'flex';
-            }else{
-                asignarLogo();
-                if(window.globalConfig.idproducto_user == 0){
-                    document.getElementById('modalSeleccion').style.display = 'flex';
-                    document.getElementById('divProducto').style.display = 'flex';
-                    $("#divTitulo").html('Elige un producto');
-                }
-              cambiarColores(window.globalConfig.idaseguradora_user);
-            }
+            procesarVariables(1); //Siempre se procesa
         };
 
         console.log("idAseguradora: " + window.globalConfig.idaseguradora_user);
@@ -195,8 +199,6 @@
     </script>
 
     {% block javascriptAPP %} {% endblock %}
-
-    <script src="{{ base_url('assets/js/audimed/audimed.js') }}"></script>
 
 </body>
 </html>
