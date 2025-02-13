@@ -52,7 +52,8 @@ Index Of Script
         jQuery("#load").fadeOut();
         jQuery("#loading").delay().fadeOut("");
 
-
+        //jQuery("#loader").fadeOut();
+        //jQuery("#loader-center").delay().fadeOut("");
 
         /*---------------------------------------------------------------------
         Scrollbar

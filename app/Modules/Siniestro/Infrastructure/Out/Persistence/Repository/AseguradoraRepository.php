@@ -17,19 +17,29 @@ class AseguradoraRepository
         $this->db = \Config\Database::connect(); 
     }
 
+    public function findById($id)
+    {
+        return $this->aseguradoraModel->find($id);
+    }
 
-    public function getAseguradoraxUser($idUser)
+
+    public function getAseguradoraxUser($idUser,$idPerfil)
     {
         $logger = Services::logger();
 
-        $sql = "SELECT a.*
-                from usuario_aseguradora ua 
+        $sql = "SELECT * from (
+                select idaseguradora from usuario_aseguradora 
+                    where idusuario = :idUser: and activo = :activo: 
+                    and eliminado = :eliminado: and estadoreg = :estadoreg:
+                union
+                select idaseguradora from perfil_aseguradora 
+                    where idperfil = :idPerfil: and eliminado = :eliminado: 
+                    and estadoreg = :estadoreg:)ua
                 inner join aseguradora a 
                 on a.idaseguradora = ua.idaseguradora
-                where ua.idusuario = :idUser:
-                and ua.activo = :activo: 
-                and ua.eliminado = :eliminado:
-                and ua.estadoreg = :estadoreg: 
+                where a.activo = :activo:
+                and eliminado = :eliminado:
+                and estadoreg = :estadoreg:
                 ORDER BY 1";
 
         $query = $this->db->query($sql, [
@@ -37,6 +47,7 @@ class AseguradoraRepository
                                     'activo' => 1,
                                     'eliminado' => 0,
                                     'estadoreg' => 0,
+                                    'idPerfil' => $idPerfil
                                 ]);
 
         $result = $query->getResultArray();
@@ -49,11 +60,26 @@ class AseguradoraRepository
     {
         $logger = Services::logger();
 
+        /*
         $sql = "SELECT productos from usuario_aseguradora 
                 where idusuario = :idUser: and activo = :activo: and eliminado = :eliminado: and estadoreg = :estadoreg: and idaseguradora = :idAseg:
                 union
                 select productos from perfil_aseguradora 
                 where idperfil = :idPerfil: and eliminado = :eliminado: and estadoreg = :estadoreg: and idaseguradora = :idAseg:
+                ORDER BY 1";
+        */
+
+        $sql = "SELECT distinct p.*
+                FROM (
+                    SELECT productos 
+                    FROM usuario_aseguradora 
+                    WHERE idusuario = :idUser: AND activo = :activo: AND eliminado = :eliminado: AND estadoreg = :estadoreg: AND idaseguradora = :idAseg:
+                    UNION
+                    SELECT productos 
+                    FROM perfil_aseguradora 
+                    WHERE idperfil = :idPerfil: AND eliminado = :eliminado: AND estadoreg = :estadoreg: AND idaseguradora = :idAseg:
+                ) AS tmp
+                JOIN producto p ON FIND_IN_SET(p.codeproducto, tmp.productos)
                 ORDER BY 1";
 
         $query = $this->db->query($sql, [

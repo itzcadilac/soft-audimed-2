@@ -20,4 +20,6 @@ function SecurityRoutes(RouteCollection $routes)
     });
 
     $routes->get('logout', 'LoginController::logoutAction', ['namespace' => SECURITY_MODULE_NAMESPACE]);
+    $routes->get('recoverPassword', 'LoginController::recoverPassword', ['namespace' => SECURITY_MODULE_NAMESPACE]);
+    $routes->post('recoverPassword', 'LoginController::recoverPasswordAction', ['namespace' => SECURITY_MODULE_NAMESPACE]);
 }

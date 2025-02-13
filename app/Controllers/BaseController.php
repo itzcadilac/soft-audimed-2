@@ -57,6 +57,21 @@ abstract class BaseController extends Controller
 
     protected $twig;
 
+    /*
+    public function __construct()
+    {
+        if (ENVIRONMENT === 'development') {
+            $this->removeCSRF();
+        }
+    }
+
+    private function removeCSRF()
+    {
+        $filters = config('Filters');
+        unset($filters->globals['before']['csrf']);
+    }
+    */
+
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         // Do Not Edit This Line
