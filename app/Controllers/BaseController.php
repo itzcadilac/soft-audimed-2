@@ -93,6 +93,10 @@ abstract class BaseController extends Controller
             return base_url($uri);
         }));
 
+        $this->twig->addFunction(new TwigFunction('icons', function ($uri) {
+            return base_url("/assets/icons/{$uri}");
+        }));
+
         //Para Url actual
         $this->twig->addFunction(new \Twig\TwigFunction('current_url', function () {
             return current_url();
