@@ -1,0 +1,201 @@
+{% extends 'Layouts/main.twig' %} {% block content %}
+
+{% block cssAPP %}
+<link rel="stylesheet" href="{{ base_url('assets/css/data-table.css') }}">
+
+<style>
+    .image-button:hover {
+        transform: scale(1.05);
+        /* Escala la imagen ligeramente */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        /* Agrega sombra */
+    }
+
+    .icono-bg {
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: left;
+   }
+
+   .icono-bg.candadito {
+      background-image: url("{{ icons('padlock-icon.png') }}");
+   }
+
+   .icono-bg.semaforo-amarillo {
+      background-image: url("{{ icons('semaforo-amarillo-icon.png') }}");
+   }
+
+   .icono-bg.semaforo-rojo {
+      background-image: url("{{ icons('semaforo-rojo-icon.png') }}");
+   }
+
+   .icono-bg.llave {
+      background-image: url("{{ icons('llave-icon.png') }}");
+   }
+
+   .tachado {
+      text-decoration: line-through;
+   }
+</style>
+
+{% endblock %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-lg-12">
+            <div class="iq-card">
+                <div class="iq-card-header d-flex justify-content-between">
+                    <div class="iq-header-title">
+                        <h4 class="card-title">Información del usuario</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card iq-mb-3">
+               <div class="card-body">
+                  <h4 class="card-title">INFORMACION PERSONAL</h4>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <b>Tipo de documento</b><br>
+                        {{user.numero_documento ?? "&nbsp;"}}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Número de documento</b><br>
+                        {{user.numero_documento ?? "&nbsp;"}}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Apellidos</b><br>
+                        {{user.apellidos ?? "&nbsp;"}}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Nombres</b><br>
+                        {{user.nombres ?? "&nbsp;"}}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Correo electrónico</b><br>
+                        {{user.email ?? "&nbsp;"}}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Móvil</b><br>
+                        {{user.movil ?? "&nbsp;"}}
+                    </li>
+                 </ul>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-4">
+            <div class="card iq-mb-3">
+               <div class="card-body">
+                  <h4 class="card-title">SEGURIDAD</h4>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <b>Nombre de usuario</b><br>
+                        {{user.usuario ?? "&nbsp;"}}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Perfil</b><br>
+                        {{user.perfil.name ?? "&nbsp;"}}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Estado</b><br>
+                        {% if user.activo == 1 %}
+                        Activo
+                        {% else %}
+                        Desactivado
+                        {% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        {% if user.estadoreg == 100 %}
+                        <div class="icono-bg candadito">
+                            &nbsp;</div>
+                        {% elseif user.estadoreg == 200 %}
+                        <b>Cuenta anulada</b><br>
+                        <div class="icono-bg semaforo-rojo">&nbsp;</div>
+                        {% elseif user.activo == 0 and user.estadoreg == 0 %}
+                        <b>Cuenta inactiva</b><br>
+                        <div class="icono-bg semaforo-amarillo">&nbsp;</div>
+                        {% elseif user.activo == 1 and user.estadoreg == 0 and user.eliminado == 0 and user.passwd
+                        is not null %}
+                        <div class="icono-bg llave">&nbsp;
+                        </div>
+                        {% else %}
+                        <b>&nbsp;</b><br>
+                        <div class="icono-bg">&nbsp;</div>
+                        {% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Timeout de sesión</b><br>
+                        {{user.idle_sesion ?? "&nbsp;"}}
+                    </li>
+                 </ul>
+                 <div class="text-end pt-4">
+                    <button type="button" class="btn btn-outline-danger">
+                        <i class="fa-solid fa-key"></i>Reset password
+                    </button>
+                </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-4">
+            <div class="card iq-mb-3">
+               <div class="card-body">
+                  <h4 class="card-title">ASEGURADORAS</h4>
+                  <p class="card-text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
+                  <ul class="list-group list-group-flush">
+                     <li class="list-group-item">Cras justo odio</li>
+                     <li class="list-group-item">Vestibulum at eros</li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+    </div>
+</div>
+
+<!--MODALES-->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #089bab;">
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: #eff7f8;">Seleccionar Aseguradora</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6" style="text-align: center;">
+                        <img src="{{ base_url('assets/images/mapfre1.png') }}"
+                            class="img-fluid rounded mr-3 image-button" alt="user"
+                            style="max-width: 120px; height: auto;" id="fnMapfre" />
+                    </div>
+                    <div class="col-sm-6" style="text-align: center;">
+                        <img src="{{ base_url('assets/images/pacifico.png') }}"
+                            class="img-fluid rounded mr-3 image-button" alt="user"
+                            style="max-width: 120px; height: auto;" id="fnPacifico" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <!--<button type="button" class="btn btn-primary">Confirmar</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascriptAPP %}
+<script>
+    window.globalConfig = {
+        baseUrl: "{{ base_url('/')|e('js') }}"
+    };
+</script>
+<script src="{{ base_url('assets/js/data-table.js') }}"></script>
+
+
+
+{% endblock %}

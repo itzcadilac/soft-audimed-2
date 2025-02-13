@@ -16,6 +16,7 @@ function UserRoutes(RouteCollection $routes)
 {
     $routes->group('usuarios', ['filter' => 'auth', 'namespace' => USER_MODULE_NAMESPACE], function ($routes) {
         $routes->get('nuevousuario', 'UserRegisterController::registerForm');
+        $routes->get('detalle/(:any)', 'GetUserController::getDetailForm/$1');
         $routes->post('registro', 'UserRegisterController::registerAction');
         $routes->get('valida/documento/(:any)/(:any)', 'ValidateDocumentController::getValidateDocumentAction/$1/$2');
         $routes->get('valida/nombreusuario/(:any)', 'ValidateUsernameController::getValidateUsernameAction/$1');

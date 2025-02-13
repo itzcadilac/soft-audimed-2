@@ -4,7 +4,8 @@ namespace Modules\Users\Domain;
 
 use CodeIgniter\Entity\Entity;
 
-class User extends Entity {
+class User extends Entity
+{
     protected $attributes = [
         'idusuario' => null,
         'idtipodocumento' => null,
@@ -31,10 +32,21 @@ class User extends Entity {
         'createdby' => null,
         'updatedby' => null,
         'retry' => 0,
-        'fretry' => null
+        'fretry' => null,
+        'perfil' => null
     ];
 
-    public function getFullName(){
+    protected $casts = [
+        'perfil' => 'object'
+    ];
+
+    public function getFullName()
+    {
         return $this->attributes["nombres"] . " " . $this->attributes["apellidos"];
+    }
+
+    public function setPerfil(array $data)
+    {
+        $this->attributes['perfil'] = new Profile($data);
     }
 }

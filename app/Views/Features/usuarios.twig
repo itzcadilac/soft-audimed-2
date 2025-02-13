@@ -95,10 +95,10 @@
                            <td class="text-center tachado">{{ user.movil }}</td>
                            {% else %}
                            <td class="text-center">{{ user.usuario }}</td>
-                           <td>{{ user.email }}</td>
+                           <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
                            <td class="text-center"><a href="tel:{{ user.movil }}">{{ user.movil }}</a></td>
                            {% endif %}
-                           <td class="text-center">{{ user.idperfil }}</td>
+                           <td class="text-center">{{ user.perfil.name }}</td>
                            <td>En línea</td>
                            <td class="text-center">
                               <button type="button" class="btn btn-outline-dark">
@@ -111,9 +111,9 @@
                               </button>
                            </td>
                            <td class="text-center">
-                              <button type="button" class="btn btn-outline-primary">
+                              <a href="{{base_url('usuarios/detalle')}}/{{user.idusuario}}" class="btn btn-outline-primary">
                                  <i class="fa-solid fa-magnifying-glass"></i>Info
-                              </button>
+                              </a>
                            </td>
                         </tr>
                         {% else %}

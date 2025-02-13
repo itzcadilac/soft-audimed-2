@@ -58,5 +58,7 @@ class UserService
         return $this->userRepository->findAll();
     }
 
-
+    public function getAllWithProfile($userId = null){
+        return $this->userRepository->findAllWithProfile($userId);
+    }
 }
