@@ -179,6 +179,8 @@
     <!-- Custom JavaScript -->
     <script src="{{ base_url('assets/js/custom.js') }}"></script>
 
+    <script src="{{ base_url('assets/js/audimed/audimed.js') }}"></script>
+
     <script>
         window.globalConfig = {
           baseUrl: "{{ base_url('/')|e('js') }}",
@@ -197,8 +199,6 @@
     </script>
 
     {% block javascriptAPP %} {% endblock %}
-
-    <script src="{{ base_url('assets/js/audimed/audimed.js') }}"></script>
 
 </body>
 </html>

@@ -2,6 +2,14 @@ let arrayDatos = [];
 
 // Mostrar el loader antes de que se recargue la página
 window.addEventListener('beforeunload', function () {
+
+    const modal = document.getElementById('modalSeleccion');
+
+    if (modal && modal.style.display !== 'none') {
+        console.log("El modal está abierto. Se cerrará antes de recargar.");
+        modal.style.display = 'none'; // Oculta el modal manualmente
+    }
+
     document.getElementById('loader').style.display = 'flex';
 });
 
