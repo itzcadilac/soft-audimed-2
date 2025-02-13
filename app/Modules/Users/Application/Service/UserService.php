@@ -5,14 +5,18 @@ namespace Modules\Users\Application\Service;
 use Config\Services;
 use Modules\Users\Infrastructure\Out\Persistence\Repository\UserRepository;
 use Exception;
+use Modules\Users\Domain\User;
 
 class UserService
 {
     protected $userRepository;
+    protected $logger;
 
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
+        $this->logger = Services::logger();
+
     }
 
     public function getActiveUserByDocument($documentNumber)
@@ -20,15 +24,20 @@ class UserService
         try {
             return $this->userRepository->findByDocumentAndStatus($documentNumber, ACTIVE_VALUE);
         } catch (Exception $e) {
-            return errorResponse('Ocurrio un error al traer los datos');
+            return errorResponse();
+        }
+    }
+
+    public function getUserByUsername(User $user){
+        try {
+            return $this->userRepository->findByUsername($user->usuario);
+        } catch (Exception $e) {
+            return errorResponse();
         }
     }
 
     public function updateUserFretry($idUser, $data)
     {
-
-        $logger = Services::logger();
-
         try {
             $result = $this->userRepository->updateUserFretry($idUser, $data);
 
@@ -38,10 +47,16 @@ class UserService
 
             return successResponse($result,'ok');
         } catch (\Throwable $e) {
-            $logger->error("Error Catch en UserService: updateUserFretry: ".$e->getMessage());
+            $this->logger->error("Error Catch en UserService: updateUserFretry: ".$e->getMessage());
             return errorResponse('Ocurrio un error al traer los datos');
         }
 
     }
+
+    public function findAll()
+    {
+        return $this->userRepository->findAll();
+    }
+
 
 }

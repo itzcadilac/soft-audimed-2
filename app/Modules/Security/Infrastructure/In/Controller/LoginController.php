@@ -27,15 +27,17 @@ class LoginController extends BaseController
         $logger = Services::logger();
 
         try {
-            $documentNumber = $this->request->getPost('username');
+            $username = $this->request->getPost('username');
             $password = $this->request->getPost('password');
+            $ipAddress = $this->request->getIPAddress();
+            $hostname = gethostbyaddr($ipAddress);
 
-            if (!$documentNumber || !$password) {
+            if (!$username || !$password) {
                 session()->setFlashdata('error', 'Todos los campos son obligatorios.');
                 return redirect()->back();
             }
 
-            $result = $this->loginService->loginUser($documentNumber, $password);
+            $result = $this->loginService->loginUser($username, $password, $ipAddress, $hostname);
 
             if ($result['success']) {
                 return redirect()->to('/inicio');

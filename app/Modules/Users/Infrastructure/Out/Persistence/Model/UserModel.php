@@ -20,7 +20,24 @@ class UserModel extends Model
         'idperfil',
         'activo',
         'retry',
+        'fretry',
+        'eliminado',
+        'estadoreg',
+        'email',
+        'movil',
+        'idle_sesion',
+        'fconfirm',
+        'flastpwd',
+        'flastmov',
+        'flastaccess',
+        'confirmado',
+        'createdat',
+        'updatedat',
+        'createdby',
+        'updatedby',
+        'retry',
         'fretry'
     ];
     protected $returnType = \Modules\Users\Domain\User::class;
+
 }

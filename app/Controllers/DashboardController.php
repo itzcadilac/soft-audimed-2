@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\Config\Services as ConfigServices;
 use CodeIgniter\HTTP\ResponseInterface;
 use Modules\Siniestro\Config\Services as AseguradoraService;
 use Config\Services;
@@ -19,6 +20,7 @@ class DashboardController extends BaseController
     public function index()
     {
         $logger = Services::logger();
+        $this->session = ConfigServices::session();
 
         /*
         $data['menuItems'] = [

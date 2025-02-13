@@ -52,6 +52,8 @@ class AseguradoraRepository
 
         $result = $query->getResultArray();
 
+        $logger->info(json_encode($result));
+
         return $result;
 
     }

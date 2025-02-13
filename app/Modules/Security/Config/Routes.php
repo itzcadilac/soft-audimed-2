@@ -14,6 +14,11 @@ const SECURITY_MODULE_NAMESPACE = 'Modules\Security\Infrastructure\In\Controller
 
 function SecurityRoutes(RouteCollection $routes)
 {
+    $routes->group('usuarios', ['namespace' => SECURITY_MODULE_NAMESPACE], function ($routes) {
+        $routes->get('confirmacion', 'ConfirmAccountController::confirmForm');
+        $routes->post('confirmacion', 'ConfirmAccountController::confirmAction');
+    });
+
     $routes->group('', ['filter' => 'loginFilter', 'namespace' => SECURITY_MODULE_NAMESPACE], function ($routes) {
         $routes->get('login', 'LoginController::loginForm');
         $routes->post('login', 'LoginController::loginAction');

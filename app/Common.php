@@ -14,6 +14,7 @@
  * @see: https://codeigniter.com/user_guide/extending/common.html
  */
 
+use Psr\Log\LogLevel;
  if (!function_exists('successResponse')) {
     function successResponse($data =[], $message = 'Operación exitosa.', $status = 'success' )
     {
@@ -21,9 +22,9 @@
             'status'  => $status,
             'success' => true,
             'message' => $message,
-            'data'    => is_object($data) && method_exists($data, 'toArray') 
-                            ? $data->toArray() 
-                            : $data,
+            'data'    => is_object($data) && method_exists($data, 'toArray')
+                ? $data->toArray()
+                : $data,
         ];
     }
 }
@@ -35,9 +36,32 @@ if (!function_exists('errorResponse')) {
             'status'  => $status,
             'success' => false,
             'message' => $message,
-            'data'    => is_object($data) && method_exists($data, 'toArray') 
-                            ? $data->toArray() 
-                            : $data,
+            'data'    => is_object($data) && method_exists($data, 'toArray')
+                ? $data->toArray()
+                : $data,
         ];
+    }
+}
+
+if (!function_exists('auditEventTrigger')) {
+    /**
+     * Lanza un evento que permite guardar datos en auditoria
+     * @param AuditTypeEnum $type Tipo de auditoria
+     * @param string $description Descripcion de la auditoria generada
+     * @param mixed $content Informacion que se quiere auditar
+     */
+    function auditEventTrigger($type, $description, $data = [])
+    {
+        // Creamos la auditoria y seteamos los datos
+        $audit = new Modules\Common\Audit\Entity\Audit();
+        $audit->tipo = $type->value;
+        $audit->descripcion = $description;
+        $data = is_object($data) && method_exists($data, 'toArray') ? $data->toArray() : $data;
+        if (!empty($data)) {
+            $audit->contenido = json_encode($data);
+        }
+
+        // Lanzamos el evento
+        CodeIgniter\Events\Events::trigger(EVENT_SAVE_AUDIT, $audit->toArray());
     }
 }

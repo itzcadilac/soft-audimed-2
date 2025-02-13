@@ -8,6 +8,7 @@ use Config\Services;
 use Exception;
 
 use Modules\Users\Config\Services as UserServices;
+use Modules\Users\Domain\User;
 use Modules\Siniestro\Config\Services as SiniestroServices;
 
 class LoginService
@@ -26,12 +27,14 @@ class LoginService
         $this->aseguradoraService = SiniestroServices::AseguradoraService();
     }
 
-    public function loginUser($documentNumber, $password)
+    public function loginUser($username, $password, $ipAddress, $hostname)
     {
         $logger = Services::logger();
 
         try {
-            $result = $this->userService->getActiveUserByDocument($documentNumber);
+            $userRequest = new User();
+            $userRequest->usuario = $username;
+            $result = $this->userService->getUserByUsername($userRequest);
 
             if ($result['success']) {
                 $user = $result['data'];
@@ -83,6 +86,8 @@ class LoginService
                             'idaseguradora_user' => 0,
                             'idproducto_user' => 0,
                             'isLoggedIn' => true,
+                            'ipAddress' => $ipAddress,
+                            'hostname' => $hostname
                         ]);
 
                         $data = [
@@ -103,9 +108,9 @@ class LoginService
 
                         if ($data['retry'] === REINTENTOS_BLOQUEO) {
                             $data['activo'] = 0;
-                            Events::trigger('registrar_auditoria', 'session_failed', 'Cuenta bloqueada por intentos de acceso fallidos', $documentNumber);
+                            Events::trigger('registrar_auditoria', 'session_failed', 'Cuenta bloqueada por intentos de acceso fallidos', $username);
                         }else{
-                            Events::trigger('registrar_auditoria', 'session_failed', 'Intento de acceso fallido: '.$data['retry'] , $documentNumber);
+                            Events::trigger('registrar_auditoria', 'session_failed', 'Intento de acceso fallido: '.$data['retry'] , $username);
                         }
 
                         $this->userService->updateUserFretry($user['idusuario'],$data);
@@ -121,7 +126,7 @@ class LoginService
                     return errorResponse('Usuario no tiene modulos asignados');
                 }
             } else {
-                Events::trigger('registrar_auditoria', 'session_failed', null, $documentNumber);
+                Events::trigger('registrar_auditoria', 'session_failed', null, $username);
                 return errorResponse('Usuario no existe o está inactivo');
             }
         } catch (Exception $e) {
