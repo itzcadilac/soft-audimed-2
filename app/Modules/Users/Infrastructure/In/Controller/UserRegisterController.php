@@ -6,26 +6,23 @@ use App\Controllers\BaseController;
 use Modules\Users\Domain\User;
 use Config\Services;
 use Exception;
-use Modules\Common\Audit\Enum\LogLevelEnum;
 use Modules\Users\Config\Services as UserServices;
-use Psr\Log\LogLevel;
 
 class UserRegisterController extends BaseController
 {
     protected $userRegisterService;
     protected $profileService;
     protected $documentTypeService;
-    protected $userService;
+    protected $logger;
 
     private const USER_REGISTER_FORM_PATH = 'users-module/form-register.twig';
-    private const USER_LIST_FORM_PATH = 'Features/usuarios.twig';
 
     public function __construct()
     {
         $this->userRegisterService = UserServices::userRegisterService();
         $this->profileService = UserServices::profileService();
         $this->documentTypeService = UserServices::documentTypeService();
-        $this->userService = UserServices::userService();
+        $this->logger = Services::logger();
     }
 
     public function registerForm()
@@ -45,8 +42,6 @@ class UserRegisterController extends BaseController
 
     public function registerAction()
     {
-        $logger = Services::logger();
-
         try {
             // Obtenemos los datos del request
             $formData = $this->request->getPost();
@@ -66,7 +61,7 @@ class UserRegisterController extends BaseController
             }
             return $this->responseCreated('Usuario creado correctamente', $csrfHash);
         } catch (Exception $e) {
-            $logger->error($e->getMessage());
+            $this->logger->error($e->getMessage());
             $csrfHash = csrf_hash();
             return $this->responseError('Hubo un error al guardar la información.', $csrfHash);
         }
@@ -102,14 +97,5 @@ class UserRegisterController extends BaseController
         $user->idperfil = $formData['profile'];
         $user->email = $formData['email'];
         return $user;
-    }
-
-    public function listadoUsuarios()
-    {
-        $logger = Services::logger();
-        $usuarios = $this->userService->findAll();
-        $logger->info(json_encode($usuarios));
-        //return ($this->userService->findAll());
-        return $this->render(self::USER_LIST_FORM_PATH, ["usuarios" => $usuarios]);
     }
 }

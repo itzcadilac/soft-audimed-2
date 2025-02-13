@@ -10,10 +10,13 @@ use Modules\Users\Domain\User;
 class UserService
 {
     protected $userRepository;
+    protected $logger;
 
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
+        $this->logger = Services::logger();
+
     }
 
     public function getActiveUserByDocument($documentNumber)
@@ -35,9 +38,6 @@ class UserService
 
     public function updateUserFretry($idUser, $data)
     {
-
-        $logger = Services::logger();
-
         try {
             $result = $this->userRepository->updateUserFretry($idUser, $data);
 
@@ -47,7 +47,7 @@ class UserService
 
             return successResponse($result,'ok');
         } catch (\Throwable $e) {
-            $logger->error("Error Catch en UserService: updateUserFretry: ".$e->getMessage());
+            $this->logger->error("Error Catch en UserService: updateUserFretry: ".$e->getMessage());
             return errorResponse('Ocurrio un error al traer los datos');
         }
 

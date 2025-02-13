@@ -39,4 +39,5 @@ class UserModel extends Model
         'fretry'
     ];
     protected $returnType = \Modules\Users\Domain\User::class;
+
 }

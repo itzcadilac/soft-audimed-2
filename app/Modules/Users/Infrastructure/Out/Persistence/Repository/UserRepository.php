@@ -95,9 +95,7 @@ class UserRepository
             // Si el registro se guardo correctamente lo devolvemos en la respuesta
             return successResponse($savedUser);
         } catch (Exception $e) {
-            $logger->error("Error Catch en UserRepository: guardarUsuario: " . $e->getMessage());
-            return errorResponse('Hubo un error al guardar');
-            $this->logger->error("UserRepository -> save: {$e->getMessage()}");
+            $this->logger->error("Error Catch en UserRepository: guardarUsuario: " . $e->getMessage());
             return errorResponse();
         }
     }
@@ -119,7 +117,19 @@ class UserRepository
     
     public function findAll()
     {
-        return $this->userModel->findAll();
+        try {
+            // Realizamos la query
+            $result = $this->userModel->findAll();
+            // Si no se pudo obtener el registro devolvemos un error
+            if (!$result) {
+                return errorResponse('No hay usuarios para mostrar.');
+            }
+            // Si se logro obtener el registro lo devolvemos en la respuesta
+            return successResponse($result);
+        } catch (Exception $e) {
+            $this->logger->error("UserRepository -> findAll: {$e->getMessage()}");
+            return errorResponse();
+        }
     }
 
 

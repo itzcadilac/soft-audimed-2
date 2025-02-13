@@ -19,6 +19,6 @@ function UserRoutes(RouteCollection $routes)
         $routes->post('registro', 'UserRegisterController::registerAction');
         $routes->get('valida/documento/(:any)/(:any)', 'ValidateDocumentController::getValidateDocumentAction/$1/$2');
         $routes->get('valida/nombreusuario/(:any)', 'ValidateUsernameController::getValidateUsernameAction/$1');
-        $routes->get('listausuarios', 'UserRegisterController::listadoUsuarios');
+        $routes->get('listausuarios', 'GetUserController::getAllUsersForm');
     });
 }
