@@ -132,5 +132,20 @@ class UserRepository
         }
     }
 
-
+    public function findAllWithProfile($userId = null)
+    {
+        try {
+            // Realizamos la query
+            $result = $this->userModel->getUserWithProfile($userId);
+            // Si no se pudo obtener el registro devolvemos un error
+            if (!$result) {
+                return errorResponse('No hay usuarios para mostrar.');
+            }
+            // Si se logro obtener el registro lo devolvemos en la respuesta
+            return successResponse($result);
+        } catch (Exception $e) {
+            $this->logger->error("UserRepository -> findAllWithProfile: {$e->getMessage()}");
+            return errorResponse();
+        }
+    }
 }

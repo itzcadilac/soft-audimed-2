@@ -13,6 +13,7 @@ class GetUserController extends BaseController
     protected $logger;
 
     private const USER_LIST_FORM_PATH = 'Features/usuarios.twig';
+    private const USER_DETAIL_FORM_PATH = 'users-module/user_detail.twig';
 
     public function __construct()
     {
@@ -22,15 +23,30 @@ class GetUserController extends BaseController
 
     public function getAllUsersForm()
     {
-        return $this->render(self::USER_LIST_FORM_PATH, $this->getDataToForm());
+        return $this->render(self::USER_LIST_FORM_PATH, $this->getDataToListForm());
     }
 
-    private function getDataToForm()
+    private function getDataToListForm()
     {
-        $listUsers = $this->userService->findAll();
-        $this->logger->info(json_encode($listUsers["data"]));
+        $listUsers = $this->userService->getAllWithProfile();
         return array(
             "userList" => $listUsers["data"]
+        );
+    }
+
+    public function getDetailForm($userId)
+    {
+        return $this->render(self::USER_DETAIL_FORM_PATH, $this->getDataToDetailForm($userId));
+    }
+
+    private function getDataToDetailForm($userId)
+    {
+        $users = $this->userService->getAllWithProfile($userId);
+        $userFound = $users["data"][0];
+        $this->logger->debug("usuario encontrado");
+        $this->logger->debug(json_encode($userFound));
+        return array(
+            "user" => $userFound
         );
     }
 
