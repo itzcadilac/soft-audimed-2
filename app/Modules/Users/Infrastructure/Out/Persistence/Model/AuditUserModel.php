@@ -50,4 +50,28 @@ class AuditUserModel extends Model
 
         return $auditusers;
     }
+
+    public function getUserAuditoryLim($userId = null)
+    {
+        // Definimos los campos a devolver y especificamos el join
+        $query = $this->select([
+            'auditoria.*'
+        ]);
+
+        if (!is_null($userId)) {
+            $query->where("idusuario", $userId);
+        }
+        $query->limit(5);
+        $result = $query->findAll();
+
+        $auditusersLim = [];
+        foreach ($result as $row) {
+            // Volcamos la informacion de la tabla principal (usuarios) a la clase User
+            $audituserLim = new AuditUser($row->toArray());
+
+            $auditusersLim[] = $audituserLim;
+        }
+
+        return $auditusersLim;
+    }
 }

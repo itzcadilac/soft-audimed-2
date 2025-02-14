@@ -70,8 +70,12 @@ class UserService
         return $this->userRepository->findAllAuditUser($userId);
     }
 
-    public function getInfoUser($userId = null){
-        return $this->userRepository->findAllInfoUser($userId);
+    public function getMovLimUser($userId = null){
+        return $this->userRepository->findLimMovUser($userId);
+    }
+
+    public function getAuditLimUser($userId = null){
+        return $this->userRepository->findLimAuditUser($userId);
     }
 
 }

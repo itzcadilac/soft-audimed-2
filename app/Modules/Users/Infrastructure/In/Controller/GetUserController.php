@@ -70,6 +70,14 @@ class GetUserController extends BaseController
         );
     }
 
+    private function getDataUserMovLimForm($userId)
+    {
+        $movtLimUsers = $this->userService->getMovLimUser($userId);
+        return array(
+            "userMovLim" => $movtLimUsers["data"]
+        );
+    }
+
     public function getAuditoryDetailForm($userId)
     {
         return $this->render(self::USER_AUD_FORM_PATH, $this->getDataUserAudForm($userId));
@@ -85,4 +93,13 @@ class GetUserController extends BaseController
             "user" => $userFound
         );
     }
+
+    private function getDataUserAudLimForm($userId)
+    {
+        $auditLimUsers = $this->userService->getAuditLimUser($userId);
+        return array(
+            "userAuditLim" => $auditLimUsers["data"]
+        );
+    }
+    
 }
