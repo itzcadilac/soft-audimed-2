@@ -72,6 +72,42 @@ class UserRegisterService
         return $notificationData;
     }
 
+    public function resetPassword($userId){
+        try {
+            // Buscamos el usuario por id
+            $userFound = $this->userRepository->findById($userId);
+            if (!$userFound["success"]) {
+                return errorResponse($userFound["message"]);
+            }
+            $userData = $userFound["data"];
+            $user = new User($userData);
+            // Genera la data para la notificacion
+            $notificationData = $this->createNotificationResetPasswordData($user);
+            // Se guardan los datos del registro en auditoria
+            auditEventTrigger(AuditTypeEnum::TYPE_RESET_PASSWORD , "Reseteo contraseña <{$user->usuario}>");
+            // Envia la notificacion
+            $this->notificationService->send($notificationData);
+            // Guarda al usuario
+            return successResponse($userData);
+        } catch (Exception $e) {
+            $this->logger->error("UserRegisterService -> resetPassword: {$e->getMessage()}");
+            return errorResponse($e->getMessage());
+        }
+    }
+
+    private function createNotificationResetPasswordData(User $user)
+    {
+        $notificationData = new NotificationData();
+        $notificationData->to = $user->email;
+        $notificationData->templateCode = "EMAIL_RESET_PWD";
+        $notificationData->username = $user->usuario;
+        $notificationData->templateData = [
+            "nombre" => $user->getFullName(),
+            "email" => $user->email
+        ];
+        return $notificationData;
+    }
+
     public function confirmPassword(string $username, string $password, string $email)
     {
         try {
