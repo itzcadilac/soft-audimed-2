@@ -4,6 +4,9 @@ namespace Modules\Security\Config;
 
 use CodeIgniter\Config\BaseService;
 use Modules\Security\Application\Service\LoginService;
+use Modules\Security\Application\Service\PasswordRecoveryService;
+use Modules\Security\Application\Service\RecoverPasswordService;
+use Modules\Security\Infrastructure\Out\Persistence\Repository\PasswordRecoveryRepository;
 
 class Services extends BaseService
 {
@@ -16,5 +19,15 @@ class Services extends BaseService
         $session = service('session');
 
         return new LoginService($session);
+    }
+
+    public static function passwordRecoveryService()
+    {
+        if (static::hasInstance('PasswordRecoveryService')) {
+            return static::getSharedInstance('PasswordRecoveryService');
+        }
+
+        $passwordRecoveryRepository = new PasswordRecoveryRepository();
+        return new PasswordRecoveryService($passwordRecoveryRepository);
     }
 }
