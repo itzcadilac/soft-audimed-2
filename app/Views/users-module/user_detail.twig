@@ -181,29 +181,34 @@
 						<h4 class="card-title">SISTEMA</h4>
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item">
-								<b>Tipo de documento</b><br>
-								{{user.numero_documento ?? "&nbsp;"}}
+								<b>Estado</b><br>
+								Disponible
+								<!--{{user.estadoreg ?? "&nbsp;"}}-->
 							</li>
 							<li class="list-group-item">
-								<b>Número de documento</b><br>
-								{{user.numero_documento ?? "&nbsp;"}}
+								<b>Último Movimiento</b><br>
+								{{user.flastmov ?? "&nbsp;"}}
 							</li>
 							<li class="list-group-item">
-								<b>Apellidos</b><br>
-								{{user.apellidos ?? "&nbsp;"}}
+								<b>Último Acceso</b><br>
+								{{user.flastaccess ?? "&nbsp;"}}
 							</li>
 							<li class="list-group-item">
-								<b>Nombres</b><br>
-								{{user.nombres ?? "&nbsp;"}}
+								<b>Fecha de Creación</b><br>
+								{{user.createdat ?? "&nbsp;"}}
 							</li>
 							<li class="list-group-item">
-								<b>Correo electrónico</b><br>
-								{{user.email ?? "&nbsp;"}}
+								<b>Última Actualización</b><br>
+								{{user.updatedat ?? "&nbsp;"}}
 							</li>
 							<li class="list-group-item">
-								<b>Móvil</b><br>
-								{{user.movil ?? "&nbsp;"}}
+								<b>Fecha de Confirmación</b><br>
+								{{user.fconfirm ?? "&nbsp;"}}
 							</li>
+							<li class="list-group-item">
+								<b>Fecha Última Contraseña</b><br>
+								{{user.flastpwd ?? "&nbsp;"}}
+							</li>							
 						</ul>
 					</div>
 				</div>
