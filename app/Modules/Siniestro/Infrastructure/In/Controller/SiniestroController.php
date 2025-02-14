@@ -96,8 +96,7 @@ class SiniestroController extends BaseController
 
             $result = $this->AseguradoraService->getProductsxAseg($idAseg,$idUser,$idPerfil);
 
-            $csrfHash = csrf_hash();
-            $result["csrf_hash_gen"] = $csrfHash;
+            //$result["csrf_hash_gen"] = csrf_hash();
 
             //return $this->respond($result, $result["success"] ? 200 : 400);
             return $this->respond($result,200);
@@ -129,11 +128,10 @@ class SiniestroController extends BaseController
             $result = $this->AseguradoraService->getProductsxAseg($idAseg,$idUser,$idPerfil);
             */
                 
-            $csrfHash = csrf_hash();
             $result = [
                 'status' => 'success',
                 'message' => 'ok',
-                'csrf_hash_gen' => $csrfHash
+                'csrf_hash_gen' => csrf_hash()
             ];
             
             return $this->respond($result, 200);
@@ -156,13 +154,11 @@ class SiniestroController extends BaseController
 
             $session = session();
             $session->set('idproducto_user', $idProducto);
-
-            $csrfHash = csrf_hash();
                 
             $result = [
                 'status' => 'success',
                 'message' => 'ok',
-                'csrf_hash_gen' => $csrfHash
+                'csrf_hash_gen' => csrf_hash()
             ];
 
             return $this->respond($result, 200);

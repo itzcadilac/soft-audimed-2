@@ -6,7 +6,7 @@ window.addEventListener('beforeunload', function () {
     const modal = document.getElementById('modalSeleccion');
 
     if (modal && modal.style.display !== 'none') {
-        console.log("El modal está abierto. Se cerrará antes de recargar.");
+        //console.log("El modal está abierto. Se cerrará antes de recargar.");
         modal.style.display = 'none'; // Oculta el modal manualmente
     }
 
@@ -23,11 +23,13 @@ function procesarVariables(ini){
 }
 
 function getAseguradorasxUsuario(ini){
+
+    let csrfToken = $('meta[name="csrf_token"]').attr('content');
     
     fetchData({
         url: window.globalConfig.baseUrl + 'siniestro/aseguradorasxuser',
         method: 'GET',
-        headers: {},
+        headers: {'X-CSRF-TOKEN': csrfToken},
         onStart: () => inicio(),
         onSuccess: (data) => cargarAseguradoraSuccess(data,ini),
         onError: (error) => mensajeError(error.message)
@@ -120,7 +122,7 @@ function setAseguradoraFn(imagen){
     document.getElementById('modalSeleccion').style.display = 'none';
     document.getElementById('divAseguradora').style.display = 'none';
 
-    console.log(imagen);
+    //console.log(imagen);
     setAseguradora(imagen.idaseguradora)
     changeColors(imagen);
     getProductos(imagen.idaseguradora,0);
@@ -128,7 +130,7 @@ function setAseguradoraFn(imagen){
 
 function setAseguradora(idAseguradora){
     
-    var csrfToken = $('meta[name="csrf_token"]').attr('content');
+    let csrfToken = $('meta[name="csrf_token"]').attr('content');
 
     fetchData({
         url: window.globalConfig.baseUrl + 'siniestro/setAseguradora',
@@ -146,10 +148,12 @@ function setAseguradora(idAseguradora){
 function getProductos(idAseguradora,idProducto){
     //var csrfToken = $('meta[name="csrf_token"]').attr('content');
 
+    let csrfToken = $('meta[name="csrf_token"]').attr('content');
+
     fetchData({
         url: window.globalConfig.baseUrl + 'siniestro/productsxaseg',
         method: 'GET',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRF-TOKEN': csrfToken },
         body: { 
             idAseguradora: idAseguradora
         },
@@ -208,7 +212,7 @@ function setProducto(idProducto){
     document.getElementById('modalSeleccion').style.display = 'none';
     document.getElementById('divProducto').style.display = 'none';
 
-    var csrfToken = $('meta[name="csrf_token"]').attr('content');
+    let csrfToken = $('meta[name="csrf_token"]').attr('content');
 
     fetchData({
         url: window.globalConfig.baseUrl + 'siniestro/setProducto',
@@ -310,8 +314,8 @@ async function fetchData({
 }) {
     try {
         onStart(); 
-        loader.style.display = 'flex'; //Carga el loader
-        console.log(`Iniciando petición a: ${url} con método: ${method}`);
+        document.getElementById('loader').style.display = 'flex'; //Carga el loader
+        //console.log(`Iniciando petición a: ${url} con método: ${method}`);
 
         let defaultHeaders = { ...headers };
         let options = { method, headers: defaultHeaders };
@@ -342,18 +346,35 @@ async function fetchData({
 
         if (data.csrf_hash_gen) {
             $('meta[name="csrf_token"]').attr('content', data.csrf_hash_gen);
-            console.log(`CSRF actualizado: ${data.csrf_hash_gen}`);
+            //console.log(`CSRF actualizado: ${data.csrf_hash_gen}`);
         }
 
-        loader.style.display = 'none'; //Se oculta el loader
+        document.getElementById('loader').style.display = 'none'; //Se oculta el loader
         onSuccess(data); 
-        console.log(`Petición a ${url} finalizada.`);
+        //console.log(`Petición a ${url} finalizada.`);
         return data;
     } catch (error) {
         onError(error); 
-        loader.style.display = 'none'; //Se oculta el loader
-        console.error(`Error en la petición:`, error.message);
+        if (error.message.includes('419')) { 
+            //console.warn("CSRF token inválido. Obteniendo nuevo token...");
+            refreshCsrfToken();
+        }
+        document.getElementById('loader').style.display = 'none'; //Se oculta el loader
+        //console.error(`Error en la petición:`, error.message);
         return { error: true, message: error.message };
+    }
+}
+
+async function refreshCsrfToken() {
+    try {
+        const csrfResponse = await fetch(window.globalConfig.baseUrl + 'getCsrfToken');
+        const csrfData = await csrfResponse.json();
+        if (csrfData.csrf_hash_gen) {
+            document.querySelector('meta[name="csrf_token"]').setAttribute('content', csrfData.csrf_hash_gen);
+            //console.log(`Nuevo CSRF Token actualizado: ${csrfData.csrf_hash_gen}`);
+        }
+    } catch (error) {
+        console.error("Error al actualizar el CSRF Token:", error.message);
     }
 }
 

@@ -25,6 +25,14 @@ function SecurityRoutes(RouteCollection $routes)
     });
 
     $routes->get('logout', 'LoginController::logoutAction', ['namespace' => SECURITY_MODULE_NAMESPACE]);
-    $routes->get('recoverPassword', 'LoginController::recoverPassword', ['namespace' => SECURITY_MODULE_NAMESPACE]);
-    $routes->post('recoverPassword', 'LoginController::recoverPasswordAction', ['namespace' => SECURITY_MODULE_NAMESPACE]);
+
+    $routes->group('password-recovery', ['namespace' => SECURITY_MODULE_NAMESPACE], function ($routes) {
+        $routes->get('request-view', 'PasswordRecoveryController::requestRecoveryView');
+        $routes->post('request', 'PasswordRecoveryController::requestRecovery');
+        $routes->get('reset-view', 'PasswordRecoveryController::resetPasswordView');
+        $routes->post('reset', 'PasswordRecoveryController::resetPassword');
+        $routes->get('testmail', 'PasswordRecoveryController::sendTestEmail');
+        
+    });
+
 }
