@@ -21,5 +21,7 @@ function UserRoutes(RouteCollection $routes)
         $routes->get('valida/documento/(:any)/(:any)', 'ValidateDocumentController::getValidateDocumentAction/$1/$2');
         $routes->get('valida/nombreusuario/(:any)', 'ValidateUsernameController::getValidateUsernameAction/$1');
         $routes->get('listausuarios', 'GetUserController::getAllUsersForm');
+        $routes->get('movusuario/(:any)', 'GetUserController::getMovemenstDetailForm/$1');
+        $routes->get('auditusuario/(:any)', 'GetUserController::getAuditoryDetailForm/$1');
     });
 }

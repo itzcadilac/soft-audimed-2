@@ -1,0 +1,149 @@
+{% extends 'Layouts/main.twig' %} {% block content %}
+
+{% block cssAPP %}
+<link rel="stylesheet" href="{{ base_url('assets/css/data-table.css') }}">
+
+<style>
+   .image-button:hover {
+      transform: scale(1.05);
+      /* Escala la imagen ligeramente */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      /* Agrega sombra */
+   }
+
+   .icono-bg {
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+   }
+
+   .icono-bg.candadito {
+      background-image: url("{{ icons('padlock-icon.png') }}");
+   }
+
+   .icono-bg.semaforo-amarillo {
+      background-image: url("{{ icons('semaforo-amarillo-icon.png') }}");
+   }
+
+   .icono-bg.semaforo-rojo {
+      background-image: url("{{ icons('semaforo-rojo-icon.png') }}");
+   }
+
+   .icono-bg.llave {
+      background-image: url("{{ icons('llave-icon.png') }}");
+   }
+
+   .tachado {
+      text-decoration: line-through;
+   }
+</style>
+
+{% endblock %}
+
+<div class="container-fluid">
+
+   <div class="row">
+      <div class="col-sm-12">
+               <div class="iq-header-title">
+                  <h2 style="color:orangered;margin-bottom:20px">{{user.nombres ?? "&nbsp;"}} {{user.apellidos ?? "&nbsp;"}}</h2>
+               </div>
+         <div class="iq-card">
+            <div class="iq-card-header d-flex justify-content-between">
+               <div class="iq-header-title">
+                  <h4 class="card-title" style="font-weight:bold">Movimientos del Usuario</h4>
+               </div>
+               <div class="iq-card-header-toolbar d-flex align-items-center">
+               </div>
+            </div>
+            <div class="iq-card-body">
+               <div class="table-responsive">
+                  <table id="datatable" class="table table-striped table-bordered">
+                     <thead>
+                        <tr>
+                           <th class="text-center">Orden</th>
+                           <th class="text-center">Fecha Movimiento</th>                           
+                           <th class="text-center">Módulo</th>
+                           <th class="text-center">Tipo</th>
+                           <th class="text-center">Descripción</th>
+                           <th class="text-center">Contenido</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for mov in userMov %}
+                        <tr>
+                           <td class="text-center">{{ loop.index }}</td>
+                           <td>{{ mov.createdat }}</td>                           
+                           <td class="text-center">{{ mov.modulo }}</td>
+                           <td class="text-center">{{ mov.tipo }}</td>
+                           <td class="text-center">{{ mov.descripcion }}</td>
+                           <td class="text-center">{{ mov.contenido }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                           <td class="text-center" colspan="7">No hay registros disponibles.</td>
+                        </tr>
+                        {% endfor %}
+                     </tbody>
+                     <tfoot>
+                        <tr>
+                           <th class="text-center">Orden</th>
+                           <th class="text-center">Fecha Movimiento</th>                           
+                           <th class="text-center">Módulo</th>
+                           <th>Tipo</th>
+                           <th class="text-center">Descripción</th>
+                           <th class="text-center">Contenido</th>
+                        </tr>
+                     </tfoot>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!--MODALES-->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+   aria-labelledby="staticBackdropLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header" style="background-color: #089bab;">
+            <h5 class="modal-title" id="staticBackdropLabel" style="color: #eff7f8;">Seleccionar Aseguradora</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <div class="row">
+               <div class="col-sm-6" style="text-align: center;">
+                  <img src="{{ base_url('assets/images/mapfre1.png') }}" class="img-fluid rounded mr-3 image-button"
+                     alt="user" style="max-width: 120px; height: auto;" id="fnMapfre" />
+               </div>
+               <div class="col-sm-6" style="text-align: center;">
+                  <img src="{{ base_url('assets/images/pacifico.png') }}" class="img-fluid rounded mr-3 image-button"
+                     alt="user" style="max-width: 120px; height: auto;" id="fnPacifico" />
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <!--<button type="button" class="btn btn-primary">Confirmar</button>-->
+         </div>
+      </div>
+   </div>
+</div>
+
+{% endblock %}
+
+{% block javascriptAPP %}
+<script>
+   window.globalConfig = {
+      baseUrl: "{{ base_url('/')|e('js') }}"
+   };
+</script>
+<script src="{{ base_url('assets/js/data-table.js') }}"></script>
+
+
+
+{% endblock %}

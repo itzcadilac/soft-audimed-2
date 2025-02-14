@@ -61,4 +61,17 @@ class UserService
     public function getAllWithProfile($userId = null){
         return $this->userRepository->findAllWithProfile($userId);
     }
+
+    public function getMovUser($userId = null){
+        return $this->userRepository->findAllMovUser($userId);
+    }
+
+    public function getAuditUser($userId = null){
+        return $this->userRepository->findAllAuditUser($userId);
+    }
+
+    public function getInfoUser($userId = null){
+        return $this->userRepository->findAllInfoUser($userId);
+    }
+
 }

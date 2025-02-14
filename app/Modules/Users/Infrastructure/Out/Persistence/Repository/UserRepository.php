@@ -3,7 +3,11 @@
 namespace Modules\Users\Infrastructure\Out\Persistence\Repository;
 
 use Modules\Users\Infrastructure\Out\Persistence\Model\UserModel;
+use Modules\Users\Infrastructure\Out\Persistence\Model\MovUserModel;
+use Modules\Users\Infrastructure\Out\Persistence\Model\AuditUserModel;
 use Modules\Users\Domain\User;
+use Modules\Users\Domain\MovUser;
+use Modules\Users\Domain\AuditUser;
 use Config\Services;
 use Exception;
 
@@ -12,11 +16,15 @@ use function PHPUnit\Framework\isNull;
 class UserRepository
 {
     protected $userModel;
+    protected $userMovModel;
+    protected $userAuditModel;
     protected $logger;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
+        $this->userMovModel = new MovUserModel();
+        $this->userAuditModel = new AuditUserModel();
         $this->logger = Services::logger();
     }
 
@@ -145,6 +153,57 @@ class UserRepository
             return successResponse($result);
         } catch (Exception $e) {
             $this->logger->error("UserRepository -> findAllWithProfile: {$e->getMessage()}");
+            return errorResponse();
+        }
+    }
+
+    public function findAllMovUser($userId = null)
+    {
+        try {
+            // Realizamos la query
+            $result = $this->userMovModel->getUserMovements($userId);
+            // Si no se pudo obtener el registro devolvemos un error
+            if (!$result) {
+                return errorResponse('No hay movimientos para mostrar.');
+            }
+            // Si se logro obtener el registro lo devolvemos en la respuesta
+            return successResponse($result);
+        } catch (Exception $e) {
+            $this->logger->error("UserRepository -> findAllMovUser: {$e->getMessage()}");
+            return errorResponse();
+        }
+    }
+
+    public function findAllAuditUser($userId = null)
+    {
+        try {
+            // Realizamos la query
+            $result = $this->userAuditModel->getUserAuditory($userId);
+            // Si no se pudo obtener el registro devolvemos un error
+            if (!$result) {
+                return errorResponse('No hay movimientos para mostrar.');
+            }
+            // Si se logro obtener el registro lo devolvemos en la respuesta
+            return successResponse($result);
+        } catch (Exception $e) {
+            $this->logger->error("UserRepository -> findAllAuditUser: {$e->getMessage()}");
+            return errorResponse();
+        }
+    }
+
+    public function findAllInfoUser($userId = null)
+    {
+        try {
+            // Realizamos la query
+            $result = $this->userAuditModel->getUserInfo($userId);
+            // Si no se pudo obtener el registro devolvemos un error
+            if (!$result) {
+                return errorResponse('No hay movimientos para mostrar.');
+            }
+            // Si se logro obtener el registro lo devolvemos en la respuesta
+            return successResponse($result);
+        } catch (Exception $e) {
+            $this->logger->error("UserRepository -> findAllAuditUser: {$e->getMessage()}");
             return errorResponse();
         }
     }

@@ -14,6 +14,8 @@ class GetUserController extends BaseController
 
     private const USER_LIST_FORM_PATH = 'Features/usuarios.twig';
     private const USER_DETAIL_FORM_PATH = 'users-module/user_detail.twig';
+    private const USER_MOV_FORM_PATH = 'Features/movimientosusuario.twig';
+    private const USER_AUD_FORM_PATH = 'Features/auditoriausuario.twig';
 
     public function __construct()
     {
@@ -50,4 +52,35 @@ class GetUserController extends BaseController
         );
     }
 
+    public function getMovemenstDetailForm($userId)
+    {
+        return $this->render(self::USER_MOV_FORM_PATH, $this->getDataUserMovForm($userId));
+    }
+
+    private function getDataUserMovForm($userId)
+    {
+        $movtUsers = $this->userService->getMovUser($userId);
+        $users = $this->userService->getAllWithProfile($userId);
+        $userFound = $users["data"][0];
+        return array(
+            "userMov" => $movtUsers["data"],
+            "user" => $userFound
+        );
+    }
+
+    public function getAuditoryDetailForm($userId)
+    {
+        return $this->render(self::USER_AUD_FORM_PATH, $this->getDataUserAudForm($userId));
+    }
+
+    private function getDataUserAudForm($userId)
+    {
+        $auditUsers = $this->userService->getAuditUser($userId);
+        $users = $this->userService->getAllWithProfile($userId);
+        $userFound = $users["data"][0];
+        return array(
+            "userAudit" => $auditUsers["data"],
+            "user" => $userFound
+        );
+    }
 }
