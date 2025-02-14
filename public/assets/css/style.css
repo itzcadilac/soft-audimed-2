@@ -63,9 +63,9 @@ NOTE: This file contains the styling for responsive Template.
 /*--------------------------------------------------------------------
                             General
 ---------------------------------------------------------------------*/
-*::-moz-selection { background: #089bab; color: #fff; text-shadow: none; }
-::-moz-selection { background: #089bab; color: #fff; text-shadow: none; }
-::selection { background: #089bab; color: #fff; text-shadow: none; }
+*::-moz-selection { background: #E66A47; color: #fff; text-shadow: none; }
+::-moz-selection { background: #E66A47; color: #fff; text-shadow: none; }
+::selection { background: #E66A47; color: #fff; text-shadow: none; }
 
 /* Definition Lists */
 dl dd { margin-bottom: 15px; }
@@ -73,7 +73,7 @@ dl dd:last-child { margin-bottom: 0px; }
 
 /* Table */
 .table td, .table th { vertical-align: middle; }
-a:hover { text-decoration: none; color: #02818f; }
+a:hover { text-decoration: none; color: #E66A47; }
 .dropdown-item { font-size: 14px; }
 .dropdown-menu { border-radius: 10px; }
 
@@ -210,7 +210,7 @@ a:hover { text-decoration: none; color: #02818f; }
 .iq-social-media li a { height: 30px; width: 30px; text-align: center; font-size: 18px; line-height: 30px; display: inline-block; -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px; background: #eff7f8; color: #089bab !important; }
 .iq-social-media li a:hover { text-decoration: none; }
 .sign-in-page .sign-in-page-bg { position: relative; overflow: hidden; }
-.sign-in-page .sign-in-page-bg::after { position: absolute; content: ""; top: 0; bottom: 0; left: 0; right: 270px; z-index: -1; border-radius: 40px; background: rgba(8, 155, 171, 1); background: -moz-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%); background: -webkit-gradient(left top, right top, color-stop(0%, rgba(8, 155, 171, 1)), color-stop(100%, rgba(13, 181, 200, 1))); background: -webkit-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%); background: -o-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%); background: -ms-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%); background: linear-gradient(to right, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#089bab', endColorstr='#0db5c8', GradientType=1); }
+.sign-in-page .sign-in-page-bg::after { position: absolute; content: ""; top: 0; bottom: 0; left: 0; right: 270px; z-index: -1; border-radius: 40px; background: #E66A47; background: -moz-linear-gradient(left, #E66A47 0%, #E66A47 100%); background: -webkit-gradient(left top, right top, color-stop(0%, #E66A47), color-stop(100%, #E66A47)); background: -webkit-linear-gradient(left, #E66A47 0%, #E66A47 100%); background: -o-linear-gradient(left, #E66A47 0%, #E66A47 100%); background: -ms-linear-gradient(left, #E66A47 0%, #E66A47 100%); background: linear-gradient(to right, #E66A47 0%, #E66A47 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#089bab', endColorstr='#0db5c8', GradientType=1); }
 
 /*---------------------------------------------------------------------
                                Dash Hover
@@ -395,7 +395,7 @@ body.sidebar-main .iq-menu-bt-sidebar .iq-menu-bt { opacity: 1; }
 /*---------------------------------------------------------------------
                               Content Page
 -----------------------------------------------------------------------*/
-/*.wrapper { background: rgba(8, 155, 171, 1); background: -moz-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%); background: -webkit-gradient(left top, right top, color-stop(0%, rgba(8, 155, 171, 1)), color-stop(100%, rgba(13, 181, 200, 1))); background: -webkit-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%); background: -o-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%); background: -ms-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%); background: linear-gradient(to right, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#089bab', endColorstr='#0db5c8', GradientType=1); }*/
+/*.wrapper { background: rgba(8, 155, 171, 1); background: -moz-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%); background: -webkit-gradient(left top, right top, color-stop(0%, rgba(8, 155, 171, 1)), color-stop(100%, rgba(13, 181, 200, 1))); background: -webkit-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%); background: -o-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%); background: -ms-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%); background: linear-gradient(to right, #E66A47 0%, #E66A47 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#089bab', endColorstr='#0db5c8', GradientType=1); }*/
 .content-page { margin-left: 260px; overflow: hidden; padding: 120px 15px 0; min-height: 100vh; -webkit-transition: all 0.3s ease-out 0s; -moz-transition: all 0.3s ease-out 0s; -ms-transition: all 0.3s ease-out 0s; -o-transition: all 0.3s ease-out 0s; transition: all 0.3s ease-out 0s; background: #eff7f8; border-radius: 25px 0 0 25px; }
 .iq-user-dropdown { width: 350px; }
 body.sidebar-main .iq-top-navbar { width: calc(100% - 140px); }

@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #089bab; /* Color inicial por defecto */
+  --primary-color: #E66A47; /* Color inicial por defecto */
   --secondary-color: #eff7f8;
 }
 
@@ -31,7 +31,7 @@ PACIFICO
 
 #loader-center {
   border: 8px solid #f3f3f3;
-  border-top: 8px solid #3498db;
+  border-top: 8px solid #E66A47;
   border-radius: 50%;
   width: 60px;
   height: 60px;
