@@ -4,6 +4,7 @@ namespace Modules\Users\Infrastructure\Out\Persistence\Model;
 
 use CodeIgniter\Model;
 use Modules\Users\Domain\User;
+use Modules\Users\Domain\MovUser;
 
 class UserModel extends Model
 {
@@ -87,5 +88,28 @@ class UserModel extends Model
         }
 
         return $users;
+    }
+
+    public function getUserMovements($userId = null)
+    {
+        // Definimos los campos a devolver y especificamos el join
+        $query = $this->select([
+            'movimientos.*'
+        ]);
+
+        if (!is_null($userId)) {
+            $query->where("idusuario", $userId);
+        }
+        $result = $query->findAll();
+
+        $movusers = [];
+        foreach ($result as $row) {
+            // Volcamos la informacion de la tabla principal (usuarios) a la clase User
+            $movuser = new MovUser($row->toArray());
+
+            $movusers[] = $movuser;
+        }
+
+        return $movusers;
     }
 }
