@@ -191,11 +191,11 @@ class UserRepository
         }
     }
 
-    public function findAllInfoUser($userId = null)
+    public function findLimMovUser($userId = null)
     {
         try {
             // Realizamos la query
-            $result = $this->userAuditModel->getUserInfo($userId);
+            $result = $this->userMovModel->getUserMovementsLim($userId);
             // Si no se pudo obtener el registro devolvemos un error
             if (!$result) {
                 return errorResponse('No hay movimientos para mostrar.');
@@ -203,8 +203,26 @@ class UserRepository
             // Si se logro obtener el registro lo devolvemos en la respuesta
             return successResponse($result);
         } catch (Exception $e) {
-            $this->logger->error("UserRepository -> findAllAuditUser: {$e->getMessage()}");
+            $this->logger->error("UserRepository -> findLimMovUser: {$e->getMessage()}");
             return errorResponse();
         }
     }
+
+    public function findLimAuditUser($userId = null)
+    {
+        try {
+            // Realizamos la query
+            $result = $this->userAuditModel->getUserAuditoryLim($userId);
+            // Si no se pudo obtener el registro devolvemos un error
+            if (!$result) {
+                return errorResponse('No hay movimientos para mostrar.');
+            }
+            // Si se logro obtener el registro lo devolvemos en la respuesta
+            return successResponse($result);
+        } catch (Exception $e) {
+            $this->logger->error("UserRepository -> findLimAuditUser: {$e->getMessage()}");
+            return errorResponse();
+        }
+    }
+
 }

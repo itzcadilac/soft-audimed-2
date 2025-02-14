@@ -47,4 +47,28 @@ class MovUserModel extends Model
 
         return $movusers;
     }
+
+    public function getUserMovementsLim($userId = null)
+    {
+        // Definimos los campos a devolver y especificamos el join
+        $query = $this->select([
+            'movimientos.*'
+        ]);
+
+        if (!is_null($userId)) {
+            $query->where("idusuario", $userId);
+        }
+        $query->limit(5);
+        $result = $query->findAll();
+
+        $movuserslim = [];
+        foreach ($result as $row) {
+            // Volcamos la informacion de la tabla principal (usuarios) a la clase User
+            $movuserlim = new MovUser($row->toArray());
+
+            $movuserslim[] = $movuserlim;
+        }
+
+        return $movuserslim;
+    }
 }

@@ -4,12 +4,13 @@ namespace Modules\Users\Infrastructure\In\Controller;
 
 use App\Controllers\BaseController;
 use Modules\Users\Config\Services as UserServices;
+use Modules\Siniestro\Config\Services as SiniestroServices;
 use Config\Services;
 
 class GetUserController extends BaseController
 {
-
     protected $userService;
+    protected $aseguradoraService;
     protected $logger;
 
     private const USER_LIST_FORM_PATH = 'Features/usuarios.twig';
@@ -21,6 +22,7 @@ class GetUserController extends BaseController
     {
         $this->userService = UserServices::userService();
         $this->logger = Services::logger();
+        $this->aseguradoraService = SiniestroServices::AseguradoraService();
     }
 
     public function getAllUsersForm()
@@ -45,10 +47,10 @@ class GetUserController extends BaseController
     {
         $users = $this->userService->getAllWithProfile($userId);
         $userFound = $users["data"][0];
-        $this->logger->debug("usuario encontrado");
-        $this->logger->debug(json_encode($userFound));
+        $insuranceCompany = $this->aseguradoraService->getAseguradoraxUser($userFound->idusuario, $userFound->idperfil);
         return array(
-            "user" => $userFound
+            "user" => $userFound,
+            "insuranceCompanyList" => $insuranceCompany["data"]
         );
     }
 
@@ -68,6 +70,14 @@ class GetUserController extends BaseController
         );
     }
 
+    private function getDataUserMovLimForm($userId)
+    {
+        $movtLimUsers = $this->userService->getMovLimUser($userId);
+        return array(
+            "userMovLim" => $movtLimUsers["data"]
+        );
+    }
+
     public function getAuditoryDetailForm($userId)
     {
         return $this->render(self::USER_AUD_FORM_PATH, $this->getDataUserAudForm($userId));
@@ -83,4 +93,13 @@ class GetUserController extends BaseController
             "user" => $userFound
         );
     }
+
+    private function getDataUserAudLimForm($userId)
+    {
+        $auditLimUsers = $this->userService->getAuditLimUser($userId);
+        return array(
+            "userAuditLim" => $auditLimUsers["data"]
+        );
+    }
+    
 }
