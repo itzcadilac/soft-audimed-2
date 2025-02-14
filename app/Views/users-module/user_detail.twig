@@ -140,7 +140,42 @@
 					</div>
 				</div>
 			</div>
-            <div class="col-sm-4">
+			<div class="col-sm-4">
+				<div class="card iq-mb-3">
+					<div class="card-body">
+						<h4 class="card-title">ASEGURADORAS</h4>
+						<div class="table-responsive">
+							<table id="datatable" class="table table-striped table-bordered">
+								<thead>
+									<tr>
+									<th>Nombre</th>
+									<th>Productos</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for insuranceCompany in insuranceCompanyList %}
+									<tr>
+									<td>{{ insuranceCompany.nombre_comercial }}</td>
+									<td>{{ insuranceCompany.producto }}</td>
+									</tr>
+									{% else %}
+									<tr>
+									<td class="text-center" colspan="7">No hay registros disponibles.</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+								<tfoot>
+									<tr>
+									<th>Nombre</th>
+									<th>Productos</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+            <div class="col-sm-3">
 				<div class="card iq-mb-3">
 					<div class="card-body">
 						<h4 class="card-title">SISTEMA</h4>
@@ -173,142 +208,98 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-12">
+			
+            <div class="col-sm-4">
 				<div class="card iq-mb-3">
-					<div class="card-body">
-						<h4 class="card-title">ASEGURADORAS</h4>
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item">
-								<b>Nombre de usuario</b><br>
-								{{user.usuario ?? "&nbsp;"}}
-							</li>
-							<li class="list-group-item">
-								<b>Perfil</b><br>
-								{{user.perfil.name ?? "&nbsp;"}}
-							</li>
-							<li class="list-group-item">
-								<b>Estado</b><br>
-								{% if user.activo == 1 %}
-									Activo
-								{% else %}
-									Desactivado
-								{% endif %}
-							</li>
-							<li class="list-group-item">
-								{% if user.estadoreg == 100 %}
-									<div class="icono-bg candadito">
-										&nbsp;</div>
-								{% elseif user.estadoreg == 200 %}
-									<b>Cuenta anulada</b><br>
-									<div class="icono-bg semaforo-rojo">&nbsp;</div>
-								{% elseif user.activo == 0 and user.estadoreg == 0 %}
-									<b>Cuenta inactiva</b><br>
-									<div class="icono-bg semaforo-amarillo">&nbsp;</div>
-								{% elseif user.activo == 1 and user.estadoreg == 0 and user.eliminado == 0 and user.passwd
-                        is not null %}
-									<div class="icono-bg llave">&nbsp;
-									</div>
-								{% else %}
-									<b>&nbsp;</b><br>
-									<div class="icono-bg">&nbsp;</div>
-								{% endif %}
-							</li>
-							<li class="list-group-item">
-								<b>Timeout de sesión</b><br>
-								{{user.idle_sesion ?? "&nbsp;"}}
-							</li>
-						</ul>
-						<div class="text-end pt-4">
-							<button type="button" class="btn btn-outline-danger">
-								<i class="fa-solid fa-key"></i>Reset password
-							</button>
+					<div class="iq-card-header d-flex justify-content-between pt-4 pl-4 pr-4">
+						<div class="iq-header-title">
+							<h4 class="card-title">MOVIMIENTOS</h4>
 						</div>
+						<div class="iq-card-header-toolbar d-flex align-items-center">
+						   <a href="http://localhost/soft-audimed-2/public/usuarios/nuevousuario" class="btn btn-primary btn-sm"><i class="fa-solid fa-ellipsis-vertical"></i>Ver todos</a>
+						</div>
+					 </div>
+					<div class="card-body">
+						<table id="datatable" class="table table-striped table-bordered">
+							<thead>
+								<tr>
+								<th class="text-center">Orden</th>
+								<th>Fecha/Hora</th>
+								<th>Modulo</th>
+								<th>Tipo</th>
+								<th>Descripcion</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for movement in movements %}
+								<tr>
+								<td class="text-center">{{ loop.index }}</td>
+								<td>{{ movement.createdat }}</td>
+								<td>{{ movement.modulo }}</td>
+								<td>{{ movement.tipo }}</td>
+								<td>{{ movement.descripcion }}</td>
+								</tr>
+								{% else %}
+								<tr>
+								<td class="text-center" colspan="7">No hay registros disponibles.</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+							<tfoot>
+								<th class="text-center">Orden</th>
+								<th>Fecha/Hora</th>
+								<th>Modulo</th>
+								<th>Tipo</th>
+								<th>Descripcion</th>
+							</tfoot>
+						</table>
 					</div>
 				</div>
 			</div>
-            <div class="col-sm-6">
+			<div class="col-sm-5">
 				<div class="card iq-mb-3">
-					<div class="card-body">
-						<h4 class="card-title">MOVIMIENTOS</h4>
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item">
-								<b>Tipo de documento</b><br>
-								{{user.numero_documento ?? "&nbsp;"}}
-							</li>
-							<li class="list-group-item">
-								<b>Número de documento</b><br>
-								{{user.numero_documento ?? "&nbsp;"}}
-							</li>
-							<li class="list-group-item">
-								<b>Apellidos</b><br>
-								{{user.apellidos ?? "&nbsp;"}}
-							</li>
-							<li class="list-group-item">
-								<b>Nombres</b><br>
-								{{user.nombres ?? "&nbsp;"}}
-							</li>
-							<li class="list-group-item">
-								<b>Correo electrónico</b><br>
-								{{user.email ?? "&nbsp;"}}
-							</li>
-							<li class="list-group-item">
-								<b>Móvil</b><br>
-								{{user.movil ?? "&nbsp;"}}
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="card iq-mb-3">
-					<div class="card-body">
-						<h4 class="card-title">AUDITORIA</h4>
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item">
-								<b>Nombre de usuario</b><br>
-								{{user.usuario ?? "&nbsp;"}}
-							</li>
-							<li class="list-group-item">
-								<b>Perfil</b><br>
-								{{user.perfil.name ?? "&nbsp;"}}
-							</li>
-							<li class="list-group-item">
-								<b>Estado</b><br>
-								{% if user.activo == 1 %}
-									Activo
-								{% else %}
-									Desactivado
-								{% endif %}
-							</li>
-							<li class="list-group-item">
-								{% if user.estadoreg == 100 %}
-									<div class="icono-bg candadito">
-										&nbsp;</div>
-								{% elseif user.estadoreg == 200 %}
-									<b>Cuenta anulada</b><br>
-									<div class="icono-bg semaforo-rojo">&nbsp;</div>
-								{% elseif user.activo == 0 and user.estadoreg == 0 %}
-									<b>Cuenta inactiva</b><br>
-									<div class="icono-bg semaforo-amarillo">&nbsp;</div>
-								{% elseif user.activo == 1 and user.estadoreg == 0 and user.eliminado == 0 and user.passwd
-                        is not null %}
-									<div class="icono-bg llave">&nbsp;
-									</div>
-								{% else %}
-									<b>&nbsp;</b><br>
-									<div class="icono-bg">&nbsp;</div>
-								{% endif %}
-							</li>
-							<li class="list-group-item">
-								<b>Timeout de sesión</b><br>
-								{{user.idle_sesion ?? "&nbsp;"}}
-							</li>
-						</ul>
-						<div class="text-end pt-4">
-							<button type="button" class="btn btn-outline-danger">
-								<i class="fa-solid fa-key"></i>Reset password
-							</button>
+					<div class="iq-card-header d-flex justify-content-between pt-4 pl-4 pr-4">
+						<div class="iq-header-title">
+							<h4 class="card-title">AUDITORIA</h4>
 						</div>
+						<div class="iq-card-header-toolbar d-flex align-items-center">
+						   <a href="http://localhost/soft-audimed-2/public/usuarios/nuevousuario" class="btn btn-primary btn-sm"><i class="fa-solid fa-ellipsis-vertical"></i>Ver todos</a>
+						</div>
+					 </div>
+					<div class="card-body">
+						<table id="datatable" class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<th class="text-center">Orden</th>
+									<th>Fecha/Hora</th>
+									<th>Tipo</th>
+									<th>Descripcion</th>
+									<th>Enlace</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for audit in audits %}
+								<tr>
+								<td class="text-center">{{ loop.index }}</td>
+								<td>{{ audit.createdat }}</td>
+								<td>{{ audit.tipo }}</td>
+								<td>{{ audit.descripcion }}</td>
+								<td>&nbsp;</td>
+								</tr>
+								{% else %}
+								<tr>
+								<td class="text-center" colspan="7">No hay registros disponibles.</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+							<tfoot>
+								<th class="text-center">Orden</th>
+								<th>Fecha/Hora</th>
+								<th>Tipo</th>
+								<th>Descripcion</th>
+								<th>Enlace</th>
+							</tfoot>
+						</table>
 					</div>
 				</div>
 			</div>

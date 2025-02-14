@@ -48,9 +48,13 @@ class GetUserController extends BaseController
         $users = $this->userService->getAllWithProfile($userId);
         $userFound = $users["data"][0];
         $insuranceCompany = $this->aseguradoraService->getAseguradoraxUser($userFound->idusuario, $userFound->idperfil);
+        $movements = $this->userService->getMovLimUser($userId);
+        $audits = $this->userService->getAuditLimUser($userId);
         return array(
             "user" => $userFound,
-            "insuranceCompanyList" => $insuranceCompany["data"]
+            "insuranceCompanyList" => $insuranceCompany["data"],
+            "movements" => $movements["data"],
+            "audits" => $audits["data"],
         );
     }
 
