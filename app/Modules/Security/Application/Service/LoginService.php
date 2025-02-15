@@ -10,6 +10,7 @@ use Exception;
 use Modules\Users\Config\Services as UserServices;
 use Modules\Users\Domain\User;
 use Modules\Siniestro\Config\Services as SiniestroServices;
+use DateTime;
 
 class LoginService
 {
@@ -29,6 +30,7 @@ class LoginService
 
     public function loginUser($username, $password, $ipAddress, $hostname)
     {
+        $feclastaccess = new DateTime();
         $logger = Services::logger();
 
         try {
@@ -92,7 +94,8 @@ class LoginService
 
                         $data = [
                             'retry' => 0,
-                            'fretry' => null //date('Y-m-d H:i:s'),
+                            'fretry' => null, //date('Y-m-d H:i:s'),
+                            'flastaccess' => date('Y-m-d H:i:s')
                         ];
 
                         $this->userService->updateUserFretry($user['idusuario'],$data);

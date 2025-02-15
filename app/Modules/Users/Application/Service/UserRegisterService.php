@@ -11,6 +11,7 @@ use Modules\Notifications\Application\Service\UpdateNotificationService;
 use Modules\Notifications\Domain\NotificationData;
 use Config\Services;
 use Exception;
+use DateTime;
 
 class UserRegisterService
 {
@@ -110,6 +111,7 @@ class UserRegisterService
 
     public function confirmPassword(string $username, string $password, string $email)
     {
+        $fecact = new DateTime();
         try {
             // buscamos el usuario con el username
             $userFound = $this->userRepository->findByUsername($username);
@@ -120,6 +122,7 @@ class UserRegisterService
             // Se actualiza el usuario con la contraseña
             $userData->passwd = password_hash($password, PASSWORD_BCRYPT);
             $userData->confirmado = 1;
+            $userData->flastpwd = $fecact->format('Y-m-d H:i:s');
             $savedUser = $this->userRepository->save($userData);
             if (!$savedUser["success"]) {
                 return errorResponse($savedUser["message"]);
