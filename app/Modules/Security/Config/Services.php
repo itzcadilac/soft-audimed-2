@@ -8,6 +8,8 @@ use Modules\Security\Application\Service\PasswordRecoveryService;
 use Modules\Security\Application\Service\RecoverPasswordService;
 use Modules\Security\Infrastructure\Out\Persistence\Repository\PasswordRecoveryRepository;
 
+use Modules\Notifications\Config\Services as NotificationServices;
+
 class Services extends BaseService
 {
     public static function loginService()
@@ -27,7 +29,8 @@ class Services extends BaseService
             return static::getSharedInstance('PasswordRecoveryService');
         }
 
+        $notificationService = NotificationServices::notificationService();
         $passwordRecoveryRepository = new PasswordRecoveryRepository();
-        return new PasswordRecoveryService($passwordRecoveryRepository);
+        return new PasswordRecoveryService($passwordRecoveryRepository,$notificationService);
     }
 }

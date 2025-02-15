@@ -32,7 +32,6 @@ function SecurityRoutes(RouteCollection $routes)
         $routes->get('reset-view', 'PasswordRecoveryController::resetPasswordView');
         $routes->post('reset', 'PasswordRecoveryController::resetPassword');
         $routes->get('testmail', 'PasswordRecoveryController::sendTestEmail');
-        
     });
 
 }

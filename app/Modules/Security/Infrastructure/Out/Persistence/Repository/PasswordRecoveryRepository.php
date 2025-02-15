@@ -28,12 +28,12 @@ class PasswordRecoveryRepository
 
     public function saveRecoveryToken($usuario,$email,$token)
     {
-        $this->db->query("INSERT INTO notificaciones (tipo,usuario,email,token_fcm) VALUES (?, ?, ?, ?)", ['EMAIL_CHANGE_PWD',$usuario, $email, $token]);
+        $this->db->query("INSERT INTO notificaciones (codeplantilla,usuario,email,token_fcm) VALUES (?, ?, ?, ?)", ['EMAIL_CHANGE_PWD',$usuario, $email, $token]);
     }
 
     public function validateToken($token)
     {
-        $query = $this->db->query("SELECT * FROM notificaciones WHERE activo = 1 and token_fcm = ?", [$token]);
+        $query = $this->db->query("SELECT * FROM notificaciones WHERE activo = 1 and fexpiracion > current_timestamp and uuid = ?", [$token]);
         return $query->getRowArray();
     }
 

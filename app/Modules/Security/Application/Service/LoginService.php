@@ -6,7 +6,7 @@ use CodeIgniter\Events\Events;
 use CodeIgniter\Session\Session;
 use Config\Services;
 use Exception;
-
+use Modules\Common\Audit\Enum\AuditTypeEnum;
 use Modules\Users\Config\Services as UserServices;
 use Modules\Users\Domain\User;
 use Modules\Siniestro\Config\Services as SiniestroServices;
@@ -36,6 +36,14 @@ class LoginService
             $userRequest->usuario = $username;
             $result = $this->userService->getUserByUsername($userRequest);
 
+            $content = [
+                'usuario' => $username,
+                'password' => '-',
+            ];
+            
+            // Convertir el array a JSON
+            $content = json_encode($content, JSON_UNESCAPED_UNICODE);
+
             if ($result['success']) {
                 $user = $result['data'];
 
@@ -50,27 +58,6 @@ class LoginService
                 if ($moduleByProfile["success"]) {
                     $array_modulos = $moduleByProfile["data"];
                     $array_aseg = $asegxUser["data"];
-
-                    /*
-                    if(count($array_aseg) == 1) {
-                        //print_r($array_aseg);exit();
-                        $idAseg = $array_aseg['0']['idaseguradora'];
-                        $idaseguradora_user = $idAseg;
-                        $prodxAseg = $this->aseguradoraService->getProductsxAseg($idAseg,$user['idusuario'],$user['idperfil']);
-
-                        $arrayProdxAseg = $prodxAseg['data'];
-
-                        if(count($arrayProdxAseg) == 1){
-                            $idproducto_user = $arrayProdxAseg['productos'];
-                        }else{
-                            $idproducto_user = '0';
-                        }
-                        
-                    }else{
-                        $idaseguradora_user = '0';
-                        $idproducto_user = '0';
-                    }
-                    */
 
                     if (password_verify($password, $user['passwd'])) {
                         // Guardar datos del usuario en la sesión
@@ -97,7 +84,7 @@ class LoginService
 
                         $this->userService->updateUserFretry($user['idusuario'],$data);
 
-                        Events::trigger('registrar_auditoria', 'session');
+                        Events::trigger('registrar_auditoria', AuditTypeEnum::TYPE_LOGON, 'Inicio de sesión OK',$content);
                         return successResponse($result, 'Sesion iniciada');
                     } else {
                         //actualizar numero de reintentos
@@ -108,9 +95,9 @@ class LoginService
 
                         if ($data['retry'] === REINTENTOS_BLOQUEO) {
                             $data['activo'] = 0;
-                            Events::trigger('registrar_auditoria', 'session_failed', 'Cuenta bloqueada por intentos de acceso fallidos', $username);
+                            Events::trigger('registrar_auditoria', AuditTypeEnum::TYPE_LOGON, 'Cuenta bloqueada por intentos de acceso fallidos',$content);
                         }else{
-                            Events::trigger('registrar_auditoria', 'session_failed', 'Intento de acceso fallido: '.$data['retry'] , $username);
+                            Events::trigger('registrar_auditoria', AuditTypeEnum::TYPE_LOGON, 'Intento de acceso fallido: ', $content);
                         }
 
                         $this->userService->updateUserFretry($user['idusuario'],$data);
@@ -126,7 +113,7 @@ class LoginService
                     return errorResponse('Usuario no tiene modulos asignados');
                 }
             } else {
-                Events::trigger('registrar_auditoria', 'session_failed', null, $username);
+                Events::trigger('registrar_auditoria', AuditTypeEnum::TYPE_LOGON, 'Intento de inicio de sesión fallido ', $content);
                 return errorResponse('Usuario no existe o está inactivo');
             }
         } catch (Exception $e) {

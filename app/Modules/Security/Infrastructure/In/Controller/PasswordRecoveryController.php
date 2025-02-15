@@ -26,25 +26,33 @@ class PasswordRecoveryController extends BaseController
     public function resetPasswordView()
     {
         $request = \Config\Services::request();
-        $token = $request->getGet('token'); // Obtener token desde la URL
+        //$token = $request->getGet('token'); // Obtener token desde la URL
+        $token = $request->getGet('uuid');
     
         if (!$token) {
+            /*
             return $this->render('Auth/resetPassword.twig', [
                 'title' => 'resetPassword',
                 'error' => 'Token inválido o expirado'
             ]);
+            */
+            return $this->render('security-module/view-user-confirm-invalid.twig');
+            
         }
     
         // Validar si el token existe en la base de datos
         $db = \Config\Database::connect();
-        $query = $db->query("SELECT usuario, email FROM notificaciones WHERE activo = 1 and token_fcm = ?", [$token]);
+        $query = $db->query("SELECT usuario, email FROM notificaciones WHERE activo = 1 and fexpiracion > current_timestamp and uuid = ?", [$token]);
         $result = $query->getRow();
     
         if (!$result) {
+            /*
             return $this->render('Auth/resetPassword.twig', [
                 'title' => 'resetPassword',
                 'error' => 'Token inválido o expirado'
             ]);
+            */
+            return $this->render('security-module/view-user-confirm-invalid.twig');
         }
     
         return $this->render('Auth/resetPassword.twig', [
