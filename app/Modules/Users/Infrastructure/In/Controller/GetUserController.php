@@ -60,7 +60,7 @@ class GetUserController extends BaseController
         $documentTypeList = $this->documentTypeService->getDocumentTypeList();
         $profileList = $this->profileService->getListActiveProfile();
         $estadoRegList = $this->parametersService->getListEstadoReg();
-        $users = $this->userService->getAllWithProfile(userId: $userId);
+        $users = $this->userService->getAllWithProfile($userId);
         $userFound = $users["data"][0];
         $insuranceCompany = $this->aseguradoraService->getAseguradoraxUser($userFound->idusuario, $userFound->idperfil);
         $movements = $this->userService->getMovLimUser($userId);
