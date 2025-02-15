@@ -28,6 +28,22 @@ class UserRepository
         $this->logger = Services::logger();
     }
 
+    public function findById($userId){
+        try {
+            // Realizamos la query
+            $result = $this->userModel->find($userId);
+            // Si no se pudo obtener el registro devolvemos un error
+            if (!$result) {
+                return errorResponse('Usuario no encontrado.');
+            }
+            // Si se logro obtener el registro lo devolvemos en la respuesta
+            return successResponse($result);
+        } catch (Exception $e) {
+            $this->logger->error("UserRepository -> findById: {$e->getMessage()}");
+            return errorResponse();
+        }
+    }
+
     public function findByDocumentAndStatus($documentNumber, $status)
     {
         try {

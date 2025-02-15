@@ -23,5 +23,6 @@ function UserRoutes(RouteCollection $routes)
         $routes->get('listausuarios', 'GetUserController::getAllUsersForm');
         $routes->get('movusuario/(:any)', 'GetUserController::getMovemenstDetailForm/$1');
         $routes->get('auditusuario/(:any)', 'GetUserController::getAuditoryDetailForm/$1');
+        $routes->get('resetpasswd/(:any)', 'UserRegisterController::resetPasswordAction/$1');
     });
 }

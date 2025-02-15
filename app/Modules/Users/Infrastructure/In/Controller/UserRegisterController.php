@@ -30,6 +30,15 @@ class UserRegisterController extends BaseController
         return $this->render(self::USER_REGISTER_FORM_PATH, $this->getDataToForm());
     }
 
+    public function resetPasswordAction($userId){
+        try{
+            return $this->responseOk($this->userRegisterService->resetPassword($userId));
+        }catch(Exception $e){
+            $this->logger->error($e->getMessage());
+            return $this->responseError('Hubo un error al resetear la contraseña.');
+        }
+    }
+
     private function getDataToForm()
     {
         $documentTypeList = $this->documentTypeService->getDocumentTypeList();
