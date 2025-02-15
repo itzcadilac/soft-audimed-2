@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         Swal.fire({
             title: "Cerrar",
-            text: "Se cambió la contraseña. Serás redirigido al inicio en 5 segundos...",
+            text: data.message + " Serás redirigido al inicio en 5 segundos...",
             icon: "success",
             showConfirmButton: false, // Oculta el botón
             timer: 5000, // Tiempo en milisegundos (3 segundos)
