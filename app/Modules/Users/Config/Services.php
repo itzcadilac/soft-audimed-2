@@ -17,8 +17,9 @@ use Modules\Users\Infrastructure\Out\Persistence\Repository\ModuleByProfileRepos
 use Modules\Users\Infrastructure\Out\Persistence\Repository\PersonRepository;
 use Modules\Users\Infrastructure\Out\Persistence\Repository\ProfileRepository;
 use Modules\Users\Infrastructure\Out\Web\PersonAdapter;
-
+use Modules\Users\Infrastructure\Out\Persistence\Repository\StatusRegRepository;
 use Modules\Notifications\Config\Services as NotificationServices;
+use Modules\Users\Application\Service\ParametersService;
 
 class Services extends BaseService
 {
@@ -91,5 +92,16 @@ class Services extends BaseService
         $personAdapter = new PersonAdapter();
 
         return new ValidateDocumentService($personRepository, $personAdapter);
+    }
+
+    public static function parametersService()
+    {
+        if (static::hasInstance('parametersService')) {
+            return static::getSharedInstance('parametersService');
+        }
+
+        $parametersRepository = new StatusRegRepository();
+
+        return new ParametersService($parametersRepository);
     }
 }

@@ -104,3 +104,5 @@ define('DOCUMENT_TYPE_ID_DNI', 1);
 define('DOCUMENT_TYPE_ID_CEE', 2);
 
 define('EVENT_SAVE_AUDIT', "save_audit");
+
+define('ESTADO_REG', "ESTADOREG");

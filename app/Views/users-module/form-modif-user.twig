@@ -1,0 +1,144 @@
+{% extends 'Layouts/main.twig' %} {% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <form id="user_registration_form">
+            <div class="row">
+                <div class="col-sm-12 col-lg-12">
+                    <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Modificar Usuario</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6">
+                    <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Datos personales</h4>
+                            </div>
+                        </div>
+                        <div class="iq-card-body">
+                            <div class="form-group">
+                                <label for="urf_profile">Tipo de documento</label>
+                                <select class="form-control mb-3" id="urf_document_type" name="urf_document_type">
+                                    <option value="-1">Seleccione una opción</option>
+                                    {% for documentType in documentTypeList %}
+                                    {% set selected = '' %}
+                                    {% if (documentType.id) == user.idtipodocumento %}
+                                    {% set selected = 'selected' %}
+                                    {% endif %}
+                                    <option value="{{ documentType.id }}" {{ selected }} input-size="{{ documentType.size }}">{{ documentType.name }}</option>
+
+                                    {% endfor %}
+                                </select>        
+
+                                <div class="invalid-feedback">Debe seleccionar un tipo de documento para el usuario.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="urf_document_number">Número de documento:</label>
+                                <input type="text" class="form-control" id="urf_document_number"
+                                    name="urf_document_number" placeholder="Número de documento" value="{{ user.numero_documento }}">
+                                <div class="invalid-feedback">El número de documento es requerido y debe cumplir el
+                                    formato.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="urf_lastname">Apellidos:</label>
+                                <input type="text" class="form-control" id="urf_lastname" name="urf_lastname"
+                                    placeholder="Apellidos del usuario" value="{{ user.apellidos }}">
+                                <div class="invalid-feedback">Debe ingresar un apellido válido.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="urf_names">Nombres:</label>
+                                <input type="text" class="form-control" id="urf_names" name="urf_names"
+                                    placeholder="Nombres del usuario" value="{{ user.nombres }}">
+                                <div class="invalid-feedback">Debe ingresar nombre válido.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6">
+                    <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Datos de la cuenta</h4>
+                            </div>
+                        </div>
+                        <div class="iq-card-body">
+                            <div class="form-group">
+                                <label for="urf_document_number">Nombre de usuario:</label>
+                                <input type="text" class="form-control" id="urf_username" name="urf_username"
+                                    placeholder="Nombre de usuario" value="{{ user.usuario }}" readonly>
+                                <div class="invalid-feedback">Debe ingresar un nombre de usuario válido.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="urf_lastname">Correo electrónico:</label>
+                                <input type="text" class="form-control" id="urf_email" name="urf_email"
+                                    placeholder="Correo electrónico" value="{{ user.email }}">
+                                <div class="invalid-feedback">Debe ingresar un correo electrónico válido.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="urf_lastname">Celular:</label>
+                                <input type="text" class="form-control" id="urf_celular" name="urf_celular"
+                                    placeholder="Celular" value="{{ user.movil }}">
+                                <div class="invalid-feedback">Debe ingresar un número válido.</div>
+                            </div>                            
+                            <div class="form-group">
+                                <label for="urf_profile">Perfil</label>
+                                <select class="form-control mb-3" id="urf_profile" name="urf_profile">
+                                    <option value="-1">Seleccione una opción</option>
+                                    {% for profile in profileList %}
+                                    {% set selected = '' %}
+                                    {% if (profile.id) == user.idperfil %}
+                                    {% set selected = 'selected' %}
+                                    {% endif %}                                    
+                                    <option value="{{ profile.id }}"  {{ selected }} >{{ profile.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">Debe seleccionar un perfil para el usuario.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="urf_profile">Estado Registro</label>
+                                <select class="form-control mb-3" id="urf_estadoreg" name="urf_estadoreg">
+                                    <option value="-1">Seleccione una opción</option>
+                                    {% for estado in estadoreg %}
+                                    {% set selected = '' %}
+                                    {% if (estado.id) == user.estadoreg %}
+                                    {% set selected = 'selected' %}
+                                    {% endif %} 
+                                    <option value="{{ estado.id }}" {{ selected }}>{{ estado.descripcion }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">Debe seleccionar un perfil para el usuario.</div>
+                            </div>                            
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary">Modificar usuario</button>
+                                <a href="{{base_url('usuarios/detalle')}}/{{user.idusuario}}" class="btn btn-outline-danger"><i class="ri-file-edit-fill"></i>Regresar</a>
+                            </div>
+                            <div class="form-group">
+                                <div id="message">&nbsp;</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+</div>
+{% endblock %}
+
+{% block javascriptAPP %}
+<script>
+    window.globalConfig = {
+        baseUrl: "{{ base_url('/')|e('js') }}"
+    };
+</script>
+<script type="module" src="{{ base_url('assets/js/core/users-module/user-modif-controller.js') }}"></script>
+
+{% endblock %}
