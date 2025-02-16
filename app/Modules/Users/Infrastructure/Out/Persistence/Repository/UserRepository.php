@@ -138,6 +138,20 @@ class UserRepository
     {
         return $this->userModel->update($idUser, $data);
     }
+    public function updateUserData($idusuario, User $user)
+    {
+        try {
+        //$result = $this->userModel->update($data);
+        $result = $this->userModel->where('idusuario', $idusuario)->set(['email' => $user->email])->update();
+        if (!$result) {
+            return errorResponse('No se pudo actualizar el registro');
+        }
+        return successResponse($result);
+        } catch (Exception $e) {
+            $this->logger->error("UserRepository -> updateUserData -> $idusuario : {$e->getMessage()}");
+            return errorResponse();
+        }
+    }
     
     public function findAll()
     {

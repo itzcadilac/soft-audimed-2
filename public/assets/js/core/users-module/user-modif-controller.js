@@ -1,7 +1,7 @@
-import { UserRegisterForm } from './helpers/user-register/form.js';
+import { UserEditForm } from './helpers/user-register/formedit.js';
 import { DocumentValidate } from './helpers/user-register/document-validate.js';
 import { UsernameValidate } from './helpers/user-register/username-validate.js';
-import { UserRegisterRequestHttp as HttpRequest } from './helpers/user-register/request-http.js';
+import { UserEditRequestHttp as HttpRequest } from './helpers/user-register/request-http-edit.js';
 import { FormUtilities } from '../utilities/form-utilities.js';
 import { LogUtilities as Logger } from '../utilities/log-utilities.js';
 
@@ -12,16 +12,16 @@ $(document).ready(function () {
         // Evitar que se envíe el formulario tradicional
         event.preventDefault();
         // Se obtiene una instancia del formulario
-        let userRegisterForm = new UserRegisterForm();
+        let userEditForm = new UserEditForm();
         // Lanzamos el Load
-        userRegisterForm.startSendProcess();
+        userEditForm.startSendProcess();
         // Validar datos antes de enviarlos
-        if (!userRegisterForm.isValid()) {
-            userRegisterForm.endSendProcess();
+        if (!userEditForm.isValid()) {
+            userEditForm.endSendProcess();
             return;
         }
-        // Ejecutamos el servicio de registro de usuarios
-        HttpRequest.send(userRegisterForm);
+        // Ejecutamos el servicio de actualización de usuarios
+        HttpRequest.send(userEditForm);
     });
 
     $('#urf_document_number').on('blur', function () {

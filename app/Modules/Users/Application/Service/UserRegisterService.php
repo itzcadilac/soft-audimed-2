@@ -145,4 +145,26 @@ class UserRegisterService
             return errorResponse($e->getMessage());
         }
     }
+
+    public function editUser(User $user)
+    {
+        try {
+            // Genera la data para la notificacion
+            // $notificationData = $this->createNotificationData($user);
+            // Guarda al usuario
+            $edUser = $this->userRepository->updateUserData($user->idusuario, $user);
+            if (!$edUser["success"]) {
+                return errorResponse($edUser["message"]);
+            }
+            // Se guardan los datos del registro en auditoria
+            //auditEventTrigger(AuditTypeEnum::TYPE_REGISTER, "Modificación de cuenta <{$user->usuario}>", $edUser["data"]);
+            // Envia la notificacion
+            //$this->notificationService->send($notificationData);
+            // Guarda al usuario
+            return successResponse($edUser);
+        } catch (Exception $e) {
+            $this->logger->error("UserRegisterService -> editUser No entiendo: {$e->getMessage()}");
+            return errorResponse($e->getMessage());
+        }
+    }
 }

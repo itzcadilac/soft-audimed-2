@@ -25,5 +25,6 @@ function UserRoutes(RouteCollection $routes)
         $routes->get('auditusuario/(:any)', 'GetUserController::getAuditoryDetailForm/$1');
         $routes->get('resetpasswd/(:any)', 'UserRegisterController::resetPasswordAction/$1');
         $routes->get('detailmodusuario/(:any)', 'GetUserController::getDetailModForm/$1');
+        $routes->post('editar', 'UserRegisterController::editAction');
     });
 }

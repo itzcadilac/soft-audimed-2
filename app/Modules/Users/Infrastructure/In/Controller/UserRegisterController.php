@@ -98,7 +98,8 @@ class UserRegisterController extends BaseController
     private function getUser($formData)
     {
         $user = new User();
-        $user->idtipodocumento = $formData['document_type'];;
+        $user->idusuario = $formData['iduser'];
+        $user->idtipodocumento = $formData['document_type'];
         $user->numero_documento = $formData['document_number'];
         $user->apellidos = $formData['lastname'];
         $user->nombres = $formData['names'];
@@ -106,5 +107,31 @@ class UserRegisterController extends BaseController
         $user->idperfil = $formData['profile'];
         $user->email = $formData['email'];
         return $user;
+    }
+    public function editAction()
+    {
+        try {
+            // Obtenemos los datos del request
+            $formData = $this->request->getPost();
+            // Obtenemos el hash
+            $csrfHash = csrf_hash();
+            // Validamos el formulario
+            $formValidated = $this->validateForm();
+            if (!$formValidated->isValid) {
+                return $this->responseBusinessError($formValidated->data, $csrfHash);
+            }
+            // Obtenemos el objeto usuario y lo guardamos
+            $user = $this->getUser($formData);
+            $result = $this->userRegisterService->editUser($user);
+            // Proceso de respuesta
+            if (!$result["success"]) {
+                return $this->responseBusinessError($result["message"], $csrfHash);
+            }
+            return $this->responseCreated('Usuario actualizado correctamente', $csrfHash);
+        } catch (Exception $e) {
+            $this->logger->error($e->getMessage());
+            $csrfHash = csrf_hash();
+            return $this->responseError('Hubo un error al guardar la información.', $csrfHash);
+        }
     }
 }
