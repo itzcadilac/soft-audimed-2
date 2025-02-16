@@ -119,6 +119,7 @@ abstract class BaseController extends Controller
         $session = session();
         $modulos = $session->get('modulosUsuario');
         $nombres_user = $session->get('nombres');
+        $codusuario = $session->get('idusuario');
         $currentUrl = current_url();
 
         //mostrar los modulos como variable global
@@ -130,6 +131,11 @@ abstract class BaseController extends Controller
         if (!empty($nombres_user)) {
             $this->twig->addGlobal('nombre_user', $nombres_user);
         }
+
+        //enviar el idusuario como variable global
+        if (!empty($codusuario)) {
+            $this->twig->addGlobal('codusuario', $codusuario);
+        }        
     }
 
     public function render(string $filename, array $params = [])
