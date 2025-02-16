@@ -188,6 +188,13 @@ abstract class BaseController extends Controller
             $this->mapData(self::STATUS_SUCCESS, $message, self::HTTP_STATUS_CREATED, null, $csrfHash)
         );
     }
+    // Respuesta a la actualización de los datos del usuario
+    protected function responseUpdate($message, $data, $csrfHash = null)
+    {
+        return $this->response(
+            $this->mapData(self::STATUS_SUCCESS, $message, self::HTTP_STATUS_CREATED, $data, $csrfHash)
+        );
+    }
 
     protected function responseBusinessError($message, $csrfHash = null)
     {

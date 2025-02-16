@@ -54,6 +54,8 @@ class UserRegisterController extends BaseController
         try {
             // Obtenemos los datos del request
             $formData = $this->request->getPost();
+            // Inicializamos la variable en la cual se obtiene el resultado de la creación o modificación del usuario
+            $result = null; $edit = null;
             // Obtenemos el hash
             $csrfHash = csrf_hash();
             // Validamos el formulario
@@ -61,14 +63,23 @@ class UserRegisterController extends BaseController
             if (!$formValidated->isValid) {
                 return $this->responseBusinessError($formValidated->data, $csrfHash);
             }
-            // Obtenemos el objeto usuario y lo guardamos
+            // Obtenemos el objeto usuario
             $user = $this->getUser($formData);
-            $result = $this->userRegisterService->registerUser($user);
+            // Validamos si es registro o modificacion
+            if($this->request->getPost('edit')){
+                $result = $this->userRegisterService->updateUser($user, $this->request->getPost('edit'));
+                $edit = true;
+            }else{
+                $result = $this->userRegisterService->registerUser($user);
+                $edit = false;
+            }
             // Proceso de respuesta
             if (!$result["success"]) {
                 return $this->responseBusinessError($result["message"], $csrfHash);
             }
-            return $this->responseCreated('Usuario creado correctamente', $csrfHash);
+            
+            return !$edit? $this->responseCreated('Usuario creado correctamente', $csrfHash) :
+                            $this->responseUpdate('Usuario Actualizado correctamente', $result, $csrfHash);
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());
             $csrfHash = csrf_hash();
@@ -105,6 +116,7 @@ class UserRegisterController extends BaseController
         $user->usuario = $formData['username'];
         $user->idperfil = $formData['profile'];
         $user->email = $formData['email'];
+        $user->movil = $this->request->getPost('edit')? $formData['phone'] : '';
         return $user;
     }
 }

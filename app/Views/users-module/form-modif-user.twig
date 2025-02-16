@@ -3,6 +3,7 @@
     <div class="row">
         <div class="col-lg-12">
             <form id="user_registration_form">
+            <input type="hidden" id="urf_edit" value="{{user.idusuario}}" />
             <div class="row">
                 <div class="col-sm-12 col-lg-12">
                     <div class="iq-card">
@@ -56,6 +57,18 @@
                                     placeholder="Nombres del usuario" value="{{ user.nombres }}">
                                 <div class="invalid-feedback">Debe ingresar nombre válido.</div>
                             </div>
+                            <div class="form-group">
+                                <label for="urf_lastname">Correo electrónico:</label>
+                                <input type="text" class="form-control" id="urf_email" name="urf_email"
+                                    placeholder="Correo electrónico" value="{{ user.email }}">
+                                <div class="invalid-feedback">Debe ingresar un correo electrónico válido.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="urf_lastname">Celular:</label>
+                                <input type="text" class="form-control" id="urf_celular" name="urf_celular"
+                                    placeholder="Celular" value="{{ user.movil }}">
+                                <div class="invalid-feedback">Debe ingresar un número válido.</div>
+                            </div>  
                         </div>
                     </div>
                 </div>
@@ -72,19 +85,7 @@
                                 <input type="text" class="form-control" id="urf_username" name="urf_username"
                                     placeholder="Nombre de usuario" value="{{ user.usuario }}" readonly>
                                 <div class="invalid-feedback">Debe ingresar un nombre de usuario válido.</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="urf_lastname">Correo electrónico:</label>
-                                <input type="text" class="form-control" id="urf_email" name="urf_email"
-                                    placeholder="Correo electrónico" value="{{ user.email }}">
-                                <div class="invalid-feedback">Debe ingresar un correo electrónico válido.</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="urf_lastname">Celular:</label>
-                                <input type="text" class="form-control" id="urf_celular" name="urf_celular"
-                                    placeholder="Celular" value="{{ user.movil }}">
-                                <div class="invalid-feedback">Debe ingresar un número válido.</div>
-                            </div>                            
+                            </div>                          
                             <div class="form-group">
                                 <label for="urf_profile">Perfil</label>
                                 <select class="form-control mb-3" id="urf_profile" name="urf_profile">
@@ -111,7 +112,7 @@
                                     <option value="{{ estado.id }}" {{ selected }}>{{ estado.descripcion }}</option>
                                     {% endfor %}
                                 </select>
-                                <div class="invalid-feedback">Debe seleccionar un perfil para el usuario.</div>
+                                <div class="invalid-feedback">Debe seleccionar un estado para el usuario.</div>
                             </div>                            
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary">Modificar usuario</button>
