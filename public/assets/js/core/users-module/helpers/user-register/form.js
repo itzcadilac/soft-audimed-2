@@ -4,17 +4,37 @@ import { LogUtilities as logger } from "../../../utilities/log-utilities.js";
 class UserRegisterForm {
     constructor() {
         this._submit_button = document.querySelector('#user_registration_form button[type="submit"]');
+        this._txt_edit = $('#urf_edit');
         this._sel_document_type = $('#urf_document_type');
         this._txt_document_number = $('#urf_document_number');
         this._txt_lastname = $('#urf_lastname');
         this._txt_names = $('#urf_names');
         this._txt_username = $('#urf_username');
         this._txt_email = $('#urf_email');
+        this._txt_phone = $('#urf_celular');
         this._sel_profiles = $('#urf_profile');
         this._lbl_message = $('#message');
         this._lbl_document_number_error = $('#error_num_documento');
         this._meta_csrf_token = $('meta[name="csrf_token"]');
         this._url_user_register = window.globalConfig.baseUrl + 'usuarios/registro';
+    }
+
+    get edit() {
+        return {
+            field: this._txt_edit,
+            type: "text",
+            required: false,
+            validation: null
+        };
+    }
+
+    get phone() {
+        return {
+            field: this._txt_phone,
+            type: "text",
+            required: false,
+            validation: null
+        };
     }
 
     get url_user_register() {
@@ -104,7 +124,9 @@ class UserRegisterForm {
             this.inputNames,
             this.inputUsername,
             this.inputEmail,
-            this.selectProfile
+            this.phone,
+            this.selectProfile,
+            this.edit
         ];
     }
 
@@ -116,7 +138,9 @@ class UserRegisterForm {
             names: this.inputNames.field.val(),
             username: this.inputUsername.field.val(),
             email: this.inputEmail.field.val(),
-            profile: this.selectProfile.field.val()
+            phone: this.phone.field.val(),
+            profile: this.selectProfile.field.val(),
+            edit: this.edit.field.val()
         };
     }
 

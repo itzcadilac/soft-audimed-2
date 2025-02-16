@@ -124,6 +124,27 @@ class UserRepository
         }
     }
 
+    public function update(User $user, $id)
+    {
+        try {
+            // LLenamos los campos de auditoria
+            $this->insertAuditData($user);
+            // Realizamos la query
+            $result = $this->userModel->update($id, $user);
+            // Si no se pudo actualizar el registro devolvemos un error
+            if (!$result) {
+                return errorResponse('No se pudo guardar el registro en: usuarios');
+            }
+            // Si el registro se actualizo correctamente buscamos el usuario por su id
+            $updateUser = $this->userModel->find($id);
+            // Lo devolvemos en la respuesta
+            return successResponse($updateUser);
+        } catch (Exception $e) {
+            $this->logger->error("Error Catch en UserRepository: update: " . $e->getMessage());
+            return errorResponse();
+        }
+    }
+
     private function insertAuditData(User $user)
     {
         if (isNull($user->idusuario)) {

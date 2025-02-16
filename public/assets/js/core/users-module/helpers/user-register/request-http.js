@@ -22,7 +22,8 @@ class UserRegisterRequestHttp {
             dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
-                    FormUtilities.clearFields(form.inputFields());
+                    if(!('data' in response)) FormUtilities.clearFields(form.inputFields());
+
                     FormUtilities.clearValidations(form.inputFields());
                     HtmlUtilities.updateHtmlHash(form.elementHash, response.csrf_hash_gen);
                     MessageUtilities.showSuccessMessage(form.lblMessage, response.message);

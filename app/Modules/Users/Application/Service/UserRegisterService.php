@@ -57,6 +57,28 @@ class UserRegisterService
         }
     }
 
+    public function updateUser(User $user, $id)
+    {
+        try {
+            // Genera la data para la notificacion
+            $notificationData = $this->createNotificationData($user);
+            // Actualiza el usuario
+            $updateUser = $this->userRepository->update($user, $id);
+            if (!$updateUser["success"]) {
+                return errorResponse($updateUser["message"]);
+            }
+            // Se guardan los datos del registro en auditoria
+            auditEventTrigger(AuditTypeEnum::TYPE_REGISTER, "Actualización de cuenta <{$user->usuario}>", $updateUser["data"]);
+            // Envia la notificacion
+            $this->notificationService->send($notificationData);
+            // Guarda al usuario
+            return successResponse($updateUser);
+        } catch (Exception $e) {
+            $this->logger->error("UserRegisterService -> updateUser: {$e->getMessage()}");
+            return errorResponse($e->getMessage());
+        }
+    }
+
     private function createNotificationData(User $user)
     {
         $notificationData = new NotificationData();
