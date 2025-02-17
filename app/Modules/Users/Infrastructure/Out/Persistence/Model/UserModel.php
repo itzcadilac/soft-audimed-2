@@ -115,7 +115,7 @@ class UserModel extends Model
 
     public function getCountProfileUser($idPerfil = null)
     {
-        $result = $this->distinct()->select('idusuario')->asArray()->where(['idperfil' => $idPerfil])->get();
+        $result = $this->distinct()->select('idusuario')->where(['idperfil' => $idPerfil])->get();
         return $result;
     }
 }
