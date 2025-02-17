@@ -78,4 +78,8 @@ class UserService
         return $this->userRepository->findLimAuditUser($userId);
     }
 
+    public function getCountProfileUser($idPerfil = null){
+        return $this->userRepository->getCountProfileUser($idPerfil);
+    }
+
 }

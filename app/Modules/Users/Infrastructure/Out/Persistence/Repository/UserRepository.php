@@ -261,5 +261,18 @@ class UserRepository
             return errorResponse();
         }
     }
+    // Obtiene la cantidad de usuarios por perfil
+    public function getCountProfileUser($idPerfil = null)
+    {
+        try {
+            // Realizamos la query
+            $result = $this->userModel->getCountProfileUser($idPerfil);
+            // Devolvemos el registro en la respuesta
+            return successResponse($result);
+        } catch (Exception $e) {
+            $this->logger->error("UserRepository -> getCountProfileUser: {$e->getMessage()}");
+            return errorResponse();
+        }
+    }
 
 }

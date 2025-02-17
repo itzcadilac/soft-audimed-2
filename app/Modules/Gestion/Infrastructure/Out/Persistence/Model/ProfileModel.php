@@ -1,51 +1,31 @@
 <?php
 
-namespace Modules\Users\Infrastructure\Out\Persistence\Model;
+namespace Modules\Gestion\Infrastructure\Out\Persistence\Model;
 
 use CodeIgniter\Model;
-use Modules\Users\Domain\User;
-use Modules\Users\Domain\MovUser;
+use Modules\Gestion\Domain\Profile;
 
-class UserModel extends Model
+class ProfileModel extends Model
 {
-    protected $table = 'usuarios';
-    protected $primaryKey = 'idusuario';
+    protected $table = 'perfil';
+    protected $primaryKey = 'idperfil';
     protected $allowedFields = [
-        'idusuario',
-        'idtipodocumento',
-        'numero_documento',
-        'avatar',
-        'apellidos',
-        'nombres',
-        'usuario',
-        'passwd',
         'idperfil',
+        'perfil',
         'activo',
-        'retry',
-        'fretry',
         'eliminado',
         'estadoreg',
-        'email',
-        'movil',
-        'idle_sesion',
-        'fconfirm',
-        'flastpwd',
-        'flastmov',
-        'flastaccess',
-        'confirmado',
-        'createdat',
-        'updatedat',
+        'createat',
+        'updateat',
         'createdby',
-        'updatedby',
-        'retry',
-        'fretry'
+        'updatedby'
     ];
-    protected $returnType = \Modules\Users\Domain\User::class;
+    protected $returnType = \Modules\Gestion\Domain\Profile::class;
 
     /**
      * Metodo que permite obtener usuarios asociados a su perfil
      */
-    public function getUserWithProfile($userId = null)
+    /*public function getUserWithProfile($userId = null)
     {
         // Definimos los campos a devolver y especificamos el join
         $query = $this->select([
@@ -88,36 +68,5 @@ class UserModel extends Model
         }
 
         return $users;
-    }
-
-    public function getUserMovements($userId = null)
-    {
-        // Definimos los campos a devolver y especificamos el join
-        $query = $this->select([
-            'movimientos.*'
-        ]);
-
-        if (!is_null($userId)) {
-            $query->where("idusuario", $userId);
-        }
-        $result = $query->findAll();
-
-        $movusers = [];
-        foreach ($result as $row) {
-            // Volcamos la informacion de la tabla principal (usuarios) a la clase User
-            $movuser = new MovUser($row->toArray());
-
-            $movusers[] = $movuser;
-        }
-
-        return $movusers;
-    }
-
-    public function getCountProfileUser($idPerfil = null)
-    {
-        $result = $this->asArray()->where(['idperfil' => $idPerfil])->get();
-        
-        //return $result->resultID->num_rows;
-        return $result;
-    }
+    }*/
 }
