@@ -49,7 +49,7 @@ class GetGestionController extends BaseController
                 // Se obtienen los productos totales de cada perfil y se setea en el objeto perfil
                 $res = $num? $insurers['data']->getResult() : array();
                 foreach($res as $row):
-                    if(strlen($row->productos) > $i){ $prod = $row->productos; $i = strlen($row->productos); echo $prod; }
+                    if(strlen($row->productos) > $i){ $prod = $row->productos; $i = strlen($row->productos); }
                 endforeach;
             endforeach;
             // Se setea la cantidad de aseguradoras en el objeto perfil
