@@ -40,7 +40,7 @@ class GetGestionController extends BaseController
             $profile->userscount = $count;
             // Se iguala la variable result al array recibido en la funcion
             $result = $count? $users['data']->getResult() : array();
-            $insurers = null; $num = 0; $prod = []; $i = 0;
+            $insurers = null; $num = 0; $prod = ''; $i = 0;
             
             // Se recorren los usuarios obtenidos para obtener las aseguradoras asignadas por perfil y las cantidades
             foreach($result as $row):
@@ -49,20 +49,13 @@ class GetGestionController extends BaseController
                 // Se obtienen los productos totales de cada perfil y se setea en el objeto perfil
                 $res = $num? $insurers['data']->getResult() : array();
                 foreach($res as $row):
-                    if($row->productos !== null || $row->productos !== '') $prod[] = $row->productos;
+                    if(strlen($row->productos) > $i){ $prod = $row->productos; $i = strlen($row->productos); echo $prod; }
                 endforeach;
             endforeach;
             // Se setea la cantidad de aseguradoras en el objeto perfil
             $profile->insurerscount = $num;
-            $product = '';
             // Se setea los productos en el objeto perfil
-            if(count($prod) > 0) $product = max($prod);
-            $profile->productos = $product;
-            //$profile->productos = !is_array($product)? $product : '';
-            //var_dump($prod);
-            //var_dump($prod);
-            //$exp = count((array)$res)? explode(',',$res[0]->productos) : '';
-            //$profile->productos = count((array)$exp) > 1? $exp[0].','.$exp[1] : $exp;
+            $profile->productos = $prod;
         endforeach;
 
         return array(
