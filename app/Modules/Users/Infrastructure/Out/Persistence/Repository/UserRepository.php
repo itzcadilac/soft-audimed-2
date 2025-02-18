@@ -85,7 +85,14 @@ class UserRepository
     {
         try {
             // Realizamos la query
-            $result = $this->userModel->where('usuario', $username)->first();
+            //$result = $this->userModel->where('usuario', $username)->first();
+
+            $result = $this->userModel
+                        ->where('usuario', $username)
+                        ->where('activo', 1)
+                        ->where('estadoreg', 0)
+                        ->first();
+
             // Si no se pudo obtener el registro devolvemos un error
             if (!$result) {
                 return errorResponse('Usuario no encontrado.');
