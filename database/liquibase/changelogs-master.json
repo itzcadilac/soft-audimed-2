@@ -1,0 +1,13 @@
+{
+    "databaseChangeLog": [
+        {
+            "comment": "Sprint 01 scripts"
+        },
+        {
+            "include": {
+                "file": "/sql/sprint-01/changelogs-sprint-index.yaml",
+                "relativeToChangelogFile": true
+            }
+        }
+    ]
+}
