@@ -102,6 +102,8 @@
                               <div class="text-center">BLOQUEADO</div>
                            {% elseif profile.estadoreg == 200 %}
                               <div class="text-center">ANULADO</div>
+						   {% elseif profile.estadoreg == 300 %}
+                              <div class="text-center">ELIMINADO</div>
                            {% elseif profile.activo == 0 and profile.estadoreg == 0 %}
                               <div class="text-center">INACTIVO</div>
                            {% elseif profile.activo == 1 and profile.estadoreg == 0 %}
