@@ -23,10 +23,10 @@ class GestionService
     {
         return $this->gestionRepository->findProfiles();
     }
-    // Obtiene todas las aseguradoras por usuario
-    public function getAllInsurersUsers($idUser = null)
-    {
-        return $this->gestionRepository->findInsurerByUser($idUser);
+    
+    // Se obtiene el perfil por su id
+    public function getProfileById($perfilId = null){
+        return $this->gestionRepository->findProfileById($perfilId);
     }
 
 }

@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use Modules\Gestion\Config\Services as GestionServices;
 use Modules\Users\Config\Services as UserServices;
 use Config\Services;
+use Modules\Gestion\Domain\Profile;
 
 class GetGestionController extends BaseController
 {
@@ -13,6 +14,7 @@ class GetGestionController extends BaseController
     protected $userService;
     protected $logger;
     private const PERFIL_LIST_FORM_PATH = 'Features/perfiles.twig';
+    private const PERFIL_DETAIL_FORM_PATH = 'gestion-module/perfil_detail.twig';
 
     public function __construct()
     {
@@ -26,40 +28,47 @@ class GetGestionController extends BaseController
     {
         return $this->render(self::PERFIL_LIST_FORM_PATH, $this->getDataToListForm());
     }
+
+    // View que muestra el detalle del perfil seleccionado
+    public function getDetailForm($perfilId)
+    {
+        return $this->render(self::PERFIL_DETAIL_FORM_PATH, $this->getDataToDetailForm($perfilId));
+    }
 	
 	// Se obtiene la lista de los perfiles
     private function getDataToListForm()
     {
         $profilesList = $this->gestionService->getAllProfiles();
+        $i = 0;
         // Se recorren los perfiles para obtener toda la de los usuarios y aseguradoras asignadas por perfil
-        foreach($profilesList['data'] as $profile):
-            // Traemos los usuarios por perfil
-            $users = $this->userService->getCountProfileUser($profile->idperfil);
-            // Se setea el valor de la cantidad de usuarios en el objeto perfil
-            $count = $users['data']->resultID->num_rows;
-            $profile->userscount = $count;
-            // Se iguala la variable result al array recibido en la funcion
-            $result = $count? $users['data']->getResult() : array();
-            $insurers = null; $num = 0; $prod = ''; $i = 0;
-            
-            // Se recorren los usuarios obtenidos para obtener las aseguradoras asignadas por perfil y las cantidades
-            foreach($result as $row):
-                $insurers = $this->gestionService->getAllInsurersUsers($row->idusuario);
-                $num += $insurers['data']->resultID->num_rows;
-                // Se obtienen los productos totales de cada perfil y se setea en el objeto perfil
-                $res = $num? $insurers['data']->getResult() : array();
-                foreach($res as $row):
-                    if(strlen($row->productos) > $i){ $prod = $row->productos; $i = strlen($row->productos); }
-                endforeach;
+        foreach($profilesList['data'] as $row):
+            $prod = '';
+            foreach($row->insurers as $col):
+                if(strlen($col->productos) > $i){ $prod = $col->productos; $i = strlen($col->productos); }
             endforeach;
-            // Se setea la cantidad de aseguradoras en el objeto perfil
-            $profile->insurerscount = $num;
-            // Se setea los productos en el objeto perfil
-            $profile->productos = $prod;
+            $row->producto = $prod;
         endforeach;
 
         return array(
-            "profilesList" => $profilesList["data"]
+            'profilesList' => $profilesList['data']
         );
     }    
+
+    // Se obtiene el detalle del perfil seleccionado
+    private function getDataToDetailForm($perfilId)
+    {
+        $profile = $this->gestionService->getProfileById($perfilId);
+        $i = 0; $prod = '';
+        if(is_array($profile['data'][0]->insurers)):
+            foreach($profile['data'][0]->insurers as $row):
+                if(strlen($row->productos) > $i){ $prod = $row->productos; $i = strlen($row->productos); }
+            endforeach;
+        endif;
+        $profile['data'][0]->producto = $prod;
+        
+        return array(
+            'profile' => $profile['data'][0],
+            'path' => base_url()
+        );
+    }
 }

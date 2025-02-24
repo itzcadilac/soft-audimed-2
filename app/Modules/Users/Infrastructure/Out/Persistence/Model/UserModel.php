@@ -112,10 +112,4 @@ class UserModel extends Model
 
         return $movusers;
     }
-
-    public function getCountProfileUser($idPerfil = null)
-    {
-        $result = $this->distinct()->select('idusuario')->where(['idperfil' => $idPerfil])->get();
-        return $result;
-    }
 }

@@ -1,0 +1,236 @@
+{% extends 'Layouts/main.twig' %}
+{% block content %}
+
+	{% block cssAPP %}
+		<link rel="stylesheet" href="{{ base_url('assets/css/data-table.css') }}">
+
+		<style>
+			.image-button:hover {
+				transform: scale(1.05);
+				/* Escala la imagen ligeramente */
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+				/* Agrega sombra */
+			}
+
+			.icono-bg {
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: left;
+			}
+
+			.icono-bg.candadito {
+				background-image: url("{{ icons('padlock-icon.png') }}");
+			}
+
+			.icono-bg.semaforo-amarillo {
+				background-image: url("{{ icons('semaforo-amarillo-icon.png') }}");
+			}
+
+			.icono-bg.semaforo-rojo {
+				background-image: url("{{ icons('semaforo-rojo-icon.png') }}");
+			}
+
+			.icono-bg.llave {
+				background-image: url("{{ icons('llave-icon.png') }}");
+			}
+
+			.tachado {
+				text-decoration: line-through;
+			}
+		</style>
+
+	{% endblock cssAPP %}
+	
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12 col-lg-12">
+				<div class="iq-card">
+					<div class="iq-card-header d-flex justify-content-between">
+						<div class="iq-header-title">
+							<h4 class="card-title">Información del Perfil: <span id="labelPerfil">{{profile.perfil ?? "&nbsp;"}}</span></h4>
+							<input type="hidden" id="idp" value="{{profile.idperfil}}" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card iq-mb-3">
+					<div class="card-body">
+						<h4 class="card-title">INFORMACION GENERAL</h4>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">
+								<b>Nombre de Perfil</b><br>
+								<span id="perfilname">{{profile.perfil ?? "&nbsp;"}}</span>
+								&nbsp;<a href="javascrpt:void(0)" class="editar" title="Editar"><img src="{{path}}assets/icons/pencil.svg" width="18" height="18" /></a>
+								&nbsp;<a href="javascrpt:void(0)" class="check d-none" title="Guardar"><img src="{{path}}assets/icons/check.svg" width="20"/></a>
+								&nbsp;<a href="javascrpt:void(0)" class="undo d-none" title="Cancelar"><img src="{{path}}assets/icons/undo.svg" width="22" /></a>
+							</li>
+							<li class="list-group-item">
+								<b>Total de Usuarios</b><br>
+								{{profile.users|length}}
+							</li>
+						</ul>
+						<div class="form-group"><div id="msg_edit">&nbsp;</div></div>
+						<h4 class="card-title mb-0 mt-3">SEGURIDAD</h4>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item liactivo">
+								<b>Estado</b><br>
+								{% if profile.activo == 1 %}
+									Activo
+								{% else %}
+									Inactivo
+								{% endif %}
+							</li>
+							<li class="list-group-item listatus">
+								{% if profile.activo == 0 %}
+									<b>Perfil Desactivado</b><br>
+									<div class="icono-bg semaforo-amarillo">&nbsp;</div>
+								{% elseif profile.activo == 1 %}
+									<b>Perfil Activo</b><br>
+									<div class="icono-bg llave">&nbsp;</div>
+								{% endif %}
+							</li>
+							<li class="list-group-item">
+								<div class="row">
+									<div class="col-md-6 text-end pt-4">
+										<button type="button" class="btn btn-outline-dark">
+											Módulos de Acceso
+										</button>
+									</div>
+									<div class="col-md-6 text-end pt-4">
+										<button type="button" id="deactivate" class="btn btn-outline-danger" data-toggle="modal" data-target="#modalPerfil">
+											{% if profile.activo == 1 %}
+												Desactivar 
+											{% else %}
+												Activar 
+											{% endif %}
+											Perfil
+										</button>
+									</div>
+								</div>
+							</li>
+						</ul>
+						<div class="form-group"><div id="msg_activate">&nbsp;</div></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="card iq-mb-3">
+					<div class="card-body">
+						<h4 class="card-title">SISTEMA</h4>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">
+								<b>Estado de Registro</b><br>
+							{% if profile.eliminado == 1 %}
+								<select class="form-control mb-3" id="sel_edoreg" name="sel_edoreg" disabled>
+									<option value="300">Eliminado</select>
+								</select>
+							{% else %}
+								<select class="form-control mb-3" id="sel_edoreg" name="sel_edoreg">
+									<option value="0" {{ profile.estadoreg == 0? 'selected' : '' }}>Activo</option>
+                                    <option value="100" {{ profile.estadoreg == 100? 'selected' : '' }}>Bloqueado</option>
+									<option value="200" {{ profile.estadoreg == 200? 'selected' : '' }}>Anulado</option>
+								</select>
+							{% endif %}
+							</li>
+							<li class="list-group-item">
+								<b>Creado</b><br>
+								{{profile.createdat ?? "&nbsp;"}}
+							</li>
+							<li class="list-group-item updated">
+								<b>Actualizado</b><br>
+								{{profile.updatedat ?? "&nbsp;"}}
+							</li>
+							<li class="list-group-item">
+								<button type="button" id="delete" class="btn btn-outline-dark" {{ profile.eliminado == 1? 'disabled' : '' }}
+									data-toggle="modal" data-target="#modalPerfil">
+									Eliminar Perfil
+								</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="card iq-mb-3">
+					<div class="card-body">
+						<h4 class="card-title">ASEGURADORAS</h4>
+						<div class="table-responsive">
+							<table id="datatable" class="table table-striped table-bordered">
+								<thead>
+									<tr>
+										<th>Orden</th>
+										<th>Nombre</th>
+										<th>Productos</th>
+										<th>Acciones</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for insurer in profile.insurers %}
+									<tr>
+									<td class="text-center">{{ loop.index }}</td>
+									<td>{{ insurer.nombre_comercial }}</td>
+									<td>{{ insurer.productos }}</td>
+									<td class="text-center">
+										<a href="{{base_url('gestion/authinsurer')}}/{{insurer.idaseguradora}}" class="btn btn-outline-primary">
+											<i class="fa-solid fa-magnifying-glass"></i>Permisos
+										</a>
+									</td>
+									</tr>
+									{% else %}
+									<tr>
+									<td class="text-center" colspan="7">No hay registros disponibles.</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+								<tfoot>
+									<tr>
+										<th>Orden</th>
+										<th>Nombre</th>
+										<th>Productos</th>
+										<th>Acciones</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalPerfil" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+	   <div class="modal-dialog" role="document">
+		  <div class="modal-content">
+			 <div class="modal-header">
+			  <h5 class="modal-title" id="modalLabel"></h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" id="frp_user_id">
+				<span id="modalmsg"></span>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>&nbsp;&nbsp;&nbsp;
+			  <a href="javascript:void(0)" class="btn btn-primary">Confirmar</a>
+			</div>
+		  </div>
+	   </div>
+	 </div>
+
+{% endblock %}
+
+{% block javascriptAPP %}
+	<script>
+		window.globalConfig = { baseUrl: "{{ base_url('/')|e('js') }}" };
+		let span = document.getElementById('perfilname'), profile = span.innerHTML, activo = false;
+		{% if profile.activo == 1 and profile.estadoreg == 0 and profile.eliminado == 0 %}
+			activo = true;
+		{% endif %}		
+	</script>
+	<!--<script src="{{ base_url('assets/js/data-table.js') }}"></script>-->
+	<script src="{{ base_url('assets/js/audimed/gestion/gestion.js') }}"></script>
+
+{% endblock %}

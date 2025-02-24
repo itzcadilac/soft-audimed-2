@@ -92,10 +92,10 @@
                            </td>
                         {% if profile.estadoreg == 200 %}
                            <td class="text-center tachado">{{ profile.perfil }}</td>
-                           <td class="text-center tachado">{{ profile.userscount }}</td>
+                           <td class="text-center tachado">{{ profile.users|length }}</td>
                         {% else %}
                            <td class="text-center">{{ profile.perfil }}</td>
-                           <td class="text-center">{{ profile.userscount }}</td>
+                           <td class="text-center">{{ profile.users|length }}</td>
                         {% endif %}
                            <td class="text-center">
                            {% if profile.estadoreg == 100 %}
@@ -116,11 +116,11 @@
                            <td class="text-center">
                               <button type="button" class="btn btn-outline-dark">
                                  <i class="fa-solid fa-ellipsis-vertical"></i><i class="fa-solid fa-ellipsis-vertical"></i>
-                                    {{ profile.productos }}({{ profile.insurerscount }})
+                                    {{ profile.producto }} ({{ profile.insurers|length }})
                               </button>
                            </td>
                            <td class="text-center">
-                              <a class="btn btn-outline-primary">
+                              <a href="{{base_url('gestion/detalle')}}/{{profile.idperfil}}" class="btn btn-outline-primary">
                                  <i class="fa-solid fa-magnifying-glass"></i>Info
                               </a>
                            </td>
