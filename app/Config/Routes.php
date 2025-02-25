@@ -6,6 +6,7 @@ include APPPATH . 'Modules/Users/Config/Routes.php';
 include APPPATH . 'Modules/Security/Config/Routes.php';
 include APPPATH . 'Modules/Siniestro/Config/Routes.php';
 include APPPATH . 'Modules/Notifications/Config/Routes.php';
+include APPPATH . 'Modules/Accidentado/Config/Routes.php';
 
 use CodeIgniter\Router\RouteCollection;
 
@@ -13,6 +14,7 @@ use function Modules\Siniestro\Config\SiniestroRoutes;
 use function Modules\Users\Config\UserRoutes;
 use function Modules\Security\Config\SecurityRoutes;
 use function Modules\Notifications\Config\NotificationsRoutes;
+use function Modules\Accidentado\Config\AccidentadoRoutes;
 
 
 /**
@@ -46,3 +48,4 @@ UserRoutes($routes);
 SiniestroRoutes($routes);
 //ProductoRoutes($routes);
 NotificationsRoutes($routes);
+AccidentadoRoutes($routes);
