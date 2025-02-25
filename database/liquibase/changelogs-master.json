@@ -8,6 +8,42 @@
                 "file": "/sql/sprint-01/changelogs-sprint-index.yaml",
                 "relativeToChangelogFile": true
             }
+        },
+        {
+            "comment": "Sprint 02 scripts"
+        },
+        {
+            "include": {
+                "file": "/sql/sprint-02/changelogs-sprint-index.yaml",
+                "relativeToChangelogFile": true
+            }
+        },
+        {
+            "comment": "Sprint 03 scripts"
+        },
+        {
+            "include": {
+                "file": "/sql/sprint-03/changelogs-sprint-index.yaml",
+                "relativeToChangelogFile": true
+            }
+        },
+        {
+            "comment": "Sprint 04 scripts"
+        },
+        {
+            "include": {
+                "file": "/sql/sprint-04/changelogs-sprint-index.yaml",
+                "relativeToChangelogFile": true
+            }
+        },
+        {
+            "comment": "Sprint 05 scripts"
+        },
+        {
+            "include": {
+                "file": "/sql/sprint-05/changelogs-sprint-index.yaml",
+                "relativeToChangelogFile": true
+            }
         }
     ]
 }

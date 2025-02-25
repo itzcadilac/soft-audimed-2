@@ -10,11 +10,101 @@ databaseChangeLog:
         file: 20250218-create_table_empresa.sql
         relativeToChangelogFile: true
     - include:
+        file: 20250218-create_table_almacen.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_consultorio.sql
+        relativeToChangelogFile: true
+    - include:
         file: 20250219-create_table_banco.sql
         relativeToChangelogFile: true
     - include:
         file: 20250219-create_table_centro_costos.sql
         relativeToChangelogFile: true
     - include:
-        file: 20250218-create_table_almacen.sql
+        file: 20250219-create_table_modulos.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_botones.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_menu.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_menu_detalle.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_departamento.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_especialidad.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_estado_civil.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_examenes_auxiliares.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_laboratorio.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_medio_pago.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_mes.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_ss_rubro.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_ss_tipo_producto_farmacia.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_tipo_articulo.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_tipo_comprobante.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_tipo_cuenta.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_tipo_documento.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_tipo_moneda.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_tipo_movimiento.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_tipo_pago.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_tipo_procedimiento.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_tipo_profesional.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_tipo_servicio.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_ubigeo.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_unidad_medida.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_perfil.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_presentacion.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_proveedor.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250219-create_table_siniestros.sql
         relativeToChangelogFile: true

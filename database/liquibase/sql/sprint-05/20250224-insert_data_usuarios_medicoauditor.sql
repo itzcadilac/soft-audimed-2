@@ -1,0 +1,18 @@
+--liquibase formatted sql
+--changeset lizandro.alipazaga:202502242223
+--comment Se insertan datos en la tabla usuarios
+INSERT INTO `usuarios` (`idusuario`, `idtipodocumento`, `numero_documento`, `avatar`, `apellidos`, `nombres`, `usuario`, `passwd`, `idperfil`, `activo`, `eliminado`, `estadoreg`, `email`, `movil`, `idle_sesion`, `fconfirm`, `flastpwd`, `flastmov`, `flastaccess`, `confirmado`, `createdat`, `updatedat`, `createdby`, `updatedby`, `retry`, `fretry`) VALUES (14, 1, '45911732', NULL, 'VILLANUEVA OTIVO', 'JOSE ANTONIO', 'jvillanueva', '$2y$10$z9aj5gdho3a2O/jk6pzxyOTiKLGePULJKQp3.XroFMojLdG/atY/C', 8, '1', 0, 0, 'jicastillot16@gmail.com', '', 0, NULL, NULL, NULL, NULL, 0, '2025-02-19 13:02:52', '2025-02-19 13:45:35', NULL, NULL, 0, NULL);
+INSERT INTO `usuarios` (`idusuario`, `idtipodocumento`, `numero_documento`, `avatar`, `apellidos`, `nombres`, `usuario`, `passwd`, `idperfil`, `activo`, `eliminado`, `estadoreg`, `email`, `movil`, `idle_sesion`, `fconfirm`, `flastpwd`, `flastmov`, `flastaccess`, `confirmado`, `createdat`, `updatedat`, `createdby`, `updatedby`, `retry`, `fretry`) VALUES (15, 1, '76658044', NULL, 'FLORES BARDALES', 'EBER', 'eflores', '$2y$10$z9aj5gdho3a2O/jk6pzxyOTiKLGePULJKQp3.XroFMojLdG/atY/C', 9, '1', 0, 0, 'jicastillot16@gmail.com', '', 0, NULL, NULL, NULL, NULL, 0, '2025-02-19 13:02:50', '2025-02-19 13:45:35', NULL, NULL, 0, NULL);
+INSERT INTO `usuarios` (`idusuario`, `idtipodocumento`, `numero_documento`, `avatar`, `apellidos`, `nombres`, `usuario`, `passwd`, `idperfil`, `activo`, `eliminado`, `estadoreg`, `email`, `movil`, `idle_sesion`, `fconfirm`, `flastpwd`, `flastmov`, `flastaccess`, `confirmado`, `createdat`, `updatedat`, `createdby`, `updatedby`, `retry`, `fretry`) VALUES (16, 1, '09446639', NULL, 'SOLANO PEREZ', 'JUAN EDUARDO', 'jsolano', '$2y$10$z9aj5gdho3a2O/jk6pzxyOTiKLGePULJKQp3.XroFMojLdG/atY/C', 10, '1', 0, 0, 'jicastillot16@gmail.com', '', 0, NULL, NULL, NULL, NULL, 0, '2025-02-19 13:02:23', '2025-02-19 13:45:35', NULL, NULL, 0, NULL);
+INSERT INTO `usuarios` (`idusuario`, `idtipodocumento`, `numero_documento`, `avatar`, `apellidos`, `nombres`, `usuario`, `passwd`, `idperfil`, `activo`, `eliminado`, `estadoreg`, `email`, `movil`, `idle_sesion`, `fconfirm`, `flastpwd`, `flastmov`, `flastaccess`, `confirmado`, `createdat`, `updatedat`, `createdby`, `updatedby`, `retry`, `fretry`) VALUES (17, 1, '41163383', NULL, 'VALDEZ CHAVEZ', 'SILVIA JANET', 'svaldez', '$2y$10$z9aj5gdho3a2O/jk6pzxyOTiKLGePULJKQp3.XroFMojLdG/atY/C', 11, '1', 0, 0, 'jicastillot16@gmail.com', '', 0, NULL, NULL, NULL, NULL, 0, '2025-02-19 13:02:00', '2025-02-19 13:45:35', NULL, NULL, 0, NULL);
+
+--rollback DELETE FROM usuarios WHERE idusuario IN (14,15,16,17);
+
+--changeset lizandro.alipazaga:202502242225
+--comment Se insertan datos en la tabla medicoauditor
+INSERT INTO `audimed2`.`medicoauditor` (`idusuario`, `especialidad`, `cmp`, `ubigeo`, `firma`) VALUES (14, 'Medico Auditor', '56219', '', 'firma_jvillanueva.png');
+INSERT INTO `audimed2`.`medicoauditor` (`idusuario`, `especialidad`, `cmp`, `ubigeo`, `firma`) VALUES (15, 'Medico Auditor', '47559', '', 'firma_eflores.png');
+INSERT INTO `audimed2`.`medicoauditor` (`idusuario`, `especialidad`, `cmp`, `ubigeo`, `firma`) VALUES (16, 'Medico Auditor', '38153', '', 'firma_jsolano.png');
+INSERT INTO `audimed2`.`medicoauditor` (`idusuario`, `especialidad`, `cmp`, `ubigeo`, `firma`) VALUES (17, 'Medico Cirujano', '45809', '', 'firma_svaldez.png');
+
+--rollback DELETE FROM medicoauditor WHERE idusuario IN (14,15,16,17);

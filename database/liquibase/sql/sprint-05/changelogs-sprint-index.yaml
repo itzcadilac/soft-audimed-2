@@ -1,0 +1,26 @@
+databaseChangeLog:
+    - comment: Sprint 05 scripts
+    - include:
+        file: 20250224-create_table_tab_uit.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250224-create_table_tab_igv.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250224-create_table_tab_minvital.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250224-alter_table_medicoauditor.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250224-insert_data_usuarios_medicoauditor.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250225-alter_table_aseguradoras_siniestros.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250225-create_table_tipo_comunicacion.sql
+        relativeToChangelogFile: true
+    - include:
+        file: 20250225-create_table_tipo_siniestro.sql
+        relativeToChangelogFile: true
