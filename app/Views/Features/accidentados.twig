@@ -162,7 +162,7 @@
                         <div class="iq-card-body">
                            <div class="about-info m-0 p-0">
                               <div class="row">
-                                 <div class="col-4">Asegurado: {{listAcc.siniestros.siniestros_siniestroId}}</div>
+                                 <div class="col-4">Asegurado: {{infosiniestro.nombreAsegurado}}</div>
                                  <div class="col-4">Tipo Póliza:</div>
                                  <div class="col-4">Tipo Siniestro:</div>
                                  <div class="col-4">Activ. Serv. Med.:</div>
@@ -200,11 +200,11 @@
                                       <!-- <img class="rounded-circle img-fluid avatar-80" src="./assets/images/user/12.jpg" alt="profile">-->
                                     </div>
                                     <div class="iq-doc-info mt-3">
-                                       <h4> {{ lsacci.accidentado.primerNombreAccidentado }} {{ lsacci.accidentado.segungoNombreAccidentado }} {{ lsacci.accidentado.apellidoPaternoAccidentado }} {{ lsacci.accidentado.apellidoMaternoAccidentado }}</h4>
-                                       <p class="mb-0" >Edad: {{ lsacci.accidentado.edadAccidentado }}</p>
+                                       <h4> {{ lsacci.primerNombreAccidentado }} {{ lsacci.segungoNombreAccidentado }} {{ lsacci.apellidoPaternoAccidentado }} {{ lsacci.apellidoMaternoAccidentado }}</h4>
+                                       <p class="mb-0" >Edad: {{ lsacci.edadAccidentado }}</p>
                                     </div>
                                     <div class="iq-doc-description mt-2">
-                                       <p class="mb-0">Médico Auditor: {{ lsacci.accidentado.auditorId }}</p>
+                                       <p class="mb-0">Médico Auditor: {{ lsacci.medicoAuditorNombre }}, {{ lsacci.medicoAuditorApellidos }}</p>
                                     </div>
                                     <a href="profile.html" class="btn btn-primary">Ver</a>
                                     <a href="profile.html" class="btn btn-primary">Editar</a>

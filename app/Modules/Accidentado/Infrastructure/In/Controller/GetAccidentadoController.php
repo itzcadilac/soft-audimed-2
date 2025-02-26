@@ -39,10 +39,9 @@ class GetAccidentadoController extends BaseController
     {
         $listAccidentados = $this->accidentadoService->getAllAcciforSiniestro($siniestroId);
         $detsiniestro = $this->siniestroService->findById($siniestroId);
-        $infosiniestro = $detsiniestro["data"][0];
         return array(
             "listAcc" => $listAccidentados["data"],
-            "infosiniestro" => $infosiniestro
+            "infosiniestro" => $detsiniestro
         );
     }
 
