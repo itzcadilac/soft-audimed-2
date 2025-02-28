@@ -43,9 +43,9 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 });
 
 // Rutas modulares
+AccidentadoRoutes($routes);
 SecurityRoutes($routes);
 UserRoutes($routes);
 SiniestroRoutes($routes);
 //ProductoRoutes($routes);
 NotificationsRoutes($routes);
-AccidentadoRoutes($routes);
