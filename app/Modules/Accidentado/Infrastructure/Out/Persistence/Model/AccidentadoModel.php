@@ -106,8 +106,8 @@ class AccidentadoModel extends Model
         $builder = $this->db->table('accidentado');  // Tabla principal
 
         // Realizamos el JOIN
-        $builder->select('accidentado.accidentadoId, accidentado.edadAccidentado, usuarios.nombres as medicoAuditorNombre, 
-                        usuarios.apellidos as medicoAuditorApellidos, accidentado.primerNombreAccidentado, 
+        $builder->select('accidentado.accidentadoId as accidentadoId, accidentado.sexoAccidentadoId AS sexoAccidentadoId, accidentado.edadAccidentado, usuarios.nombres as medicoAuditorNombre, 
+                        usuarios.apellidos as medicoAuditorApellidos, accidentado.primerNombreAccidentado, usuarios.movil as medicoAuditorMovil,
                         accidentado.segungoNombreAccidentado, accidentado.apellidoPaternoAccidentado, accidentado.apellidoMaternoAccidentado')
                 ->join('medicoauditor', 'medicoauditor.medicoauditorid = accidentado.auditorId', 'inner')
                 ->join('usuarios', 'usuarios.idusuario = medicoauditor.idusuario', 'inner');

@@ -17,7 +17,9 @@ class GetAccidentadoController extends BaseController
     protected $documentTypeService;
     protected $profileService;
     protected $parametersService;
-    private const ACCIDENTADO_LIST_FORM_PATH = 'Features/accidentados.twig';
+    private const ACCIDENTADO_LIST_FORM_PATH = 'Accidentado/accidentados.twig';
+    private const ACCIDENTADO_CONSULTA_FORM_PATH = 'Accidentado/caccidentados.twig';
+    private const ACCIDENTADO_EDITAR_FORM_PATH = 'Accidentado/maccidentados.twig';
 
     public function __construct()
     {
@@ -45,14 +47,14 @@ class GetAccidentadoController extends BaseController
         );
     }
 
-    public function getDetailForm($siniestroId)
+    public function getDetailConForm($siniestroId)
     {
-        return $this->render(self::ACCIDENTADO_LIST_FORM_PATH, $this->getDataToDetailForm($siniestroId));
+        return $this->render(self::ACCIDENTADO_CONSULTA_FORM_PATH, $this->getDataAccidentadoToListForm($siniestroId));
     }
 
-    public function getDetailModForm($userId)
+    public function getDetailModForm($siniestroId)
     {
-        return $this->render(self::USER_DETAIL_MOD_FORM_PATH, $this->getDataToDetailForm($userId));
+        return $this->render(self::ACCIDENTADO_EDITAR_FORM_PATH, $this->getDataAccidentadoToListForm($siniestroId));
     }
 
     private function getDataToDetailForm($userId)

@@ -16,5 +16,7 @@ function AccidentadoRoutes(RouteCollection $routes)
 {
     $routes->group('accidentados', ['filter' => 'auth', 'namespace' => ACCIDENTADO_MODULE_NAMESPACE], function ($routes) {
        $routes->get('listaccidentados/(:any)', 'GetAccidentadoController::getAccidentadosForm/$1');
+       $routes->get('caccidentado/(:any)', 'GetAccidentadoController::getDetailConForm/$1');
+       $routes->get('maccidentado/(:any)', 'GetAccidentadoController::getDetailModForm/$1');
     });
 }
