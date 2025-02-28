@@ -1,0 +1,243 @@
+{% extends 'Layouts/main.twig' %} {% block content %}
+
+{% block cssAPP %}
+<link rel="stylesheet" href="{{ base_url('assets/css/data-table.css') }}">
+
+<style>
+   .image-button:hover {
+      transform: scale(1.05);
+      /* Escala la imagen ligeramente */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      /* Agrega sombra */
+   }
+
+   .icono-bg {
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+   }
+
+   .icono-bg.candadito {
+      background-image: url("{{ icons('padlock-icon.png') }}");
+   }
+
+   .icono-bg.semaforo-amarillo {
+      background-image: url("{{ icons('semaforo-amarillo-icon.png') }}");
+   }
+
+   .icono-bg.semaforo-rojo {
+      background-image: url("{{ icons('semaforo-rojo-icon.png') }}");
+   }
+
+   .icono-bg.llave {
+      background-image: url("{{ icons('llave-icon.png') }}");
+   }
+
+   .tachado {
+      text-decoration: line-through;
+   }
+</style>
+
+<script>
+   function changeInput(id){
+        $("#frp_user_id").val(id);
+    }
+</script>
+
+{% endblock %}  
+
+            <div class="container-fluid">
+                     <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                           <div class="iq-header-title">
+                              <h4 class="card-title">Información del Siniestro</h4>
+                           </div>
+                        </div>
+                        <div class="iq-card-body">
+                           <div class="about-info m-0 p-0">
+                              <div class="row">
+                                 <div class="col-4">Asegurado: <b>{{infosiniestro.nombreAsegurado}}</b></div>
+                                 <div class="col-4">Tipo Póliza: <b></b></div>
+                                 <div class="col-4">Tipo Siniestro: <b></b></div>
+                                 <div class="col-4">Activ. Serv. Med.: <b></b></div>
+                                 <div class="col-4">Placa: <b>{{infosiniestro.numeroPlaca}}</b></div>
+                                 <div class="col-4">N° Póliza: <b>{{infosiniestro.numeroPoliza}}</b></div>
+                                 <div class="col-4">N° Siniestro: <b>{{infosiniestro.numeroSiniestro}}</b></div>
+                                 <div class="col-4">F/H Siniestro: <b>{{infosiniestro.fechaSiniestro}}</b></div>
+                                 <div class="col-4">Ubigeo: <b></b></div>
+                                 <div class="col-4">N° SOAT: <b>{{infosiniestro.numeroPolizaSOAT}}</b></div>
+                                 <div class="col-4">N° Accidentados: <b>{{infosiniestro.numeroLesionados}}</b></div>
+                                 <div class="col-4">Fecha de Comunicación: <b></b></div>
+                                 <div class="col-4">Marca Vehiculo: <b>{{infosiniestro.marcarVehiculo}}</b></div>
+                                 <div class="col-4">Clase Vehículo: <b>{{infosiniestro.claseVehiculo}}</b></div>
+                                 <div class="col-4">Modelo Vehiculo: <b>{{infosiniestro.modeloVehiculo}}</b></div>
+                                 <div class="col-12">Observación: <b>{{infosiniestro.observacion}}</b></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                           <div class="iq-header-title">
+                              <h4 class="card-title">Datos del Accidentado / Reservas / Saldos</h4>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                     <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                           <div class="iq-header-title">
+                              <h4 class="card-title">Personal Information</h4>
+                           </div>
+                        </div>
+                        <div class="iq-card-body">
+                           <div class="about-info m-0 p-0">
+                              <div class="row">
+                                 <div class="col-4">Accidentado: </div>
+                                 <div class="col-8"><b>Jhan Isaac Castillo Tuesta</b></div>                                                                                             
+                              </div>
+                              <div class="row">
+                                 <div class="col-4">Medico Asignado: </div>
+                                 <div class="col-8"><b>Jhan Isaac Castillo Tuesta</b></div> 
+                              </div>
+                              <div class="row">
+                                 <div class="col-4">Tipo Atención: </div>
+                                 <div class="col-8"><b>Jhan Isaac Castillo Tuesta</b></div>                                                                                             
+                              </div>
+                              <div class="row">
+                                 <div class="col-4">Posición: </div>
+                                 <div class="col-8"><b>Jhan Isaac Castillo Tuesta</b></div>                                                                                             
+                              </div>
+                              <div class="row">
+                                 <div class="col-4">Centro Médico Actual: </div>
+                                 <div class="col-8"><b>Jhan Isaac Castillo Tuesta</b></div>                                                                                             
+                              </div>
+                              <div class="row">
+                                 <div class="col-4">Diagnóstico Presuntivo: </div>
+                                 <div class="col-8"><b>Jhan Isaac Castillo Tuesta</b></div>                                                                                             
+                              </div>                                                                                                                                                      
+                           </div>
+                        </div>
+                     </div>
+                                             
+                        {% for lsacci in listAcc %}
+                           <div class="col-sm-6 col-md-3">
+                              <div class="iq-card">
+                                 <div class="iq-card-body text-center">
+                                    <div class="doc-profile">
+                                    {% if lsacci.sexoAccidentadoId == 1 %}
+                                    <img class="rounded-circle img-fluid avatar-80" src="{{ base_url('assets/images/user/08.jpg') }}" alt="profile">
+                                    {% elseif lsacci.sexoAccidentadoId == 2 %}
+                                    <img class="rounded-circle img-fluid avatar-80" src="{{ base_url('assets/images/user/15.jpg') }}" alt="profile">
+                                    {% elseif lsacci.sexoAccidentadoId  is null %}
+                                    <img class="rounded-circle img-fluid avatar-80" src="{{ base_url('assets/images/user/16.jpg') }}" alt="profile">
+                                    {% endif %}                                    
+                                    </div>
+                                    <div class="iq-doc-info mt-3">
+                                       <h4> {{ lsacci.primerNombreAccidentado }} {{ lsacci.segungoNombreAccidentado }} {{ lsacci.apellidoPaternoAccidentado }} {{ lsacci.apellidoMaternoAccidentado }}</h4>
+                                       <p class="mb-0" >Edad: {{ lsacci.edadAccidentado }}</p>
+                                    </div>
+                                    <div class="iq-doc-description mt-2">
+                                       <p class="mb-0"><img class="rounded-circle img-fluid avatar-30" src="{{ base_url('assets/images/user/12.jpg') }}" alt="profile"> {{ lsacci.medicoAuditorNombre }}, {{ lsacci.medicoAuditorApellidos }}</p>
+                                    </div>
+                                    <div class="iq-doc-description mt-2">
+                                       <p class="mb-0"><i class="fa fa-phone" aria-hidden="true"></i><a href="tel:{{ user.movil }}"> {{ lsacci.medicoAuditorMovil }} </a></p>
+                                    </div>                                    
+                                    <br>
+                                    <a href="{{base_url('accidentados/caccidentado')}}/{{lsacci.accidentadoId}}" class="btn btn-outline-primary mb-3">Consultar</a>
+                                    <a href="{{base_url('accidentados/maccidentado')}}/{{lsacci.accidentadoId}}" class="btn btn-info mb-3">Modificar</a>
+                                    <a href="profile.html" class="btn btn-danger mb-3">Eliminar</a>
+                                 </div>
+                              </div>
+                           </div> 
+                        {% else %}
+                              <tr>
+                                 <td class="text-center" colspan="7">No hay registros disponibles.</td>
+                              </tr>
+                        {% endfor %}                 
+               </div>     
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                           <div class="iq-header-title">
+                              <h4 class="card-title">Consulta de Accidentado</h4>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+               </div>               
+            </div>
+
+<!--MODALES-->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+   aria-labelledby="staticBackdropLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header" style="background-color: #089bab;">
+            <h5 class="modal-title" id="staticBackdropLabel" style="color: #eff7f8;">Seleccionar Aseguradora</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <div class="row">
+               <div class="col-sm-6" style="text-align: center;">
+                  <img src="{{ base_url('assets/images/mapfre1.png') }}" class="img-fluid rounded mr-3 image-button"
+                     alt="user" style="max-width: 120px; height: auto;" id="fnMapfre" />
+               </div>
+               <div class="col-sm-6" style="text-align: center;">
+                  <img src="{{ base_url('assets/images/pacifico.png') }}" class="img-fluid rounded mr-3 image-button"
+                     alt="user" style="max-width: 120px; height: auto;" id="fnPacifico" />
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <!--<button type="button" class="btn btn-primary">Confirmar</button>-->
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="modalResetPassword" tabindex="-1" role="dialog" aria-labelledby="modalResetPasswordLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form id="formResetPasswd">
+         <div class="modal-header">
+          <h5 class="modal-title" id="modalResetPasswordLabel">Reiniciar contraseña</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+         <input type="hidden" id="frp_user_id">
+          ¿Está seguro que deseas reiniciar la contraseña del usuario?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary">Confirmar</button>
+        </div>
+      </form>
+      </div>
+   </div>
+ </div>
+
+{% endblock %}
+
+{% block javascriptAPP %}
+<script>
+   window.globalConfig = {
+      baseUrl: "{{ base_url('/')|e('js') }}"
+   };
+</script>
+<script src="{{ base_url('assets/js/data-table.js') }}"></script>
+<script type="module" src="{{ base_url('assets/js/core/users-module/user-reset-passwd-controller.js') }}"></script>
+
+
+{% endblock %}
