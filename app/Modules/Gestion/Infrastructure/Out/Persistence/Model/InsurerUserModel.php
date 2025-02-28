@@ -1,51 +1,37 @@
 <?php
 
-namespace Modules\Users\Infrastructure\Out\Persistence\Model;
+namespace Modules\Gestion\Infrastructure\Out\Persistence\Model;
 
 use CodeIgniter\Model;
-use Modules\Users\Domain\User;
-use Modules\Users\Domain\MovUser;
 
-class UserModel extends Model
+class InsurerUserModel extends Model
 {
-    protected $table = 'usuarios';
-    protected $primaryKey = 'idusuario';
+    protected $table = 'usuario_aseguradora';
+    protected $primaryKey = 'idusuarioaseguradora';
     protected $allowedFields = [
+        'idusuarioaseguradora',
+        'idaseguradora',
         'idusuario',
-        'idtipodocumento',
-        'numero_documento',
-        'avatar',
-        'apellidos',
-        'nombres',
-        'usuario',
-        'passwd',
-        'idperfil',
+        'productos',
         'activo',
-        'retry',
-        'fretry',
         'eliminado',
         'estadoreg',
-        'email',
-        'movil',
-        'idle_sesion',
-        'fconfirm',
-        'flastpwd',
-        'flastmov',
-        'flastaccess',
-        'confirmado',
         'createdat',
         'updatedat',
         'createdby',
-        'updatedby',
-        'retry',
-        'fretry'
+        'updatedby'
     ];
-    protected $returnType = \Modules\Users\Domain\User::class;
+    protected $returnType = \Modules\Gestion\Domain\InsurerUser::class;
 
+    public function findInsurerByUser($idUser = null)
+    {
+        $result = $this->select('productos')->asArray()->where(['idusuario' => $idUser])->get();
+        return $result;
+    }
     /**
      * Metodo que permite obtener usuarios asociados a su perfil
      */
-    public function getUserWithProfile($userId = null)
+    /*public function getUserWithProfile($userId = null)
     {
         // Definimos los campos a devolver y especificamos el join
         $query = $this->select([
@@ -88,34 +74,5 @@ class UserModel extends Model
         }
 
         return $users;
-    }
-
-    public function getUserMovements($userId = null)
-    {
-        // Definimos los campos a devolver y especificamos el join
-        $query = $this->select([
-            'movimientos.*'
-        ]);
-
-        if (!is_null($userId)) {
-            $query->where("idusuario", $userId);
-        }
-        $result = $query->findAll();
-
-        $movusers = [];
-        foreach ($result as $row) {
-            // Volcamos la informacion de la tabla principal (usuarios) a la clase User
-            $movuser = new MovUser($row->toArray());
-
-            $movusers[] = $movuser;
-        }
-
-        return $movusers;
-    }
-
-    public function getCountProfileUser($idPerfil = null)
-    {
-        $result = $this->distinct()->select('idusuario')->where(['idperfil' => $idPerfil])->get();
-        return $result;
-    }
+    }*/
 }
