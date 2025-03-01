@@ -16,4 +16,6 @@ enum AuditTypeEnum: string
     case TYPE_REGISTER = "REGISTRO";
     case TYPE_URL = "URL";
     case TYPE_RESET_PASSWORD = "EMAIL_RESET_PWD";
+    case TYPE_ACTIVATE = "ACTIVACION";
+    case TYPE_DEACTIVATE = "DESACTIVACION";
 }

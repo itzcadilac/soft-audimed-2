@@ -16,5 +16,10 @@ function GestionRoutes(RouteCollection $routes)
 {
     $routes->group('gestion', ['namespace' => GESTION_MODULE_NAMESPACE], function ($routes) {
         $routes->get('gperfiles', 'GetGestionController::getAllProfilesForm');
+        $routes->get('detalle/(:any)', 'GetGestionController::getDetailForm/$1');
+        $routes->post('updateprofile', 'GestionRegisterController::profileUpdate');
+        $routes->post('actdeact', 'GestionRegisterController::profileActivate');
+        $routes->post('bloqperfil', 'GestionRegisterController::profileBloq');
+        $routes->post('deleteperfil', 'GestionRegisterController::profileDel');
     });
 }

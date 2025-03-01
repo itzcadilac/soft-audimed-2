@@ -3,11 +3,9 @@
 namespace Modules\Gestion\Config;
 
 use CodeIgniter\Config\BaseService;
-use Modules\Notifications\Application\Service\GetNotificationService;
-use Modules\Notifications\Application\Service\UpdateNotificationService;
-use Modules\Notifications\Config\Services as NotificationServices;
 use Modules\Gestion\Infrastructure\Out\Persistence\Repository\GestionRepository;
 use Modules\Gestion\Application\Service\GestionService;
+use Modules\Gestion\Application\Service\GestionRegisterService;
 
 class Services extends BaseService
 {
@@ -24,20 +22,17 @@ class Services extends BaseService
         return new GestionService($gestionRepository);
     }
 
-    /*public static function userRegisterService()
+    public static function gestionRegisterService()
     {
-        if (static::hasInstance('userRegisterService')) {
-            return static::getSharedInstance('userRegisterService');
+        if (static::hasInstance('gestionRegisterService')) {
+            return static::getSharedInstance('gestionRegisterService');
         }
 
-        $userRepository = new UserRepository();
-        $notificationService = NotificationServices::notificationService();
-        $getNotificationService = NotificationServices::getNotificationService();
-        $updateNotificationService = NotificationServices::updateNotificationService();
+        $gestionRepository = new GestionRepository();
 
-        return new UserRegisterService($userRepository, $notificationService, $getNotificationService, $updateNotificationService);
+        return new GestionRegisterService($gestionRepository);
     }
-
+    /*
     public static function moduleByProfileService()
     {
         if (static::hasInstance('moduleByProfileService')) {

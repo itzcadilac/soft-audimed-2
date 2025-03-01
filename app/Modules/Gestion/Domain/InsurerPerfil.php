@@ -4,14 +4,13 @@ namespace Modules\Gestion\Domain;
 
 use CodeIgniter\Entity\Entity;
 
-class InsurerUser extends Entity
+class InsurerPerfil extends Entity
 {
     protected $attributes = [
-        'idusuarioaseguradora',
+        'idperfilaseguradora',
         'idaseguradora',
-        'idusuario',
+        'idperfil',
         'productos',
-        'activo',
         'eliminado',
         'estadoreg',
         'createdat',
